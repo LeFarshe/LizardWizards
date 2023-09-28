@@ -9,16 +9,17 @@ public class Vector2 {
         this.y = y;
     }
 
-    public void Normalize(){
+    public Vector2 Normalize(){
         double sum = x * x + y * y;
-        if (sum == 0) { return; }
+        if (sum == 0) { return this; }
         this.SetAll(this.x / Math.sqrt(sum), this.y / Math.sqrt(sum));
+        return this;
     }
 
     public Vector2 AddVector(Vector2 vector)
     {
-        x += vector.GetX();
-        y += vector.GetY();
+        x += vector.x;
+        y += vector.x;
         return this;
     }
 
@@ -29,8 +30,6 @@ public class Vector2 {
         return this;
     }
 
-    public double GetX() { return x; }
-    public double GetY() { return y; }
     public void SetAll(double x, double y)
     {
         this.x = x;
