@@ -22,14 +22,15 @@ public class Projectile {
         sprite.Move(position);
     }
 
+    //Returns if it needs to be destroyed
     public boolean Move(double delta)
     {
         duration -= delta;
-        if (duration <= 0) { return false;}
+        if (duration <= 0) { return true;}
 
         position.AddVector(direction.Copy().Multiply(speed * delta));
         sprite.Move(position);
 
-        return true;
+        return false;
     }
 }

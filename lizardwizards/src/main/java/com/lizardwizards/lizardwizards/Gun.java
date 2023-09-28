@@ -7,7 +7,7 @@ public class Gun extends Weapon{
 
     @Override
     public List<Projectile> Shoot(Vector2 direction) {
-        Projectile projectile = new Projectile(direction, 100, 1, new Vector2(2,2));
+        Projectile projectile = new Projectile(direction, 100, 3, new Vector2(6,6));
         List<Projectile> projectiles = new ArrayList<>();
         projectiles.add(projectile);
         return projectiles;
