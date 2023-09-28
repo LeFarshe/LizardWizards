@@ -34,6 +34,11 @@ public class Utils {
         }
         try {
             newScene = new Scene(fxmlLoader.load());
+            if (stageNum == 3)
+            {
+                GameController tempController = fxmlLoader.getController();
+                GameController.SetKeyEvents(newScene, tempController);
+            }
             window.setScene(newScene);
         }
         catch (Exception e){
