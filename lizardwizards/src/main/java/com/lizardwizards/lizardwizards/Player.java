@@ -1,9 +1,16 @@
 package com.lizardwizards.lizardwizards;
 
 public class Player {
-    Vector2 position, moveDirection;
+    Vector2 position;
+    Vector2 moveDirection = new Vector2(0,0);
     double speed;
-    boolean isMoving;
+    boolean isMoving = false;
+
+    Player (Vector2 position, double speed)
+    {
+        this.position = position;
+        this.speed = speed;
+    }
 
     //Delta in seconds
     public void Move(double delta)
@@ -14,6 +21,12 @@ public class Player {
 
     public void StartMoving(Vector2 direction)
     {
+        if (direction.x == 0 && direction.x == 0)
+        {
+            StopMoving();
+            return;
+        }
+        direction.Normalize();
         isMoving = true;
         moveDirection = direction;
     }
