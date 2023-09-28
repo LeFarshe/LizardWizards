@@ -22,7 +22,7 @@ public class Projectile {
         sprite.Move(position);
     }
 
-    //Returns if it needs to be destroyed
+    //Returns true if it needs to be destroyed
     public boolean Move(double delta)
     {
         duration -= delta;

@@ -3,9 +3,15 @@ package com.lizardwizards.lizardwizards;
 import java.util.List;
 
 public abstract class Weapon {
-    double damage = 1;
-    double fireRate = 1;
+    double damage;
+    double fireRate;
     double fireTimer = 0;
+
+    Weapon(double damage, double fireRate)
+    {
+        this.damage = damage;
+        this.fireRate = fireRate;
+    }
     public abstract List<Projectile> Shoot(Vector2 direction);
     public List<Projectile> ContinueShooting(double delta, Vector2 direction)
     {
