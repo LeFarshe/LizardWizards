@@ -12,7 +12,7 @@ public class Vector2 {
     public void Normalize(){
         double sum = x * x + y * y;
         if (sum == 0) { return; }
-        this.SetAll(this.x / sum, this.y / sum);
+        this.SetAll(this.x / Math.sqrt(sum), this.y / Math.sqrt(sum));
     }
 
     public Vector2 AddVector(Vector2 vector)
