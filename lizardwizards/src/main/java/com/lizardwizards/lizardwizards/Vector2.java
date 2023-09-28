@@ -11,6 +11,7 @@ public class Vector2 {
 
     public void Normalize(){
         double sum = x * x + y * y;
+        if (sum == 0) { return; }
         this.SetAll(this.x / sum, this.y / sum);
     }
 
