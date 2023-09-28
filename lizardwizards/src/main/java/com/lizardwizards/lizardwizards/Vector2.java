@@ -19,7 +19,7 @@ public class Vector2 {
     public Vector2 AddVector(Vector2 vector)
     {
         x += vector.x;
-        y += vector.x;
+        y += vector.y;
         return this;
     }
 
