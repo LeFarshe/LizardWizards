@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -7,7 +8,7 @@ public class Player {
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
     EntitySprite sprite;
-    List<Weapon> weapons;
+    List<Weapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
     double speed;
     boolean isMoving = false;
@@ -48,9 +49,17 @@ public class Player {
 
     public List<Projectile> Shoot(double delta)
     {
+        List<Projectile> newProjectiles;
         if (isShooting)
         {
-            return weapons.get(currentWeapon).ContinueShooting(delta, shootDirection);
+            newProjectiles = weapons.get(currentWeapon).ContinueShooting(delta, shootDirection);
+            if (newProjectiles != null) {
+                for (Projectile projectile: newProjectiles)
+                {
+                    projectile.UpdateStartPosition(position.Copy());
+                }
+            }
+            return newProjectiles;
         }
         else { weapons.get(currentWeapon).AddTimeWithoutShoot(delta); };
         return null;
