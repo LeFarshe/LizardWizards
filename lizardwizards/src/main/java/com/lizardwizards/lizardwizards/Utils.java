@@ -36,8 +36,8 @@ public class Utils {
                 newScene = new Scene(root);
                 window.setScene(newScene);
                 GameController gameController = new GameController(root);
-                gameController.SetMovementEvents(newScene);
-                gameController.SetShootingEvents(newScene);
+                gameController.playerControls.SetMovementEvents(newScene);
+                gameController.playerControls.SetShootingEvents(newScene);
             }
             else {
                 newScene = new Scene(fxmlLoader.load());

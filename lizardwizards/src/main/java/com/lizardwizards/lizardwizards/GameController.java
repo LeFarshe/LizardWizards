@@ -1,9 +1,6 @@
 package com.lizardwizards.lizardwizards;
 
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -13,10 +10,9 @@ import java.util.List;
 public class GameController {
     List<Projectile> projectiles = new ArrayList<>();
     Player currentPlayer;
+    PlayerControls playerControls = new PlayerControls();
     Pane root;
     HashMap<Integer, Player> otherPlayers;
-    boolean wPressed = false, dPressed = false, sPressed = false, aPressed = false, moveChanged = false;
-    boolean upPressed = false, rightPressed = false, downPressed = false, leftPressed = false, shootChanged = false;
 
     GameController(Pane root)
     {
@@ -41,27 +37,12 @@ public class GameController {
             List<Projectile> newProjectiles = new ArrayList<>();
             if (prevTime >= 0)
             {
-                if (moveChanged)
-                {
-                    moveChanged = false;
-                    Vector2 newDirection = new Vector2(0,0);
-                    if (wPressed) { newDirection.AddVector(new Vector2(0,-1));}
-                    if (dPressed) { newDirection.AddVector(new Vector2(1,0));}
-                    if (sPressed) { newDirection.AddVector(new Vector2(0,1));}
-                    if (aPressed) { newDirection.AddVector(new Vector2(-1,0));}
-                    currentPlayer.StartMoving(newDirection.Normalize());
-                }
+                Vector2 newMovement = playerControls.HandleMovement();
+                if (newMovement != null) { currentPlayer.StartMoving(newMovement);}
 
-                if (shootChanged)
-                {
-                    shootChanged = false;
-                    Vector2 newDirection = new Vector2(0,0);
-                    if (upPressed) { newDirection.AddVector(new Vector2(0,-1));}
-                    if (rightPressed) { newDirection.AddVector(new Vector2(1,0));}
-                    if (downPressed) { newDirection.AddVector(new Vector2(0,1));}
-                    if (leftPressed) { newDirection.AddVector(new Vector2(-1,0));}
-                    currentPlayer.StartShooting(newDirection.Normalize());
-                }
+                Vector2 newShooting = playerControls.HandleShooting();
+                if (newShooting != null) { currentPlayer.StartShooting(newShooting); }
+
                 timeElapsed = (now-prevTime)/1000000000.0;
                 currentPlayer.Move(timeElapsed);
                 ProjectileHandling(currentPlayer.Shoot(timeElapsed), timeElapsed);
@@ -106,116 +87,5 @@ public class GameController {
         Player player = new Player(new Vector2(0,0), 100);
         player.weapons.add(new Gun());
         currentPlayer = player;
-    }
-
-
-    public void SetMovementEvents(Scene scene){
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if (!wPressed && e.getCode() == KeyCode.W)
-            {
-                moveChanged = true;
-                wPressed = true;
-            }
-
-            if (!dPressed && e.getCode() == KeyCode.D)
-            {
-                moveChanged = true;
-                dPressed = true;
-            }
-
-            if (!sPressed && e.getCode() == KeyCode.S)
-            {
-                moveChanged = true;
-                sPressed = true;
-            }
-
-            if (!aPressed && e.getCode() == KeyCode.A)
-            {
-                moveChanged = true;
-                aPressed = true;
-            }
-        });
-
-        scene.addEventHandler(KeyEvent.KEY_RELEASED,e -> {
-            if (wPressed && e.getCode() == KeyCode.W)
-            {
-                moveChanged = true;
-                wPressed = false;
-            }
-
-            if (dPressed && e.getCode() == KeyCode.D)
-            {
-                moveChanged = true;
-                dPressed = false;
-            }
-
-            if (sPressed && e.getCode() == KeyCode.S)
-            {
-                moveChanged = true;
-                sPressed = false;
-            }
-
-            if (aPressed && e.getCode() == KeyCode.A)
-            {
-                moveChanged = true;
-                aPressed = false;
-            }
-
-        });
-    }
-
-    public void SetShootingEvents(Scene scene)
-    {
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if (!upPressed && e.getCode() == KeyCode.UP)
-            {
-                shootChanged = true;
-                upPressed = true;
-            }
-
-            if (!rightPressed && e.getCode() == KeyCode.RIGHT)
-            {
-                shootChanged = true;
-                rightPressed = true;
-            }
-
-            if (!downPressed && e.getCode() == KeyCode.DOWN)
-            {
-                shootChanged = true;
-                downPressed = true;
-            }
-
-            if (!leftPressed && e.getCode() == KeyCode.LEFT)
-            {
-                shootChanged = true;
-                leftPressed = true;
-            }
-        });
-
-        scene.addEventHandler(KeyEvent.KEY_RELEASED,e -> {
-            if (upPressed && e.getCode() == KeyCode.UP)
-            {
-                shootChanged = true;
-                upPressed = false;
-            }
-
-            if (rightPressed && e.getCode() == KeyCode.RIGHT)
-            {
-                shootChanged = true;
-                rightPressed = false;
-            }
-
-            if (downPressed && e.getCode() == KeyCode.DOWN)
-            {
-                shootChanged = true;
-                downPressed = false;
-            }
-
-            if (leftPressed && e.getCode() == KeyCode.LEFT)
-            {
-                shootChanged = true;
-                leftPressed = false;
-            }
-        });
     }
 }
