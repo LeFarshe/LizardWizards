@@ -12,8 +12,6 @@ public class LizardWizardsApplication extends Application {
         stage.setOnCloseRequest(e -> {e.consume(); Utils.closeProgram(stage);});
         stage.setTitle("LizardWizards");
         Utils.changeScene(stage, 0);
-        stage.setMaximized(true);
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 
