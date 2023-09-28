@@ -1,16 +1,16 @@
 package com.lizardwizards.lizardwizards;
 
 public class Vector2 {
-    float x, y;
+    double x, y;
 
-    Vector2(float x, float y)
+    Vector2(double x, double y)
     {
         this.x = x;
         this.y = y;
     }
 
     public void Normalize(){
-        float sum = x * x + y * y;
+        double sum = x * x + y * y;
         this.SetAll(this.x / sum, this.y / sum);
     }
 
@@ -21,16 +21,16 @@ public class Vector2 {
         return this;
     }
 
-    public Vector2 Multiply(float multiplier)
+    public Vector2 Multiply(double multiplier)
     {
         x *= multiplier;
         y *= multiplier;
         return this;
     }
 
-    public float GetX() { return x; }
-    public float GetY() { return y; }
-    public void SetAll(float x, float y)
+    public double GetX() { return x; }
+    public double GetY() { return y; }
+    public void SetAll(double x, double y)
     {
         this.x = x;
         this.y = y;

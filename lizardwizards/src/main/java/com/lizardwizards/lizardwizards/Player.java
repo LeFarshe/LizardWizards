@@ -2,11 +2,11 @@ package com.lizardwizards.lizardwizards;
 
 public class Player {
     Vector2 position, moveDirection;
-    float speed;
+    double speed;
     boolean isMoving;
 
     //Delta in seconds
-    public void MovePlayer(float delta)
+    public void Move(double delta)
     {
         Vector2 directionTemp = moveDirection.Copy();
         position.AddVector(directionTemp.Multiply(speed * delta));
