@@ -14,7 +14,7 @@ public class Player {
     boolean isMoving = false;
     boolean isShooting = false;
 
-    Player (Vector2 position, double speed)
+    public Player(Vector2 position, double speed)
     {
         this.position = position;
         this.speed = speed;

@@ -12,7 +12,6 @@ public class GameController {
     Player currentPlayer;
     PlayerControls playerControls = new PlayerControls();
     Pane root;
-    HashMap<Integer, Player> otherPlayers;
 
     GameController(Pane root)
     {
