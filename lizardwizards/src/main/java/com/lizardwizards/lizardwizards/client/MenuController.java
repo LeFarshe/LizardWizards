@@ -1,5 +1,6 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.client;
 
+import com.lizardwizards.lizardwizards.core.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

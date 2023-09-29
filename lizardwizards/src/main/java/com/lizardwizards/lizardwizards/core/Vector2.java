@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core;
 
 public class Vector2 {
     double x, y;

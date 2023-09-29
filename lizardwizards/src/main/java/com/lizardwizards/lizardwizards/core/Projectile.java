@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core;
 
 public class Projectile {
     Vector2 position;

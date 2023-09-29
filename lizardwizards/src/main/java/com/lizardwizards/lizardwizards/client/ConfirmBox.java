@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.client;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

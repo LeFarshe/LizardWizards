@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;

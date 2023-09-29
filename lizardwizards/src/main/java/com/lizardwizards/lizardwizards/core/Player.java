@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core;
 
 import java.util.ArrayList;
 import java.util.List;

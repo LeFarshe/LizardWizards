@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.lizardwizards.lizardwizards'
-    mainClass = 'com.lizardwizards.lizardwizards.LizardWizardsApplication'
+    mainClass = 'com.lizardwizards.lizardwizards.client.LizardWizardsApplication'
 }
 
 javafx {

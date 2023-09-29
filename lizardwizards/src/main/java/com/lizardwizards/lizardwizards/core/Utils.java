@@ -1,5 +1,6 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core;
 
+import com.lizardwizards.lizardwizards.client.ConfirmBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -20,13 +21,13 @@ public class Utils {
         Scene newScene;
         switch (stageNum) {
             case 1:
-                fxmlLoader = new FXMLLoader(Utils.class.getResource("connection-view.fxml"));
+                fxmlLoader = new FXMLLoader(Utils.class.getResource("/com/lizardwizards/lizardwizards/connection-view.fxml"));
                 break;
             case 2:
-                fxmlLoader = new FXMLLoader(Utils.class.getResource("lobby-view.fxml"));
+                fxmlLoader = new FXMLLoader(Utils.class.getResource("/com/lizardwizards/lizardwizards/lobby-view.fxml"));
                 break;
             default:
-                fxmlLoader = new FXMLLoader(Utils.class.getResource("menu-view.fxml"));
+                fxmlLoader = new FXMLLoader(Utils.class.getResource("/com/lizardwizards/lizardwizards/menu-view.fxml"));
                 break;
         }
         try {
