@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core;
 
-import com.lizardwizards.lizardwizards.client.ConfirmBox;
+import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

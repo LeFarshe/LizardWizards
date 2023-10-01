@@ -1,9 +1,9 @@
 package com.lizardwizards.lizardwizards.core;
 
 public class Vector2 {
-    double x, y;
+    public double x, y;
 
-    Vector2(double x, double y)
+    public Vector2(double x, double y)
     {
         this.x = x;
         this.y = y;

@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.client;
+package com.lizardwizards.lizardwizards.client.ui;
 
 import com.lizardwizards.lizardwizards.core.Utils;
 import javafx.fxml.FXML;

@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.server;
 
-import com.lizardwizards.lizardwizards.core.Player;
+import com.lizardwizards.lizardwizards.core.gameplay.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
