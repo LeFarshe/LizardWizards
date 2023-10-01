@@ -9,5 +9,13 @@ public class SentServerData {
         this.payload = payload;
         this.dataType = dataType;
     }
+
+    public Object handleSyncPacket() {
+        return payload; // TODO: change this (these a github issue for this dw)
+    }
+
+    public Boolean handleConnectionInformation() {
+        return (Boolean) payload; // Might want to change this to be a little bit more in depth
+    }
 }
 

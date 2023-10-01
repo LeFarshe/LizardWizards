@@ -20,6 +20,8 @@ public class ClientConnectionHandler implements Runnable {
         clientSocket.connect(new InetSocketAddress(ip, port), 3000);
         socketInput = (ObjectInputStream) clientSocket.getInputStream();
         socketOutput = (ObjectOutputStream) clientSocket.getOutputStream();
+        socketOutput.writeObject(player);
+        socketOutput.flush();
     }
 
     public Object listen() {
@@ -35,8 +37,22 @@ public class ClientConnectionHandler implements Runnable {
         return data;
     }
 
-    public void sendUpdate() {
+    private void send(Object object) {
+        try {
+            socketOutput.writeObject(player);
+            socketOutput.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            closeConnection();
+        }
+    }
 
+    public void sendUpdate() {
+        send(player);
+    }
+
+    public void sendReady(Boolean ready) {
+        send(ready);
     }
 
     public void closeConnection() {
@@ -50,6 +66,7 @@ public class ClientConnectionHandler implements Runnable {
 
     @Override
     public void run() {
-
+        // Listen for updates and other messages
+        // Two states: main game and lobby
     }
 }
