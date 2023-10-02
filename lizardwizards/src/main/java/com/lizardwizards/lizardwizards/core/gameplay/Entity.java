@@ -6,9 +6,13 @@ import java.util.Dictionary;
 
 public interface Entity {
 
-    void Teleport(Vector2 position);
+    void SetPosition(Vector2 position);
+
+    Vector2 GetPosition();
 
     void Move(Vector2 amount);
+    // Delta is in seconds
+    void MoveByDelta(double delta);
 
     void Collide(int layer);
 
