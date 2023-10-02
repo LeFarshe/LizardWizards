@@ -3,37 +3,53 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public class Projectile {
+import java.util.Dictionary;
+
+public class Projectile implements Entity{
     Vector2 position;
     Vector2 direction;
     double speed;
     double duration;
 
-    public EntitySprite sprite;
 
     Projectile(Vector2 direction, double speed, double duration, Vector2 spriteSize)
     {
         this.direction = direction;
         this.speed = speed;
         this.duration = duration;
-        sprite = new EntitySprite(new Vector2(0,0), spriteSize);
     }
 
-    public void UpdateStartPosition(Vector2 position)
-    {
-        this.position = position;
-        sprite.Move(position);
+    @Override
+    public void Move(Vector2 amount){
+        position.AddVector(amount);
     }
 
-    //Returns true if it needs to be destroyed
-    public boolean Move(double delta)
+    @Override
+    public void MoveByDelta(double delta)
     {
         duration -= delta;
+        Move(direction.Copy().Multiply(speed * delta));
+    }
+    @Override
+    public Vector2 GetPosition() { return position.Copy(); }
+    @Override
+    public void SetPosition(Vector2 position) { this.position = position.Copy(); }
+    @Override
+    public void Collide(int layer) { return; }
+
+    @Override
+    public Dictionary<String, Integer> GetSpriteSettings() {
+
+        return null;
+    }
+
+    @Override
+    public boolean IsDestroyed() {
         if (duration <= 0) { return true;}
-
-        position.AddVector(direction.Copy().Multiply(speed * delta));
-        sprite.Move(position);
-
         return false;
+    }
+
+    public EntitySprite GetSprite() {
+        return new EntitySprite(position.Copy(), new Vector2(5,5));
     }
 }
