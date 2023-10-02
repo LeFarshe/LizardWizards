@@ -4,15 +4,16 @@ import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
-public class Player {
+public class Player implements Entity {
     Vector2 position;
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
-    public EntitySprite sprite;
     public List<Weapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
+    int health = 1;
     double speed;
     boolean isMoving = false;
     boolean isShooting = false;
@@ -23,15 +24,31 @@ public class Player {
         this.speed = speed;
     }
 
-    //Delta in seconds
-    public void Move(double delta)
+    @Override
+    public void Move(Vector2 amount)
     {
-        if (isMoving)
-        {
-            Vector2 directionTemp = moveDirection.Copy();
-            position.AddVector(directionTemp.Multiply(speed * delta));
-            sprite.Move(position);
-        }
+        position.AddVector(amount);
+    }
+
+    @Override
+    public void Teleport(Vector2 position)
+    {
+        this.position = position;
+    }
+
+    @Override
+    public void Collide(int layer){
+        return;
+    }
+
+    @Override
+    public boolean IsDestroyed() {
+        return false;
+    }
+
+    @Override
+    public Dictionary<String, Integer> GetSpriteSettings(){
+        return null;
     }
 
     public void StartMoving(Vector2 direction)
