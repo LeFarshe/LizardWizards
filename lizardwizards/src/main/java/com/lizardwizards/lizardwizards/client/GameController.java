@@ -1,7 +1,6 @@
-package com.lizardwizards.lizardwizards.core;
+package com.lizardwizards.lizardwizards.client;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
-import com.lizardwizards.lizardwizards.client.SpriteWrapper;
+import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Gun;
 import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import com.lizardwizards.lizardwizards.core.gameplay.Projectile;

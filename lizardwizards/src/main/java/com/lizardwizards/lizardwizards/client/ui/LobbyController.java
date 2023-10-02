@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.client.ui;
 
-import com.lizardwizards.lizardwizards.core.Utils;
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +20,6 @@ public class LobbyController {
 
     @FXML
     protected void onLeaveClick() {
-        Utils.changeScene((Stage) leaveButton.getScene().getWindow(), 0);
+        ClientUtils.changeScene((Stage) leaveButton.getScene().getWindow(), 0);
     }
 }

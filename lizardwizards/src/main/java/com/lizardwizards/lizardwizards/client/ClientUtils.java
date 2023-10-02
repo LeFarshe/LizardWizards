@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.core;
+package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
-public class Utils {
+public class ClientUtils {
     public static void closeProgram(Stage window){
         Boolean answer = ConfirmBox.display("Are you sure you want to exit?");
         if (answer) {
@@ -21,13 +21,13 @@ public class Utils {
         Scene newScene;
         switch (stageNum) {
             case 1:
-                fxmlLoader = new FXMLLoader(Utils.class.getResource("/com/lizardwizards/lizardwizards/connection-view.fxml"));
+                fxmlLoader = new FXMLLoader(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/connection-view.fxml"));
                 break;
             case 2:
-                fxmlLoader = new FXMLLoader(Utils.class.getResource("/com/lizardwizards/lizardwizards/lobby-view.fxml"));
+                fxmlLoader = new FXMLLoader(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/lobby-view.fxml"));
                 break;
             default:
-                fxmlLoader = new FXMLLoader(Utils.class.getResource("/com/lizardwizards/lizardwizards/menu-view.fxml"));
+                fxmlLoader = new FXMLLoader(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/menu-view.fxml"));
                 break;
         }
         try {

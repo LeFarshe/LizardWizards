@@ -1,9 +1,5 @@
 package com.lizardwizards.lizardwizards.server;
 
-import com.lizardwizards.lizardwizards.core.Utils;
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 
