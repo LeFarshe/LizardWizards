@@ -31,10 +31,18 @@ public class Player implements Entity {
     }
 
     @Override
-    public void Teleport(Vector2 position)
-    {
-        this.position = position;
+    public void MoveByDelta(double delta){
+        if (isMoving) { Move(moveDirection.Copy().Multiply(speed * delta));}
     }
+
+    @Override
+    public void SetPosition(Vector2 position)
+    {
+        this.position = position.Copy();
+    }
+
+    @Override
+    public Vector2 GetPosition() { return this.position.Copy(); }
 
     @Override
     public void Collide(int layer){
@@ -76,7 +84,7 @@ public class Player implements Entity {
             if (newProjectiles != null) {
                 for (Projectile projectile: newProjectiles)
                 {
-                    projectile.UpdateStartPosition(position.Copy());
+                    projectile.SetPosition(position.Copy());
                 }
             }
             return newProjectiles;

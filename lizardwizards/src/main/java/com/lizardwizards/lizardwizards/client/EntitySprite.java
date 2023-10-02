@@ -1,7 +1,6 @@
 package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import javafx.scene.shape.Rectangle;
 
 
@@ -20,7 +19,7 @@ public class EntitySprite extends Rectangle {
         setTranslateX(getTranslateX() + position.x);
         setTranslateY(getTranslateY() + position.y);
     }
-    public void Teleport(Vector2 position)
+    public void SetPosition(Vector2 position)
     {
         setTranslateX(position.x - this.getWidth() / 2);
         setTranslateY(position.y - this.getHeight() / 2);
