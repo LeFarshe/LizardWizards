@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.client.ui;
 
-import com.lizardwizards.lizardwizards.core.Utils;
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,11 +17,11 @@ public class MenuController {
 
     @FXML
     protected void onExitClick() {
-        Utils.closeProgram((Stage) exitButton.getScene().getWindow());
+        ClientUtils.closeProgram((Stage) exitButton.getScene().getWindow());
     }
 
     @FXML
     protected void onStartClick() {
-        Utils.changeScene((Stage) startButton.getScene().getWindow(), 1);
+        ClientUtils.changeScene((Stage) startButton.getScene().getWindow(), 1);
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 //Rectangle is temporary
 // No it's not
+// Yes it is
 public class EntitySprite extends Rectangle {
     public EntitySprite(Vector2 position, Vector2 size)
     {
@@ -14,7 +15,11 @@ public class EntitySprite extends Rectangle {
         setTranslateX(position.x - this.getWidth() / 2);
         setTranslateY(position.y - this.getHeight() / 2);
     }
-    public void Move(Vector2 position)
+    public void Move(Vector2 position) {
+        setTranslateX(getTranslateX() + position.x);
+        setTranslateY(getTranslateY() + position.y);
+    }
+    public void SetPosition(Vector2 position)
     {
         setTranslateX(position.x - this.getWidth() / 2);
         setTranslateY(position.y - this.getHeight() / 2);

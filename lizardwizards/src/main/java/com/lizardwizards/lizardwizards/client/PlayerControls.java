@@ -1,5 +1,6 @@
-package com.lizardwizards.lizardwizards.core;
+package com.lizardwizards.lizardwizards.client;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

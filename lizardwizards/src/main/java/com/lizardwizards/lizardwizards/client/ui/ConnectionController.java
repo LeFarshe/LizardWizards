@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.client.ui;
 
-import com.lizardwizards.lizardwizards.core.Utils;
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,11 +16,11 @@ public class ConnectionController {
 
     @FXML
     protected void connectToSession(){
-        Utils.changeScene((Stage) connect.getScene().getWindow(), 2);
+        ClientUtils.changeScene((Stage) connect.getScene().getWindow(), 2);
     }
 
     @FXML
     protected void cancelConnection(){
-        Utils.changeScene((Stage)connect.getScene().getWindow(), 0);
+        ClientUtils.changeScene((Stage)connect.getScene().getWindow(), 0);
     }
 }
