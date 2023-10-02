@@ -1,4 +1,7 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core.gameplay;
+
+import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.core.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,14 +10,14 @@ public class Player {
     Vector2 position;
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
-    EntitySprite sprite;
-    List<Weapon> weapons = new ArrayList<>();
+    public EntitySprite sprite;
+    public List<Weapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
     double speed;
     boolean isMoving = false;
     boolean isShooting = false;
 
-    Player (Vector2 position, double speed)
+    public Player(Vector2 position, double speed)
     {
         this.position = position;
         this.speed = speed;

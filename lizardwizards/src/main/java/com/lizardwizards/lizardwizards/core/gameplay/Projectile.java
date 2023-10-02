@@ -1,4 +1,7 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core.gameplay;
+
+import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class Projectile {
     Vector2 position;
@@ -6,7 +9,7 @@ public class Projectile {
     double speed;
     double duration;
 
-    EntitySprite sprite;
+    public EntitySprite sprite;
 
     Projectile(Vector2 direction, double speed, double duration, Vector2 spriteSize)
     {

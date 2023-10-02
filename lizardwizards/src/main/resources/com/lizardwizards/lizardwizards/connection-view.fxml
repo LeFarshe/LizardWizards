@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lizardwizards.lizardwizards.ConnectionController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lizardwizards.lizardwizards.client.ui.ConnectionController">
    <Label text="Server IP" />
    <TextField fx:id="ip" prefHeight="0.0" prefWidth="600.0" />
    <HBox prefHeight="0.0" prefWidth="600.0" alignment="TOP_CENTER" spacing="50">

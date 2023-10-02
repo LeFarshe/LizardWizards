@@ -1,4 +1,6 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core.gameplay;
+
+import com.lizardwizards.lizardwizards.core.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.List;
 public class Gun extends Weapon{
 
 
-    Gun()
+    public Gun()
     {
         super(1,10);
     }

@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.lizardwizards.lizardwizards.LobbyController" spacing="10" alignment="CENTER">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.lizardwizards.lizardwizards.client.ui.LobbyController" spacing="10" alignment="CENTER">
     <Label text="Lobby"/>
     <HBox spacing="300" alignment="CENTER">
         <VBox spacing="30">

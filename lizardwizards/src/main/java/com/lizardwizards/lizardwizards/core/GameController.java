@@ -1,10 +1,13 @@
-package com.lizardwizards.lizardwizards;
+package com.lizardwizards.lizardwizards.core;
 
+import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.core.gameplay.Gun;
+import com.lizardwizards.lizardwizards.core.gameplay.Player;
+import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class GameController {
@@ -12,7 +15,6 @@ public class GameController {
     Player currentPlayer;
     PlayerControls playerControls = new PlayerControls();
     Pane root;
-    HashMap<Integer, Player> otherPlayers;
 
     GameController(Pane root)
     {
