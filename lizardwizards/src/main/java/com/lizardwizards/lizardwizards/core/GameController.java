@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.SpriteWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.Gun;
 import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
-    List<Projectile> projectiles = new ArrayList<>();
-    Player currentPlayer;
+    List<SpriteWrapper> entities = new ArrayList<>();
+    SpriteWrapper currentPlayer;
     PlayerControls playerControls = new PlayerControls();
     Pane root;
 
@@ -26,7 +27,6 @@ public class GameController {
         SetCurrentPlayer();
         GameTimer temp = new GameTimer();
         temp.start();
-        CreatePlayerSprites(true, null);
     }
 
     private class GameTimer extends AnimationTimer {
@@ -40,54 +40,53 @@ public class GameController {
             if (prevTime >= 0)
             {
                 Vector2 newMovement = playerControls.HandleMovement();
-                if (newMovement != null) { currentPlayer.StartMoving(newMovement);}
+                if (newMovement != null) { ((Player)currentPlayer.entity).StartMoving(newMovement);}
 
                 Vector2 newShooting = playerControls.HandleShooting();
-                if (newShooting != null) { currentPlayer.StartShooting(newShooting); }
+                if (newShooting != null) { ((Player)currentPlayer.entity).StartShooting(newShooting); }
 
                 timeElapsed = (now-prevTime)/1000000000.0;
-                currentPlayer.Move(timeElapsed);
-                ProjectileHandling(currentPlayer.Shoot(timeElapsed), timeElapsed);
 
+                ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed));
+
+                int currentEntity = 0;
+                while (currentEntity < entities.size())
+                {
+                    SpriteWrapper entity = entities.get(currentEntity);
+                    entity.MoveByDelta(timeElapsed);
+                    if (!entity.entity.IsDestroyed()) { currentEntity ++; }
+                    else {
+                        root.getChildren().remove(entity.sprite);
+                        entities.remove(currentEntity);
+                    }
+                }
             }
             prevTime = now;
         }
 
-        private void ProjectileHandling(List<Projectile> newProjectiles, double delta)
+        private void ProjectileHandling(List<Projectile> newProjectiles)
         {
             if (newProjectiles != null) {
-                for (Projectile projectile: newProjectiles) {
-                    root.getChildren().add(projectile.sprite);
-                    projectiles.add(projectile);
-                }
-            }
+                for (Projectile projectile : newProjectiles) {
+                    EntitySprite sprite = projectile.GetSprite();
+                    root.getChildren().add(sprite);
 
-            for (int i = 0; i < projectiles.size();)
-            {
-                Projectile projectile = projectiles.get(i);
-                if (projectile.Move(delta))
-                {
-                    root.getChildren().remove(projectile.sprite);
-                    projectiles.remove(i);
+                    SpriteWrapper newProjectile = new SpriteWrapper(projectile, sprite);
+                    entities.add(newProjectile);
                 }
-                else { i++; }
             }
 
         }
     }
 
-    public void CreatePlayerSprites(boolean currentAlive, List<Integer> othersAlive)
-    {
-        if (currentAlive)
-        {
-            currentPlayer.sprite = new EntitySprite(new Vector2(10,10), new Vector2(20,20));
-            root.getChildren().add(currentPlayer.sprite);
-        }
-    }
+    //Temp
     public void SetCurrentPlayer()
     {
         Player player = new Player(new Vector2(0,0), 100);
         player.weapons.add(new Gun());
-        currentPlayer = player;
+        EntitySprite playerSprite = new EntitySprite(new Vector2(10,10), new Vector2(20,20));
+        currentPlayer = new SpriteWrapper(player, playerSprite);
+        entities.add(currentPlayer);
+        root.getChildren().add(playerSprite);
     }
 }
