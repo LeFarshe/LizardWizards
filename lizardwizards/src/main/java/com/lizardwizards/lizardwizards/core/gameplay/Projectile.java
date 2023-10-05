@@ -43,4 +43,8 @@ public class Projectile extends Entity{
     public EntitySprite GetSprite() {
         return new EntitySprite(position.Copy(), new Vector2(5,5));
     }
+
+    public Collider GetCollider() {
+        return Collider.NewRectangle(position.Copy(), 5, 5, 2);
+    }
 }

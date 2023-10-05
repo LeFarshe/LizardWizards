@@ -13,7 +13,7 @@ public abstract class Entity {
     };
 
     public Vector2 GetPosition(){
-        return position;
+        return position.Copy();
     };
 
     public void Move(Vector2 amount){

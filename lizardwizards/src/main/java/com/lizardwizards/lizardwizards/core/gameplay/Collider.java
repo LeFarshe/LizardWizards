@@ -7,29 +7,33 @@ import java.util.List;
 
 public class Collider {
     // Center of shape
-    Vector2 position;
+    public Vector2 position;
 
     // Circle only has radius, rectangle has width and height
     List<Double> shapeDetails;
     private CollisionShape shape;
 
-    Collider(Vector2 position, List<Double> shapeDetails, CollisionShape shape){
+    // 0 - player, 1 - entity, 2 - projectiles, 3 - obstacles
+    public int layer;
+
+    Collider(Vector2 position, List<Double> shapeDetails, CollisionShape shape, int layer){
         this.position = position;
         this.shapeDetails = shapeDetails;
         this.shape = shape;
+        this.layer = layer;
     }
 
-    public static Collider NewRectangle(Vector2 centerPosition, double width, double height){
+    public static Collider NewRectangle(Vector2 centerPosition, double width, double height, int layer){
         List<Double> shapeDetails = new ArrayList<>();
         shapeDetails.add(width);
         shapeDetails.add(height);
-        return new Collider(centerPosition, shapeDetails, CollisionShape.Rectangle);
+        return new Collider(centerPosition, shapeDetails, CollisionShape.Rectangle, layer);
     }
 
-    public static Collider NewCircle(Vector2 centerPosition, double radius){
+    public static Collider NewCircle(Vector2 centerPosition, double radius, int layer){
         List<Double> shapeDetails = new ArrayList<>();
         shapeDetails.add(radius);
-        return new Collider(centerPosition, shapeDetails, CollisionShape.Circle);
+        return new Collider(centerPosition, shapeDetails, CollisionShape.Circle, layer);
     }
 
     public boolean Collide(Collider collider){
