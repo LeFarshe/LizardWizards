@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards.client.ui.modals;
 
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,6 +37,7 @@ public class ConfirmBox {
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);
+        scene.getStylesheets().add(ConfirmBox.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
         window.setScene(scene);
         window.showAndWait();
 

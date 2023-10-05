@@ -35,6 +35,7 @@ public class ClientUtils {
             {
                 Pane root = new Pane();
                 newScene = new Scene(root);
+                newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
                 GameController gameController = new GameController(root);
                 gameController.playerControls.SetMovementEvents(newScene);
@@ -42,6 +43,7 @@ public class ClientUtils {
             }
             else {
                 newScene = new Scene(fxmlLoader.load());
+                newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
             }
         }
