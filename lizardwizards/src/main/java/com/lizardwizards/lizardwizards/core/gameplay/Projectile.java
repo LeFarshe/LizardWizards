@@ -5,8 +5,9 @@ import java.util.Dictionary;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public class Projectile implements Entity{
-    Vector2 position;
+import java.util.Dictionary;
+
+public class Projectile extends Entity{
     Vector2 direction;
     double speed;
     double duration;
@@ -20,20 +21,12 @@ public class Projectile implements Entity{
     }
 
     @Override
-    public void Move(Vector2 amount){
-        position.AddVector(amount);
-    }
-
-    @Override
     public void MoveByDelta(double delta)
     {
         duration -= delta;
         Move(direction.Copy().Multiply(speed * delta));
     }
-    @Override
-    public Vector2 GetPosition() { return position.Copy(); }
-    @Override
-    public void SetPosition(Vector2 position) { this.position = position.Copy(); }
+
     @Override
     public void Collide(int layer) { return; }
 
@@ -51,5 +44,9 @@ public class Projectile implements Entity{
 
     public EntitySprite GetSprite() {
         return new EntitySprite(position.Copy(), new Vector2(5,5));
+    }
+
+    public Collider GetCollider() {
+        return Collider.NewRectangle(position.Copy(), 5, 5, 2);
     }
 }

@@ -6,8 +6,7 @@ import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public class Player implements Entity {
-    Vector2 position;
+public class Player extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
     public List<Weapon> weapons = new ArrayList<>();
@@ -24,24 +23,9 @@ public class Player implements Entity {
     }
 
     @Override
-    public void Move(Vector2 amount)
-    {
-        position.AddVector(amount);
-    }
-
-    @Override
     public void MoveByDelta(double delta){
         if (isMoving) { Move(moveDirection.Copy().Multiply(speed * delta));}
     }
-
-    @Override
-    public void SetPosition(Vector2 position)
-    {
-        this.position = position.Copy();
-    }
-
-    @Override
-    public Vector2 GetPosition() { return this.position.Copy(); }
 
     @Override
     public void Collide(int layer){

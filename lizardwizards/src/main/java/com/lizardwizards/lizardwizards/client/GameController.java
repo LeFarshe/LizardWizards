@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.Gun;
-import com.lizardwizards.lizardwizards.core.gameplay.Player;
-import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
-
+import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 
@@ -25,6 +22,8 @@ public class GameController {
     }
     public void start() {
         SetCurrentPlayer();
+        CreateObstacle(new Vector2(200, 300));
+        CreateObstacle(new Vector2(600, 300));
         GameTimer temp = new GameTimer();
         temp.start();
     }
@@ -53,7 +52,7 @@ public class GameController {
                 while (currentEntity < entities.size())
                 {
                     SpriteWrapper entity = entities.get(currentEntity);
-                    entity.MoveByDelta(timeElapsed);
+                    entity.MoveByDelta(timeElapsed, entities);
                     if (!entity.entity.IsDestroyed()) { currentEntity ++; }
                     else {
                         root.getChildren().remove(entity.sprite);
@@ -71,7 +70,7 @@ public class GameController {
                     EntitySprite sprite = projectile.GetSprite();
                     root.getChildren().add(sprite);
 
-                    SpriteWrapper newProjectile = new SpriteWrapper(projectile, sprite);
+                    SpriteWrapper newProjectile = new SpriteWrapper(projectile, sprite, projectile.GetCollider());
                     entities.add(newProjectile);
                 }
             }
@@ -79,13 +78,23 @@ public class GameController {
         }
     }
 
+    public void CreateObstacle(Vector2 position){
+        Obstacle obstacle  = new Obstacle(position);
+        EntitySprite sprite = new EntitySprite(position, new Vector2(50, 50));
+        Collider collider = Collider.NewRectangle(position, 50, 50, 3);
+        SpriteWrapper newObstacle = new SpriteWrapper(obstacle, sprite, collider);
+        entities.add(newObstacle);
+        root.getChildren().add(sprite);
+    }
+
     //Temp
     public void SetCurrentPlayer()
     {
-        Player player = new Player(new Vector2(0,0), 100);
+        Player player = new Player(new Vector2(400,300), 100);
+        Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, 0);
         player.weapons.add(new Gun());
-        EntitySprite playerSprite = new EntitySprite(new Vector2(10,10), new Vector2(20,20));
-        currentPlayer = new SpriteWrapper(player, playerSprite);
+        EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
+        currentPlayer = new SpriteWrapper(player, playerSprite, collider);
         entities.add(currentPlayer);
         root.getChildren().add(playerSprite);
     }

@@ -39,4 +39,8 @@ public class Vector2 {
     {
         return new Vector2(this.x, this.y);
     }
+
+    public double DistanceTo(Vector2 secondPoint){
+        return Math.sqrt(Math.pow(x - secondPoint.x, 2) + Math.pow(y - secondPoint.y, 2));
+    }
 }

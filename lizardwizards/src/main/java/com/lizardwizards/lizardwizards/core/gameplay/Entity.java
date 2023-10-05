@@ -4,18 +4,26 @@ import java.util.Dictionary;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public interface Entity {
+public abstract class Entity {
 
-    void SetPosition(Vector2 position);
+    Vector2 position;
 
-    Vector2 GetPosition();
+    public void SetPosition(Vector2 position){
+        this.position = position.Copy();
+    };
 
-    void Move(Vector2 amount);
+    public Vector2 GetPosition(){
+        return position.Copy();
+    };
+
+    public void Move(Vector2 amount){
+        this.position.AddVector(amount);
+    };
     // Delta is in seconds
-    void MoveByDelta(double delta);
+    public abstract void MoveByDelta(double delta);
 
-    void Collide(int layer);
+    public abstract void Collide(int layer);
 
-    Dictionary<String, Integer> GetSpriteSettings();
-    boolean IsDestroyed();
+    public abstract Dictionary<String, Integer> GetSpriteSettings();
+    public abstract boolean IsDestroyed();
 }
