@@ -24,6 +24,7 @@ public class GameController {
         SetCurrentPlayer();
         CreateObstacle(new Vector2(200, 300));
         CreateObstacle(new Vector2(600, 300));
+        CreateEnemy(new Vector2(400, 400));
         GameTimer temp = new GameTimer();
         temp.start();
     }
@@ -76,6 +77,15 @@ public class GameController {
             }
 
         }
+    }
+
+    public void CreateEnemy(Vector2 position){
+        Enemy enemy = new Enemy(position, 100);
+        EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
+        Collider collider = Collider.NewRectangle(position, 15, 15, 2);
+        SpriteWrapper newEntity = new SpriteWrapper(enemy, sprite, collider);
+        entities.add(newEntity);
+        root.getChildren().add(sprite);
     }
 
     public void CreateObstacle(Vector2 position){

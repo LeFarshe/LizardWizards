@@ -7,8 +7,7 @@ import java.util.Random;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public class Enemy implements Entity {
-    Vector2 position;
+public class Enemy extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
     public List<Weapon> weapons = new ArrayList<>();
@@ -32,19 +31,6 @@ public class Enemy implements Entity {
         double randY = rand.nextDouble() * 2 - 1;
         moveDirection = new Vector2(randX, randY).Normalize();
     }
-
-    
-    @Override
-    public void Move(Vector2 amount)
-    {
-    	Vector2 newPos = position.Copy().AddVector(amount);
-        if(isCollidingWithWalls(newPos)) {
-            setRandomDirection();
-        } else {
-            position = newPos;
-        }
-        position.AddVector(amount);
-    }
     
     private boolean isCollidingWithWalls(Vector2 newPos) {
         return false;
@@ -54,15 +40,6 @@ public class Enemy implements Entity {
     public void MoveByDelta(double delta){
         if (isMoving) { Move(moveDirection.Copy().Multiply(speed * delta));}
     }
-
-    @Override
-    public void SetPosition(Vector2 position)
-    {
-        this.position = position.Copy();
-    }
-
-    @Override
-    public Vector2 GetPosition() { return this.position.Copy(); }
 
     @Override
     public void Collide(int layer){
