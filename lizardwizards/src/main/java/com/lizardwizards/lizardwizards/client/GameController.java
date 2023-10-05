@@ -24,6 +24,7 @@ public class GameController {
     }
     public void start() {
         SetCurrentPlayer();
+
         GameTimer temp = new GameTimer();
         temp.start();
     }
@@ -81,9 +82,9 @@ public class GameController {
     //Temp
     public void SetCurrentPlayer()
     {
-        Player player = new Player(new Vector2(0,0), 100);
+        Player player = new Player(new Vector2(400,300), 100);
         player.weapons.add(new Gun());
-        EntitySprite playerSprite = new EntitySprite(new Vector2(10,10), new Vector2(20,20));
+        EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
         currentPlayer = new SpriteWrapper(player, playerSprite);
         entities.add(currentPlayer);
         root.getChildren().add(playerSprite);
