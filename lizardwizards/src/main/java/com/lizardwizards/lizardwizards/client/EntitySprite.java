@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+
 import javafx.scene.shape.Rectangle;
 
 

@@ -1,13 +1,13 @@
 package com.lizardwizards.lizardwizards.server;
 
-import com.lizardwizards.lizardwizards.core.communication.SentDataType;
-import com.lizardwizards.lizardwizards.core.communication.SentServerData;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+
+import com.lizardwizards.lizardwizards.core.communication.SentDataType;
+import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 
 public class Server implements Runnable{
     private final ServerSocket serverSocket;

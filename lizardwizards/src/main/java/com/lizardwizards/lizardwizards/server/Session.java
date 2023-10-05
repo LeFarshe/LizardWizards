@@ -1,7 +1,5 @@
 package com.lizardwizards.lizardwizards.server;
 
-import com.lizardwizards.lizardwizards.core.gameplay.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 

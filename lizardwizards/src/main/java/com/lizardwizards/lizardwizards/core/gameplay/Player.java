@@ -1,18 +1,17 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
-import com.lizardwizards.lizardwizards.core.Vector2;
-
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
+
+import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class Player extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
     public List<Weapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
-    int health = 1;
+    int health = 100;
     double speed;
     boolean isMoving = false;
     boolean isShooting = false;
@@ -30,7 +29,23 @@ public class Player extends Entity {
 
     @Override
     public void Collide(int layer){
+        final int ENEMY_LAYER = 1; 
+
+        if(layer == ENEMY_LAYER) {
+            this.health -= 25;
+            
+            if(this.health <= 0) {
+                this.HandleDeath();
+            }
+        }
         return;
+    }
+
+    private void HandleDeath() {
+        // Here you can handle player death, e.g., 
+        // setting a flag, triggering a respawn, or updating the game state.
+        // For now, we'll simply print out a message:
+        System.out.println("Player has died!");
     }
 
     @Override

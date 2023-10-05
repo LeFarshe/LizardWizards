@@ -1,14 +1,13 @@
 package com.lizardwizards.lizardwizards.server;
 
-import com.lizardwizards.lizardwizards.core.communication.SentDataType;
-import com.lizardwizards.lizardwizards.core.communication.SentServerData;
-import com.lizardwizards.lizardwizards.core.gameplay.Player;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.List;
+
+import com.lizardwizards.lizardwizards.core.communication.SentDataType;
+import com.lizardwizards.lizardwizards.core.communication.SentServerData;
+import com.lizardwizards.lizardwizards.core.gameplay.Player;
 
 public class PlayerHandler {
     private final Session session;
@@ -60,6 +59,8 @@ public class PlayerHandler {
                 throw new RuntimeException(e);
             }
         }
+
+        // Loss state here
         // The actual handling of the game goes here
     }
 

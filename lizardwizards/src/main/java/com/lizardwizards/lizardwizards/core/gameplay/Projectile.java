@@ -1,5 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
+import java.util.Dictionary;
+
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 

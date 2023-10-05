@@ -1,12 +1,12 @@
 package com.lizardwizards.lizardwizards.client;
 
-import com.lizardwizards.lizardwizards.core.gameplay.Player;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import com.lizardwizards.lizardwizards.core.gameplay.Player;
 
 public class ClientConnectionHandler implements Runnable {
     private final Socket clientSocket;
