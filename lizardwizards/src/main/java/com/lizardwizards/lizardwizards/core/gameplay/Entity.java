@@ -1,8 +1,8 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
-import com.lizardwizards.lizardwizards.core.Vector2;
-
 import java.util.Dictionary;
+
+import com.lizardwizards.lizardwizards.core.Vector2;
 
 public interface Entity {
 

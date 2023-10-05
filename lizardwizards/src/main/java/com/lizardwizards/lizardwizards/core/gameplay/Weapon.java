@@ -1,8 +1,8 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
-import com.lizardwizards.lizardwizards.core.Vector2;
-
 import java.util.List;
+
+import com.lizardwizards.lizardwizards.core.Vector2;
 
 public abstract class Weapon {
     double damage;

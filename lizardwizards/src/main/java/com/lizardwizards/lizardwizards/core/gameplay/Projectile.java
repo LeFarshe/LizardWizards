@@ -1,9 +1,9 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
+import java.util.Dictionary;
+
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
-
-import java.util.Dictionary;
 
 public class Projectile implements Entity{
     Vector2 position;

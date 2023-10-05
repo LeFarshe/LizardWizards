@@ -3,30 +3,51 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.Random;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public class Player implements Entity {
+public class Enemy implements Entity {
     Vector2 position;
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
     public List<Weapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
-    int health = 100;
+    int health = 1;
     double speed;
     boolean isMoving = false;
     boolean isShooting = false;
 
-    public Player(Vector2 position, double speed)
+    private Random rand = new Random();
+    
+    public Enemy(Vector2 position, double speed)
     {
         this.position = position;
         this.speed = speed;
+        setRandomDirection();
     }
 
+    private void setRandomDirection() {
+        double randX = rand.nextDouble() * 2 - 1;
+        double randY = rand.nextDouble() * 2 - 1;
+        moveDirection = new Vector2(randX, randY).Normalize();
+    }
+
+    
     @Override
     public void Move(Vector2 amount)
     {
+    	Vector2 newPos = position.Copy().AddVector(amount);
+        if(isCollidingWithWalls(newPos)) {
+            setRandomDirection();
+        } else {
+            position = newPos;
+        }
         position.AddVector(amount);
+    }
+    
+    private boolean isCollidingWithWalls(Vector2 newPos) {
+        return false;
     }
 
     @Override
@@ -45,23 +66,20 @@ public class Player implements Entity {
 
     @Override
     public void Collide(int layer){
-        final int ENEMY_LAYER = 1; 
 
-        if(layer == ENEMY_LAYER) {
-            this.health -= 25;
+        final int PLAYER_LAYER = 0; 
+
+        if(layer == PLAYER_LAYER) {
+
+            this.HandleDeath();
             
-            if(this.health <= 0) {
-                this.HandleDeath();
-            }
         }
+
         return;
     }
 
     private void HandleDeath() {
-        // Here you can handle player death, e.g., 
-        // setting a flag, triggering a respawn, or updating the game state.
-        // For now, we'll simply print out a message:
-        System.out.println("Player has died!");
+        System.out.println("Enemy has died!");
     }
 
     @Override
@@ -90,37 +108,4 @@ public class Player implements Entity {
         isMoving = false;
     }
 
-    public List<Projectile> Shoot(double delta)
-    {
-        List<Projectile> newProjectiles;
-        if (isShooting)
-        {
-            newProjectiles = weapons.get(currentWeapon).ContinueShooting(delta, shootDirection);
-            if (newProjectiles != null) {
-                for (Projectile projectile: newProjectiles)
-                {
-                    projectile.SetPosition(position.Copy());
-                }
-            }
-            return newProjectiles;
-        }
-        else { weapons.get(currentWeapon).AddTimeWithoutShoot(delta); };
-        return null;
-    }
-
-    public void StartShooting(Vector2 direction)
-    {
-        if (direction.x == 0 && direction.y == 0)
-        {
-            StopShooting();
-            return;
-        }
-        isShooting = true;
-        shootDirection = direction;
-    }
-
-    public void StopShooting()
-    {
-        isShooting = false;
-    }
 }

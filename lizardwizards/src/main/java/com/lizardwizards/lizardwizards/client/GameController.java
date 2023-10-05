@@ -1,14 +1,15 @@
 package com.lizardwizards.lizardwizards.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Gun;
 import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameController {
     List<SpriteWrapper> entities = new ArrayList<>();
