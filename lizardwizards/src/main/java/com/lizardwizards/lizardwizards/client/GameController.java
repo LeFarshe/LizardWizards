@@ -47,14 +47,14 @@ public class GameController {
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 
-                ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed));
+                ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
 
                 int currentEntity = 0;
                 while (currentEntity < entities.size())
                 {
                     SpriteWrapper entity = entities.get(currentEntity);
                     entity.MoveByDelta(timeElapsed, entities);
-                    if (!entity.entity.IsDestroyed()) { currentEntity ++; }
+                    if (!entity.entity.IsDestroyed(false)) { currentEntity ++; }
                     else {
                         root.getChildren().remove(entity.sprite);
                         entities.remove(currentEntity);
@@ -64,14 +64,14 @@ public class GameController {
             prevTime = now;
         }
 
-        private void ProjectileHandling(List<Projectile> newProjectiles)
+        private void ProjectileHandling(List<Projectile> newProjectiles, CollisionLayer layer)
         {
             if (newProjectiles != null) {
                 for (Projectile projectile : newProjectiles) {
                     EntitySprite sprite = projectile.GetSprite();
                     root.getChildren().add(sprite);
 
-                    SpriteWrapper newProjectile = new SpriteWrapper(projectile, sprite, projectile.GetCollider());
+                    SpriteWrapper newProjectile = new SpriteWrapper(projectile, sprite, projectile.GetCollider(layer));
                     entities.add(newProjectile);
                 }
             }
@@ -82,7 +82,7 @@ public class GameController {
     public void CreateEnemy(Vector2 position){
         Enemy enemy = new Enemy(position, 100);
         EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
-        Collider collider = Collider.NewRectangle(position, 15, 15, 2);
+        Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
         SpriteWrapper newEntity = new SpriteWrapper(enemy, sprite, collider);
         entities.add(newEntity);
         root.getChildren().add(sprite);
@@ -91,7 +91,7 @@ public class GameController {
     public void CreateObstacle(Vector2 position){
         Obstacle obstacle  = new Obstacle(position);
         EntitySprite sprite = new EntitySprite(position, new Vector2(50, 50));
-        Collider collider = Collider.NewRectangle(position, 50, 50, 3);
+        Collider collider = Collider.NewRectangle(position, 50, 50, CollisionLayer.Obstacle);
         SpriteWrapper newObstacle = new SpriteWrapper(obstacle, sprite, collider);
         entities.add(newObstacle);
         root.getChildren().add(sprite);
@@ -101,7 +101,7 @@ public class GameController {
     public void SetCurrentPlayer()
     {
         Player player = new Player(new Vector2(400,300), 100);
-        Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, 0);
+        Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, CollisionLayer.Player);
         player.weapons.add(new Gun());
         EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
         currentPlayer = new SpriteWrapper(player, playerSprite, collider);

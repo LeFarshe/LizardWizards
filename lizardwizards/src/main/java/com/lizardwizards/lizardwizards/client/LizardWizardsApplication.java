@@ -10,7 +10,7 @@ public class LizardWizardsApplication extends Application {
     public void start(Stage stage) throws IOException {
         stage.setOnCloseRequest(e -> {e.consume(); ClientUtils.closeProgram(stage);});
         stage.setTitle("Lizard Wizards");
-        ClientUtils.changeScene(stage, 0);
+        ClientUtils.changeScene(stage, 3);
         stage.show();
     }
 
