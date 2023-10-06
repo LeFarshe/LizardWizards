@@ -1,25 +1,26 @@
-package com.lizardwizards.lizardwizards.client;
+package com.lizardwizards.lizardwizards.core.gameplay;
 
+import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.Collider;
-import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
-public class SpriteWrapper {
+public class EntityWrapper {
     public Entity entity;
     public EntitySprite sprite;
 
     public Collider collider;
 
-    public SpriteWrapper(Entity entity, EntitySprite sprite, Collider collider)
+    public EntityWrapper(Entity entity, EntitySprite sprite, Collider collider)
     {
         this.collider = collider;
         this.entity = entity;
         this.sprite = sprite;
     }
 
-    public SpriteWrapper(Entity entity, EntitySprite sprite)
+    public EntityWrapper(Entity entity, EntitySprite sprite)
     {
         this.entity = entity;
         this.sprite = sprite;
@@ -33,13 +34,13 @@ public class SpriteWrapper {
         }
     }
 
-    public void MoveByDelta(double delta, List<SpriteWrapper> entities){
+    public void MoveByDelta(double delta, HashMap<UUID, EntityWrapper> entities){
         Vector2 currentpos = entity.GetPosition();
         entity.MoveByDelta(delta);
         if (collider != null) {
             collider.position = entity.GetPosition();
             int layer = collider.layer;
-            for(SpriteWrapper currentEntity: entities){
+            for(EntityWrapper currentEntity: entities.values()){
                 if (layer == 0){
                     if (currentEntity.collider.layer == 3){
                         if(collider.Collide(currentEntity.collider)){
@@ -60,5 +61,10 @@ public class SpriteWrapper {
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
+    }
+
+    public void update(EntityWrapper entityWrapper) {
+        entity = entityWrapper.entity;
+        collider = entityWrapper.collider;
     }
 }

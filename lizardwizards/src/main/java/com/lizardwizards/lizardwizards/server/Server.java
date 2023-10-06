@@ -44,6 +44,7 @@ public class Server implements Runnable{
             }
             // TODO: After the game starts all attempts to connect will be ignored, that is not how it should happen
             // It is possible to fix this by running separate threads for accepting connections and the main game, I will look into that and decide if it is better than the spaghetti this is going to become
+            // I didn't look into it yet
             // Put the gameplay state here somewhere
         }
         catch (IOException e) {

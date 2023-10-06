@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.gameplay.Player;
 
 public class ClientConnectionHandler implements Runnable {
@@ -24,11 +25,23 @@ public class ClientConnectionHandler implements Runnable {
         socketOutput.flush();
     }
 
-    public Object listen() {
-        Object data = null;
+    public SentServerData listen() {
+        SentServerData data = null;
 
         try {
-            data = socketInput.readObject();
+            data = (SentServerData)socketInput.readObject();
+            switch (data.dataType){
+                case SyncPacket -> {
+                    data.handleSyncPacket(ClientUtils.gameController);
+                }
+                case ConnectionInformation -> {
+                    if (!data.handleConnectionInformation())
+                        closeConnection();
+                }
+                case Room -> {
+                    return data;
+                }
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             closeConnection();

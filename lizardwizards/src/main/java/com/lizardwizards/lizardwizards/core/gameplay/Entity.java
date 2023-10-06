@@ -1,11 +1,13 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
 import java.util.Dictionary;
+import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 public abstract class Entity {
 
+    public final UUID uuid = UUID.randomUUID();
     Vector2 position;
 
     public void SetPosition(Vector2 position){
