@@ -52,6 +52,7 @@ public class ClientUtils {
         }
         catch (Exception e){
             System.out.println("I have no idea how u got here. Maybe the error message will help u m8, good luck :) \n Error message:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

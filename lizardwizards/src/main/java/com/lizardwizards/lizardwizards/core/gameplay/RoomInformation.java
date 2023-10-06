@@ -2,14 +2,14 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class RoomInformation {
+public class RoomInformation implements Serializable {
     public final HashMap<UUID, EntityWrapper> entities;
     public final List<Vector2> playerStartPositions;
 

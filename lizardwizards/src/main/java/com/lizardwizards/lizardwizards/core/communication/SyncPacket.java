@@ -2,11 +2,12 @@ package com.lizardwizards.lizardwizards.core.communication;
 
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class SyncPacket {
+public class SyncPacket implements Serializable {
 
     public final long serverTime;
     public final HashMap<UUID, EntityWrapper> entities;

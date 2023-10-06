@@ -27,8 +27,8 @@ public class PlayerHandler {
         session = currentSession;
         this.playerSocket = playerSocket;
         try {
-            objectInput = (ObjectInputStream) playerSocket.getInputStream();
-            objectOutput = (ObjectOutputStream) playerSocket.getOutputStream();
+            objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
+            sendToPlayer(true, SentDataType.ConnectionInformation);
 
             Player player = new Player(new Vector2(400,300), 100);
             Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, CollisionLayer.Player);
@@ -37,6 +37,10 @@ public class PlayerHandler {
             this.player = new EntityWrapper(player, playerSprite, collider);
 
             session.addPlayer(this);
+            objectOutput.writeObject(this.player);
+            objectOutput.flush();
+            objectInput = new ObjectInputStream(playerSocket.getInputStream());
+
         } catch (IOException e) {
             throw new RuntimeException("Player could not connect");
         }
@@ -102,7 +106,8 @@ public class PlayerHandler {
     private void lobbyListener(){
         while (session.getGameState() == GameState.Lobby) {
             try {
-                ready = (boolean) objectInput.readObject();
+                ready = (Boolean) objectInput.readObject();
+                session.updateLobby();
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -112,6 +117,8 @@ public class PlayerHandler {
     public void stopConnection() {
         try {
             playerSocket.close();
+            objectInput.close();
+            objectOutput.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

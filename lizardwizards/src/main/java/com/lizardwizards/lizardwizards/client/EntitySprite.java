@@ -4,11 +4,13 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 
 import javafx.scene.shape.Rectangle;
 
+import java.io.Serializable;
+
 
 //Rectangle is temporary
 // No it's not
 // Yes it is
-public class EntitySprite extends Rectangle {
+public class EntitySprite extends Rectangle implements Serializable {
     public EntitySprite(Vector2 position, Vector2 size)
     {
         this.setHeight(size.x);

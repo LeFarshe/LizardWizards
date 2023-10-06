@@ -1,12 +1,17 @@
 package com.lizardwizards.lizardwizards.server;
 
+import com.lizardwizards.lizardwizards.core.communication.LobbyUpdate;
+import com.lizardwizards.lizardwizards.core.communication.SentDataType;
+import com.lizardwizards.lizardwizards.core.communication.SentServerData;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Session {
     public int playersConnected;
     public int maxPlayers;
-    private final List<PlayerHandler> players;
+    final List<PlayerHandler> players;
     private GameState gameState;
 
     public Session(int maxPlayers) {
@@ -17,7 +22,7 @@ public class Session {
     }
 
     public Session() {
-        this(2);
+        this(1);
     }
 
     public void addPlayer(PlayerHandler player) {
@@ -31,6 +36,23 @@ public class Session {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public void sendToPlayers(Object data, SentDataType dataType) {
+        try {
+            for (PlayerHandler x : players) {
+                x.sendToPlayer(data, dataType);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateLobby() {
+        sendToPlayers(new LobbyUpdate(
+                        players.stream().filter(PlayerHandler::isReady).map(PlayerHandler::getPlayer).toList(),
+                        maxPlayers),
+                SentDataType.LobbyUpdate);
     }
 
     public boolean startGame() {

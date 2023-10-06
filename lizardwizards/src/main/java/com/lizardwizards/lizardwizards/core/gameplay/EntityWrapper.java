@@ -3,10 +3,11 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EntityWrapper {
+public class EntityWrapper implements Serializable {
     public Entity entity;
     public EntitySprite sprite;
 

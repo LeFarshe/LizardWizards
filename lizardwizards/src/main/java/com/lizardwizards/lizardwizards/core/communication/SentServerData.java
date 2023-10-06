@@ -3,7 +3,9 @@ package com.lizardwizards.lizardwizards.core.communication;
 
 import com.lizardwizards.lizardwizards.client.GameController;
 
-public class SentServerData {
+import java.io.Serializable;
+
+public class SentServerData implements Serializable {
     public final Object payload;
     public final SentDataType dataType;
 
@@ -18,6 +20,10 @@ public class SentServerData {
 
     public Boolean handleConnectionInformation() {
         return (Boolean) payload; // Might want to change this to be a little bit more in depth
+    }
+
+    public LobbyUpdate handleLobbyUpdate() {
+        return (LobbyUpdate) payload;
     }
 }
 

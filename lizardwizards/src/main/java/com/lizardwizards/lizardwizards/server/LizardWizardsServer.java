@@ -12,6 +12,7 @@ public class LizardWizardsServer {
                 Server server = new Server(serverSocket);
                 thread = new Thread(server);
                 thread.start();
+                System.out.printf("using port %d", i);
                 thread.join();
                 break;
             } catch (IOException e) {
