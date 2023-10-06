@@ -2,7 +2,9 @@ package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Collider;
+import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
+import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
 
 import java.util.List;
 
@@ -38,13 +40,21 @@ public class SpriteWrapper {
         entity.MoveByDelta(delta);
         if (collider != null) {
             collider.position = entity.GetPosition();
-            int layer = collider.layer;
+            CollisionLayer layer = collider.layer;
             for(SpriteWrapper currentEntity: entities){
-                if (layer == 0){
-                    if (currentEntity.collider.layer == 3){
+                if (layer == CollisionLayer.Player){
+                    if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
                             entity.SetPosition(currentpos);
                             collider.position = currentpos.Copy();
+                            break;
+                        }
+                    }
+                }
+                if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
+                    if (currentEntity.collider.layer == CollisionLayer.Obstacle){
+                        if(collider.Collide(currentEntity.collider)){
+                            entity.IsDestroyed(true);
                             break;
                         }
                     }

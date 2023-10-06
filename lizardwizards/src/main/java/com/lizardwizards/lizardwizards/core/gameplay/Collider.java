@@ -14,26 +14,26 @@ public class Collider {
     private CollisionShape shape;
 
     // 0 - player, 1 - entity, 2 - projectiles, 3 - obstacles
-    public int layer;
+    public CollisionLayer layer;
 
-    Collider(Vector2 position, List<Double> shapeDetails, CollisionShape shape, int layer){
+    Collider(Vector2 position, List<Double> shapeDetails, CollisionShape shape, CollisionLayer colLayer){
         this.position = position;
         this.shapeDetails = shapeDetails;
         this.shape = shape;
-        this.layer = layer;
+        this.layer = colLayer;
     }
 
-    public static Collider NewRectangle(Vector2 centerPosition, double width, double height, int layer){
+    public static Collider NewRectangle(Vector2 centerPosition, double width, double height, CollisionLayer colLayer){
         List<Double> shapeDetails = new ArrayList<>();
         shapeDetails.add(width);
         shapeDetails.add(height);
-        return new Collider(centerPosition, shapeDetails, CollisionShape.Rectangle, layer);
+        return new Collider(centerPosition, shapeDetails, CollisionShape.Rectangle, colLayer);
     }
 
-    public static Collider NewCircle(Vector2 centerPosition, double radius, int layer){
+    public static Collider NewCircle(Vector2 centerPosition, double radius, CollisionLayer colLayer){
         List<Double> shapeDetails = new ArrayList<>();
         shapeDetails.add(radius);
-        return new Collider(centerPosition, shapeDetails, CollisionShape.Circle, layer);
+        return new Collider(centerPosition, shapeDetails, CollisionShape.Circle, colLayer);
     }
 
     public boolean Collide(Collider collider){

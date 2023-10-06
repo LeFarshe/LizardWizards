@@ -28,8 +28,8 @@ public class Player extends Entity {
     }
 
     @Override
-    public void Collide(int layer){
-        final int ENEMY_LAYER = 1; 
+    public void Collide(CollisionLayer layer){
+        final CollisionLayer ENEMY_LAYER = CollisionLayer.Enemy;
 
         if(layer == ENEMY_LAYER) {
             this.health -= 25;
@@ -49,7 +49,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public boolean IsDestroyed() {
+    public boolean IsDestroyed(boolean flag) {
         return false;
     }
 
