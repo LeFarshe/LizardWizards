@@ -50,12 +50,22 @@ public class SpriteWrapper {
                             break;
                         }
                     }
+                    if (currentEntity.collider.layer == CollisionLayer.Enemy) {
+                        if (collider.Collide(currentEntity.collider)){
+                            entity.Collide(CollisionLayer.Enemy);
+                        }
+                    }
                 }
                 if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
-                            entity.IsDestroyed(true);
-                            break;
+                            entity.Collide(CollisionLayer.Obstacle);
+                        }
+                    }
+                    if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
+                        if (collider.Collide(currentEntity.collider)){
+                            entity.Collide(CollisionLayer.Obstacle);
+                            currentEntity.entity.Collide(CollisionLayer.PlayerProjectile);
                         }
                     }
                 }
