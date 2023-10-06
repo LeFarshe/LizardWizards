@@ -24,7 +24,7 @@ public abstract class Entity {
     // Delta is in seconds
     public abstract void MoveByDelta(double delta);
 
-    public abstract void Collide(int layer);
+    public abstract void Collide(CollisionLayer layer);
 
     public abstract Dictionary<String, Integer> GetSpriteSettings();
     public abstract boolean IsDestroyed();

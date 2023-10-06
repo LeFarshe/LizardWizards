@@ -24,9 +24,6 @@ public class GameController {
         root.setPrefSize(800,600);
     }
     public void start(SyncPacket syncPacket) {
-        // CreateObstacle(new Vector2(200, 300));
-        // CreateObstacle(new Vector2(600, 300));
-        // CreateEnemy(new Vector2(400, 400));
         currentTimer = new GameTimer(syncPacket.serverTime);
         updateEntityList(syncPacket);
     }
@@ -85,7 +82,7 @@ public class GameController {
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 
-                ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed));
+                ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
 
                 entities.forEach((uuid, entity) -> {
                     entity.MoveByDelta(timeElapsed, entities);
@@ -102,14 +99,14 @@ public class GameController {
             prevTime = now;
         }
 
-        private void ProjectileHandling(List<Projectile> newProjectiles)
+        private void ProjectileHandling(List<Projectile> newProjectiles, CollisionLayer layer)
         {
             if (newProjectiles != null) {
                 for (Projectile projectile : newProjectiles) {
                     EntitySprite sprite = projectile.GetSprite();
                     root.getChildren().add(sprite);
 
-                    EntityWrapper newProjectile = new EntityWrapper(projectile, sprite, projectile.GetCollider());
+                    EntityWrapper newProjectile = new EntityWrapper(projectile, sprite, projectile.GetCollider(layer));
                     entities.put(projectile.uuid, newProjectile);
                 }
             }
@@ -121,7 +118,7 @@ public class GameController {
     public void SetCurrentPlayer()
     {
         Player player = new Player(new Vector2(400,300), 100);
-        Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, 0);
+        Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, CollisionLayer.Player);
         player.weapons.add(new Gun());
         EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
         currentPlayer = new EntityWrapper(player, playerSprite, collider);

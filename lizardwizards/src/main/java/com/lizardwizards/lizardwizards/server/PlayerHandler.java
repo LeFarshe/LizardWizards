@@ -31,7 +31,7 @@ public class PlayerHandler {
             objectOutput = (ObjectOutputStream) playerSocket.getOutputStream();
 
             Player player = new Player(new Vector2(400,300), 100);
-            Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, 0);
+            Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, CollisionLayer.Player);
             player.weapons.add(new Gun());
             EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
             this.player = new EntityWrapper(player, playerSprite, collider);

@@ -42,9 +42,9 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public void Collide(int layer){
+    public void Collide(CollisionLayer layer){
 
-        final int PLAYER_LAYER = 0; 
+        final CollisionLayer PLAYER_LAYER = CollisionLayer.Player;
 
         if(layer == PLAYER_LAYER) {
 

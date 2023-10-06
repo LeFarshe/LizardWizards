@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.server;
 
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
+import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.RoomInformation;
 
@@ -42,7 +43,7 @@ public class ServerTimer extends TimerTask {
         players.forEach(player -> {
             var newProjectiles = player.processShooting(elapsedTime);
             newProjectiles.forEach(projectile -> {
-                var entity = new EntityWrapper(projectile, projectile.GetSprite(), projectile.GetCollider());
+                var entity = new EntityWrapper(projectile, projectile.GetSprite(), projectile.GetCollider(CollisionLayer.PlayerProjectile));
                 entities.put(projectile.uuid, entity);
                 createdEntities.put(now, entity);
             });

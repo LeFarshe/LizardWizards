@@ -14,7 +14,7 @@ public class Obstacle extends Entity{
     }
 
     @Override
-    public void Collide(int layer) {
+    public void Collide(CollisionLayer layer) {
         return;
     }
 

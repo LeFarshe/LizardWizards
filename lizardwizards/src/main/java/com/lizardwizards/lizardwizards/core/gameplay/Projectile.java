@@ -5,15 +5,14 @@ import java.util.Dictionary;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-import java.util.Dictionary;
-
 public class Projectile extends Entity{
     Vector2 direction;
     double speed;
     double duration;
+    boolean erase = false;
 
 
-    Projectile(Vector2 direction, double speed, double duration, Vector2 spriteSize)
+    public Projectile(Vector2 direction, double speed, double duration, Vector2 spriteSize)
     {
         this.direction = direction;
         this.speed = speed;
@@ -28,7 +27,7 @@ public class Projectile extends Entity{
     }
 
     @Override
-    public void Collide(int layer) { return; }
+    public void Collide(CollisionLayer layer) { return; }
 
     @Override
     public Dictionary<String, Integer> GetSpriteSettings() {
@@ -38,15 +37,14 @@ public class Projectile extends Entity{
 
     @Override
     public boolean IsDestroyed() {
-        if (duration <= 0) { return true;}
-        return false;
+        return duration <= 0 || erase;
     }
 
     public EntitySprite GetSprite() {
         return new EntitySprite(position.Copy(), new Vector2(5,5));
     }
 
-    public Collider GetCollider() {
-        return Collider.NewRectangle(position.Copy(), 5, 5, 2);
+    public Collider GetCollider(CollisionLayer layer) {
+        return Collider.NewRectangle(position.Copy(), 5, 5, layer);
     }
 }

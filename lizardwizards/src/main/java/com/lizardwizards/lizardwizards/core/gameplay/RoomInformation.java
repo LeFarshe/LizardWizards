@@ -35,7 +35,7 @@ public class RoomInformation {
     public static void CreateEnemy(Vector2 position, HashMap<UUID, EntityWrapper> entities){
     Enemy enemy = new Enemy(position, 100);
     EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
-    Collider collider = Collider.NewRectangle(position, 15, 15, 2);
+    Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
     EntityWrapper newEntity = new EntityWrapper(enemy, sprite, collider);
     entities.put(enemy.uuid, newEntity);
     }
@@ -43,7 +43,7 @@ public class RoomInformation {
     public static void CreateObstacle(Vector2 position, HashMap<UUID, EntityWrapper> entities){
         Obstacle obstacle  = new Obstacle(position);
         EntitySprite sprite = new EntitySprite(position, new Vector2(50, 50));
-        Collider collider = Collider.NewRectangle(position, 50, 50, 3);
+        Collider collider = Collider.NewRectangle(position, 50, 50, CollisionLayer.Obstacle);
         EntityWrapper newObstacle = new EntityWrapper(obstacle, sprite, collider);
         entities.put(obstacle.uuid, newObstacle);
     }

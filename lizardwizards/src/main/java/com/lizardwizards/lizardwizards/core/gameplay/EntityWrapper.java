@@ -4,7 +4,6 @@ import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class EntityWrapper {
@@ -39,13 +38,21 @@ public class EntityWrapper {
         entity.MoveByDelta(delta);
         if (collider != null) {
             collider.position = entity.GetPosition();
-            int layer = collider.layer;
+            CollisionLayer layer = collider.layer;
             for(EntityWrapper currentEntity: entities.values()){
-                if (layer == 0){
-                    if (currentEntity.collider.layer == 3){
+                if (layer == CollisionLayer.Player){
+                    if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
                             entity.SetPosition(currentpos);
                             collider.position = currentpos.Copy();
+                            break;
+                        }
+                    }
+                }
+                if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
+                    if (currentEntity.collider.layer == CollisionLayer.Obstacle){
+                        if(collider.Collide(currentEntity.collider)){
+                            entity.IsDestroyed();
                             break;
                         }
                     }
