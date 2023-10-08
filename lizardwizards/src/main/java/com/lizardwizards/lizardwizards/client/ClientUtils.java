@@ -40,6 +40,7 @@ public class ClientUtils {
             {
                 Pane root = new Pane();
                 newScene = new Scene(root);
+                root.getChildren().add(new Rectangle(10, 10));
                 newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
                 gameController = new GameController(root);

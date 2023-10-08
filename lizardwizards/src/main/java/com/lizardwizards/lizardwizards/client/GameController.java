@@ -38,7 +38,9 @@ public class GameController {
             players.get(i).SetPosition(room.playerStartPositions.get(i));
         }
 
-        entities.forEach((uuid, entity) -> root.getChildren().add(entity.sprite));
+        entities.forEach((uuid, entity) -> {
+            entity.sprite.ResetSize(); // TODO remove
+            root.getChildren().add(entity.sprite);});
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
@@ -48,6 +50,7 @@ public class GameController {
             root.getChildren().remove(entity.sprite);
         });
         syncPacket.createdEntities.values().forEach(entity -> {
+            entity.sprite.ResetSize(); // TODO remove
             root.getChildren().add(entity.sprite);
             entities.put(entity.entity.uuid, entity);
         });
