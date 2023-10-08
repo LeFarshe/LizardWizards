@@ -2,9 +2,11 @@ package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 

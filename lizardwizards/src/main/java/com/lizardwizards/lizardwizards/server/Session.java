@@ -2,7 +2,6 @@ package com.lizardwizards.lizardwizards.server;
 
 import com.lizardwizards.lizardwizards.core.communication.LobbyUpdate;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
-import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 
 import java.io.IOException;
 import java.util.ArrayList;

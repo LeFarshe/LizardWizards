@@ -1,15 +1,15 @@
 package com.lizardwizards.lizardwizards.client;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 public class GameController {
     HashMap<UUID, EntityWrapper> entities = new HashMap<>();
@@ -25,7 +25,20 @@ public class GameController {
     }
     public void start(SyncPacket syncPacket) {
         currentTimer = new GameTimer(syncPacket.serverTime);
-        updateEntityList(syncPacket);
+    }
+
+    public void initEntityList(RoomInformation room, List<EntityWrapper> players) {
+        entities.forEach((uuid, entity) -> root.getChildren().remove(entity.sprite));
+        entities.clear();
+        players.forEach(player -> entities.put(player.entity.uuid, player));
+        entities.putAll(room.entities);
+
+        players.sort(Comparator.comparing(a -> a.entity.uuid));
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).SetPosition(room.playerStartPositions.get(i));
+        }
+
+        entities.forEach((uuid, entity) -> root.getChildren().add(entity.sprite));
     }
 
     public void updateEntityList(SyncPacket syncPacket) {

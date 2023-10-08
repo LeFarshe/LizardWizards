@@ -2,8 +2,11 @@ package com.lizardwizards.lizardwizards.core.communication;
 
 
 import com.lizardwizards.lizardwizards.client.GameController;
+import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
+import javafx.application.Platform;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SentServerData implements Serializable {
     public final Object payload;
@@ -15,7 +18,7 @@ public class SentServerData implements Serializable {
     }
 
     public void handleSyncPacket(GameController gameController) {
-        gameController.updateEntityList((SyncPacket) payload);
+        Platform.runLater(() -> gameController.updateEntityList((SyncPacket) payload));
     }
 
     public Boolean handleConnectionInformation() {
@@ -24,6 +27,12 @@ public class SentServerData implements Serializable {
 
     public LobbyUpdate handleLobbyUpdate() {
         return (LobbyUpdate) payload;
+    }
+    public void handleRoomLoading(GameController gameController, List<EntityWrapper> players) {
+        RoomInformation room = (RoomInformation) payload;
+        Platform.runLater(()->gameController.initEntityList(room, players));
+
+
     }
 }
 

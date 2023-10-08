@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lizardwizards.lizardwizards.client.ui.ConnectionController">
-   <Label text="Server IP" />
-   <TextField fx:id="ip" prefHeight="0.0" prefWidth="600.0" />
+   <Label text="Server IP"/>
+   <TextField fx:id="ip" prefHeight="0.0" prefWidth="600.0">localhost:6123</TextField>
    <HBox prefHeight="0.0" prefWidth="600.0" alignment="TOP_CENTER" spacing="50">
       <Button fx:id="cancel" onAction="#cancelConnection" text="Cancel" />
       <Button fx:id="connect" onAction="#connectToSession" text="Connect" />

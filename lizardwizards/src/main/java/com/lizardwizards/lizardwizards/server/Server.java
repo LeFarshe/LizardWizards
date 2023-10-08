@@ -9,7 +9,7 @@ import java.util.Timer;
 
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
-import com.lizardwizards.lizardwizards.core.gameplay.RoomInformation;
+import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 
 public class Server implements Runnable{
     private final ServerSocket serverSocket;
@@ -48,8 +48,7 @@ public class Server implements Runnable{
             // It is possible to fix this by running separate threads for accepting connections and the main game, I will look into that and decide if it is better than the spaghetti this is going to become
             // I didn't look into it yet
             // Put the gameplay state here somewhere
-            session.updateLobby();
-            ServerTimer serverTimer = new ServerTimer(RoomInformation.getTestRoom(), session.players);
+            ServerTimer serverTimer = new ServerTimer(RoomInformation.getTestRoom(), session);
             Timer timer = new Timer("ServerGameTimerThread");
             timer.schedule(serverTimer, 0, 50);
             while (!serverSocket.isClosed()) { // TODO not this

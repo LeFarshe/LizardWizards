@@ -1,7 +1,8 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.communication;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -25,9 +26,9 @@ public class RoomInformation implements Serializable {
         playerStartPositions.add(new Vector2(400, 300));
         playerStartPositions.add(new Vector2(800, 300));
 
+        CreateEnemy(new Vector2(400, 400), entities);
         CreateObstacle(new Vector2(200, 300), entities);
         CreateObstacle(new Vector2(600, 300), entities);
-        CreateEnemy(new Vector2(400, 400), entities);
 
         return new RoomInformation(entities, playerStartPositions);
     }
