@@ -10,6 +10,7 @@ import java.util.UUID;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
+import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
@@ -92,15 +93,23 @@ public class PlayerHandler {
     public void handleMainGame() {
         if (currentRunningThread != null && currentRunningThread.isAlive()) {
             currentRunningThread.interrupt();
+        }
+        currentRunningThread = new Thread(this::mainGameListener);
+        currentRunningThread.start();
+    }
+
+    private void mainGameListener() {
+        while (session.getGameState() == GameState.MainGame) {
             try {
-                objectInput.skipNBytes(objectInput.available());
-            } catch (IOException e) {
+                SentPlayerData sentPlayerData = (SentPlayerData) objectInput.readObject();
+                if (sentPlayerData.shooting != null)
+                    updateShooting(sentPlayerData.shooting);
+                if (sentPlayerData.movement != null)
+                    updateMotion(player.entity.GetPosition(), sentPlayerData.movement);
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
-
-        // Loss state here
-        // The actual handling of the game goes here
     }
 
     private void lobbyListener(){

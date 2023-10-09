@@ -4,12 +4,11 @@ import java.util.*;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
+import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 
 public class GameController {
     HashMap<UUID, EntityWrapper> entities = new HashMap<>();
@@ -56,7 +55,8 @@ public class GameController {
         });
         currentTimer.syncWithServerTimer(syncPacket.createdEntities);
         entities.forEach((uuid, entity) -> {
-            entity.update(syncPacket.entities.get(uuid));
+            if (syncPacket.entities.containsKey(uuid))
+                entity.update(syncPacket.entities.get(uuid));
         });
 
         currentTimer.start();
@@ -91,10 +91,16 @@ public class GameController {
             if (prevTime >= 0)
             {
                 Vector2 newMovement = playerControls.HandleMovement();
-                if (newMovement != null) { ((Player)currentPlayer.entity).StartMoving(newMovement);}
+                if (newMovement != null) {
+                    ((Player)currentPlayer.entity).StartMoving(newMovement);
+                }
 
                 Vector2 newShooting = playerControls.HandleShooting();
-                if (newShooting != null) { ((Player)currentPlayer.entity).StartShooting(newShooting); }
+                if (newShooting != null) {
+                    ((Player)currentPlayer.entity).StartShooting(newShooting);
+                }
+
+                ClientConnectionHandler.CurrentHandler.sendUpdate(newMovement, newShooting);
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 

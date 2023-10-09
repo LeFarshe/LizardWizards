@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.client.ui.ConnectionController;
+import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
+import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
@@ -83,8 +85,9 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public void sendUpdate() {
-        send(player);
+    public void sendUpdate(Vector2 movement, Vector2 shooting) {
+        System.out.println("doin yo mom");
+        send(new SentPlayerData(movement, shooting));
     }
 
     public void sendReady(Boolean ready) {
