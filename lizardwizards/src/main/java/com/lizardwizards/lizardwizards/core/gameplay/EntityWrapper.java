@@ -63,7 +63,7 @@ public class EntityWrapper implements Serializable {
         sprite.SetPosition(entity.GetPosition());
     }
 
-    public void SetPosition(Vector2 position){
+    public synchronized void SetPosition(Vector2 position){
         entity.SetPosition(position);
         sprite.SetPosition(position);
         if (collider != null) {
@@ -72,7 +72,7 @@ public class EntityWrapper implements Serializable {
     }
 
     public synchronized void update(EntityWrapper entityWrapper) {
-       entity.Move(entityWrapper.entity.position.Copy());
+       entity.SetPosition(entityWrapper.entity.position.Copy());
         collider.position = entityWrapper.collider.position.Copy();
     }
 }

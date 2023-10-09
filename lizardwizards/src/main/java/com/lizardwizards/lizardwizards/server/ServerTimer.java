@@ -35,7 +35,7 @@ public class ServerTimer extends TimerTask {
 
     @Override
     public synchronized void run() {
-        long now = scheduledExecutionTime();
+        long now = (new Date()).getTime();
         double elapsedTime = (now-time) / 1000.0;
 
         entities.forEach((entityUUID, entity) -> {
@@ -47,8 +47,6 @@ public class ServerTimer extends TimerTask {
         });
 
         players.forEach(player -> {
-            System.out.printf("x: %f, y:%f\n", player.getPlayer().entity.GetPosition().x, player.getPlayer().entity.GetPosition().y);
-            System.out.printf("Time: %d\n", now);
             var newProjectiles = player.processShooting(elapsedTime);
             if (newProjectiles != null){
                 newProjectiles.forEach(projectile -> {

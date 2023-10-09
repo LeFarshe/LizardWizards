@@ -75,7 +75,7 @@ public class GameController {
             if (prevTime >= 0) {
                 createdEntities.forEach(pair -> {
                     var entity = pair.getValue();
-                    long delta = pair.getKey() - serverClientDiff;
+                    double delta = pair.getKey() - serverClientDiff;
                     entity.MoveByDelta(delta, entities);
                     if (entity.entity.IsDestroyed()) {
                         root.getChildren().remove(entity.sprite);
@@ -93,35 +93,32 @@ public class GameController {
         @Override
         public void handle(long now){
             double timeElapsed;
-            System.out.printf("x: %f, y:%f\n", currentPlayer.entity.GetPosition().x, currentPlayer.entity.GetPosition().y);
-            System.out.printf("Time: %d\n", now);
             List<Projectile> newProjectiles = new ArrayList<>();
             if (prevTime >= 0)
             {
                 Vector2 newMovement = playerControls.HandleMovement();
-                // if (newMovement != null) {
-                    // ((Player)currentPlayer.entity).StartMoving(newMovement);
-                // }
+                if (newMovement != null) {
+                    ((Player)currentPlayer.entity).StartMoving(newMovement);
+                }
 
                 Vector2 newShooting = playerControls.HandleShooting();
-                // if (newShooting != null) {
-                    // ((Player)currentPlayer.entity).StartShooting(newShooting);
-                // }
+                if (newShooting != null) {
+                    ((Player)currentPlayer.entity).StartShooting(newShooting);
+                }
 
-                ClientConnectionHandler.CurrentHandler.sendUpdate(newMovement, newShooting);
+                ClientConnectionHandler.CurrentHandler.sendUpdate(currentPlayer.entity.GetPosition() ,newMovement, newShooting);
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 
                 // ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
 
-                // entities.forEach((uuid, entity) -> {
-                    // entity.MoveByDelta(timeElapsed, entities);
-                    // if (entity.entity.IsDestroyed()) {
-                        // root.getChildren().remove(entity.sprite);
-                        // entities.remove(uuid);
-                    // }
-
-                // });
+                entities.forEach((uuid, entity) -> {
+                    entity.MoveByDelta(timeElapsed, entities);
+                    if (entity.entity.IsDestroyed()) {
+                        root.getChildren().remove(entity.sprite);
+                        entities.remove(uuid);
+                    }
+                });
             }
             else{
                 serverClientDiff -= now;

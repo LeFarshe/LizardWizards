@@ -32,8 +32,8 @@ public class PlayerHandler {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
             sendToPlayer(true, SentDataType.ConnectionInformation);
 
-            Player player = new Player(new Vector2(400,300), 100);
-            Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, CollisionLayer.Player);
+            Player player = new Player(new Vector2(0,0), 100);
+            Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
             player.weapons.add(new Gun());
             EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
             this.player = new EntityWrapper(player, playerSprite, collider);
@@ -65,7 +65,8 @@ public class PlayerHandler {
         }
     }
 
-    public void updateMotion(Vector2 direction) {
+    public void updateMotion(Vector2 position, Vector2 direction) {
+        player.SetPosition(position);
         ((Player)player.entity).StartMoving(direction);
     }
 
@@ -107,11 +108,12 @@ public class PlayerHandler {
         while (session.getGameState() == GameState.MainGame) {
             try {
                 SentPlayerData sentPlayerData = (SentPlayerData) objectInput.readObject();
+
                 if (sentPlayerData.shooting != null) {
                     updateShooting(sentPlayerData.shooting);
                 }
                 if (sentPlayerData.movement != null) {
-                    updateMotion(sentPlayerData.movement);
+                    updateMotion(sentPlayerData.position, sentPlayerData.movement);
                 }
             } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {

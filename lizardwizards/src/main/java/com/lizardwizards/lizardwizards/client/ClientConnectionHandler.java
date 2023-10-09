@@ -85,8 +85,8 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public void sendUpdate(Vector2 movement, Vector2 shooting) {
-        send(new SentPlayerData(movement, shooting));
+    public void sendUpdate(Vector2 position, Vector2 movement, Vector2 shooting) {
+        send(new SentPlayerData(position, movement, shooting));
     }
 
     public void sendReady(Boolean ready) {

@@ -50,7 +50,7 @@ public class Server implements Runnable{
             // Put the gameplay state here somewhere
             ServerTimer serverTimer = new ServerTimer(RoomInformation.getTestRoom(), session);
             Timer timer = new Timer("ServerGameTimerThread");
-            timer.schedule(serverTimer, 0, 50);
+            timer.schedule(serverTimer, 0, 1);
             while (!serverSocket.isClosed()) { // TODO not this
                 Socket socket;
                 try {
