@@ -86,7 +86,6 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     public void sendUpdate(Vector2 movement, Vector2 shooting) {
-        System.out.println("doin yo mom");
         send(new SentPlayerData(movement, shooting));
     }
 
