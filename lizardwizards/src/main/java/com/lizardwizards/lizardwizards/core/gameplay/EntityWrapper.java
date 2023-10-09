@@ -34,8 +34,8 @@ public class EntityWrapper implements Serializable {
         }
     }
 
-    public void MoveByDelta(double delta, HashMap<UUID, EntityWrapper> entities){
-        Vector2 currentpos = entity.GetPosition();
+    public synchronized void MoveByDelta(double delta, HashMap<UUID, EntityWrapper> entities){
+        Vector2 currentPos = entity.GetPosition();
         entity.MoveByDelta(delta);
         if (collider != null) {
             collider.position = entity.GetPosition();
@@ -44,8 +44,8 @@ public class EntityWrapper implements Serializable {
                 if (layer == CollisionLayer.Player){
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
-                            entity.SetPosition(currentpos);
-                            collider.position = currentpos.Copy();
+                            entity.SetPosition(currentPos);
+                            collider.position = currentPos.Copy();
                             break;
                         }
                     }
@@ -71,8 +71,8 @@ public class EntityWrapper implements Serializable {
         }
     }
 
-    public void update(EntityWrapper entityWrapper) {
-        entity = entityWrapper.entity;
-        collider = entityWrapper.collider;
+    public synchronized void update(EntityWrapper entityWrapper) {
+       entity.Move(entityWrapper.entity.position.Copy());
+        collider.position = entityWrapper.collider.position.Copy();
     }
 }

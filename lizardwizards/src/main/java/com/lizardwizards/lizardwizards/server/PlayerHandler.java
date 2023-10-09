@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,7 @@ public class PlayerHandler {
             objectOutput.writeObject(this.player);
             objectOutput.flush();
             objectInput = new ObjectInputStream(playerSocket.getInputStream());
+            this.playerSocket.setSoTimeout(1000);
 
         } catch (IOException e) {
             throw new RuntimeException("Player could not connect");
@@ -63,8 +65,7 @@ public class PlayerHandler {
         }
     }
 
-    public void updateMotion(Vector2 position, Vector2 direction) {
-        player.SetPosition(position);
+    public void updateMotion(Vector2 direction) {
         ((Player)player.entity).StartMoving(direction);
     }
 
@@ -92,7 +93,11 @@ public class PlayerHandler {
 
     public void handleMainGame() {
         if (currentRunningThread != null && currentRunningThread.isAlive()) {
-            currentRunningThread.interrupt();
+            try {
+                currentRunningThread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         currentRunningThread = new Thread(this::mainGameListener);
         currentRunningThread.start();
@@ -102,10 +107,13 @@ public class PlayerHandler {
         while (session.getGameState() == GameState.MainGame) {
             try {
                 SentPlayerData sentPlayerData = (SentPlayerData) objectInput.readObject();
-                if (sentPlayerData.shooting != null)
+                if (sentPlayerData.shooting != null) {
                     updateShooting(sentPlayerData.shooting);
-                if (sentPlayerData.movement != null)
-                    updateMotion(player.entity.GetPosition(), sentPlayerData.movement);
+                }
+                if (sentPlayerData.movement != null) {
+                    updateMotion(sentPlayerData.movement);
+                }
+            } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -113,10 +121,12 @@ public class PlayerHandler {
     }
 
     private void lobbyListener(){
+        System.out.println(player.entity.uuid);
         while (session.getGameState() == GameState.Lobby) {
             try {
                 ready = (Boolean) objectInput.readObject();
                 session.updateLobby();
+            } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

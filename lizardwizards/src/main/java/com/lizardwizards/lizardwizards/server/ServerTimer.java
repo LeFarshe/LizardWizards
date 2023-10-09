@@ -5,6 +5,8 @@ import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
+import com.lizardwizards.lizardwizards.core.gameplay.Player;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +18,7 @@ public class ServerTimer extends TimerTask {
     private final HashMap<UUID, EntityWrapper> entities;
     private final List<PlayerHandler> players;
     private final Session currentSession;
-    private final HashMap<Long, EntityWrapper> createdEntities;
+    private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
 
     public ServerTimer(RoomInformation room, Session session) {
@@ -24,7 +26,7 @@ public class ServerTimer extends TimerTask {
         currentSession = session;
         session.players.forEach(player -> this.entities.put(player.getPlayerUUID(), player.getPlayer()));
         this.players = session.players;
-        this.createdEntities = new HashMap<>();
+        this.createdEntities = new LinkedList<>();
         this.destroyedEntities = new LinkedList<>();
         time = 0;
         loadRoom(room);
@@ -34,7 +36,7 @@ public class ServerTimer extends TimerTask {
     @Override
     public synchronized void run() {
         long now = scheduledExecutionTime();
-        long elapsedTime = time - now;
+        double elapsedTime = (now-time) / 1000.0;
 
         entities.forEach((entityUUID, entity) -> {
             entity.MoveByDelta(elapsedTime, entities);
@@ -45,13 +47,14 @@ public class ServerTimer extends TimerTask {
         });
 
         players.forEach(player -> {
+            System.out.printf("x: %f, y:%f\n", player.getPlayer().entity.GetPosition().x, player.getPlayer().entity.GetPosition().y);
+            System.out.printf("Time: %d\n", now);
             var newProjectiles = player.processShooting(elapsedTime);
             if (newProjectiles != null){
                 newProjectiles.forEach(projectile -> {
                     var entity = new EntityWrapper(projectile, projectile.GetSprite(), projectile.GetCollider(CollisionLayer.PlayerProjectile));
                     entities.put(projectile.uuid, entity);
-                    createdEntities.put(now, entity); // this has a massive bug - out of all objects created at the same time only ONE will be registered, fix is trivial, I'll do it later lol
-                    // TODO fix this
+                    createdEntities.add(new Pair<>(now, entity));
                 });
             }
         });
@@ -85,7 +88,7 @@ public class ServerTimer extends TimerTask {
     public synchronized SyncPacket getChanges(){
         SyncPacket syncPacket = new SyncPacket(time,
                 new HashMap<>(entities),
-                new HashMap<>(createdEntities),
+                new LinkedList<>(createdEntities),
                 new LinkedList<>(destroyedEntities));
         createdEntities.clear();
         destroyedEntities.clear();

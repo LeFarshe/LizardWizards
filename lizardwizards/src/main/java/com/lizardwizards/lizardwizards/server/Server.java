@@ -34,7 +34,7 @@ public class Server implements Runnable{
                         player = new PlayerHandler(socket, session);
                         player.handleLobby();
                     } catch (RuntimeException e) {
-                        System.out.printf("%s\nPlayer address: %s", e.getMessage(), socket.getInetAddress().toString());
+                        System.out.printf("%s\nPlayer address: %s\n", e.getMessage(), socket.getInetAddress().toString());
                     }
                 }
                 else {

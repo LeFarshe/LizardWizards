@@ -9,6 +9,7 @@ import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
 
 public class GameController {
     HashMap<UUID, EntityWrapper> entities = new HashMap<>();
@@ -23,6 +24,7 @@ public class GameController {
         root.setPrefSize(800,600);
     }
     public void start(SyncPacket syncPacket) {
+        System.out.println(currentPlayer.entity.uuid);
         currentTimer = new GameTimer(syncPacket.serverTime);
     }
 
@@ -43,21 +45,24 @@ public class GameController {
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
-        currentTimer.stop();
-
-        syncPacket.destroyedEntities.forEach(entity -> {
-            root.getChildren().remove(entity.sprite);
-        });
-        syncPacket.createdEntities.values().forEach(entity -> {
+        syncPacket.createdEntities.forEach(pair -> {
+            var entity = pair.getValue();
             entity.sprite.ResetSize(); // TODO remove
             root.getChildren().add(entity.sprite);
             entities.put(entity.entity.uuid, entity);
         });
         currentTimer.syncWithServerTimer(syncPacket.createdEntities);
-        entities.forEach((uuid, entity) -> {
-            if (syncPacket.entities.containsKey(uuid))
+        for (Map.Entry<UUID, EntityWrapper> entry : entities.entrySet()) {
+            UUID uuid = entry.getKey();
+            EntityWrapper entity = entry.getValue();
+            if (syncPacket.entities.containsKey(uuid)) // this is shit, but it's also late
+            {
                 entity.update(syncPacket.entities.get(uuid));
-        });
+            } else {
+                entities.remove(uuid);
+                root.getChildren().remove(entity.sprite);
+            }
+        }
 
         currentTimer.start();
     }
@@ -66,10 +71,11 @@ public class GameController {
         long prevTime = -1;
         long serverClientDiff;
 
-        void syncWithServerTimer(HashMap<Long, EntityWrapper> createdEntities) {
+        void syncWithServerTimer(List<Pair<Long, EntityWrapper>> createdEntities) {
             if (prevTime >= 0) {
-                createdEntities.forEach((serverDelta, entity) -> {
-                    long delta = serverDelta - serverClientDiff;
+                createdEntities.forEach(pair -> {
+                    var entity = pair.getValue();
+                    long delta = pair.getKey() - serverClientDiff;
                     entity.MoveByDelta(delta, entities);
                     if (entity.entity.IsDestroyed()) {
                         root.getChildren().remove(entity.sprite);
@@ -87,33 +93,35 @@ public class GameController {
         @Override
         public void handle(long now){
             double timeElapsed;
+            System.out.printf("x: %f, y:%f\n", currentPlayer.entity.GetPosition().x, currentPlayer.entity.GetPosition().y);
+            System.out.printf("Time: %d\n", now);
             List<Projectile> newProjectiles = new ArrayList<>();
             if (prevTime >= 0)
             {
                 Vector2 newMovement = playerControls.HandleMovement();
-                if (newMovement != null) {
-                    ((Player)currentPlayer.entity).StartMoving(newMovement);
-                }
+                // if (newMovement != null) {
+                    // ((Player)currentPlayer.entity).StartMoving(newMovement);
+                // }
 
                 Vector2 newShooting = playerControls.HandleShooting();
-                if (newShooting != null) {
-                    ((Player)currentPlayer.entity).StartShooting(newShooting);
-                }
+                // if (newShooting != null) {
+                    // ((Player)currentPlayer.entity).StartShooting(newShooting);
+                // }
 
                 ClientConnectionHandler.CurrentHandler.sendUpdate(newMovement, newShooting);
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 
-                ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
+                // ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
 
-                entities.forEach((uuid, entity) -> {
-                    entity.MoveByDelta(timeElapsed, entities);
-                    if (entity.entity.IsDestroyed()) {
-                        root.getChildren().remove(entity.sprite);
-                        entities.remove(uuid);
-                    }
+                // entities.forEach((uuid, entity) -> {
+                    // entity.MoveByDelta(timeElapsed, entities);
+                    // if (entity.entity.IsDestroyed()) {
+                        // root.getChildren().remove(entity.sprite);
+                        // entities.remove(uuid);
+                    // }
 
-                });
+                // });
             }
             else{
                 serverClientDiff -= now;
@@ -134,18 +142,6 @@ public class GameController {
             }
 
         }
-    }
-
-    //Temp
-    public void SetCurrentPlayer()
-    {
-        Player player = new Player(new Vector2(400,300), 100);
-        Collider collider = Collider.NewRectangle(new Vector2(400, 300), 20, 20, CollisionLayer.Player);
-        player.weapons.add(new Gun());
-        EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
-        currentPlayer = new EntityWrapper(player, playerSprite, collider);
-        entities.put(player.uuid, currentPlayer);
-        root.getChildren().add(playerSprite);
     }
 
     public void SetPlayer(EntityWrapper player)

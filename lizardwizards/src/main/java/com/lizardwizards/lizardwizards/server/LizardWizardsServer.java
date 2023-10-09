@@ -12,16 +12,16 @@ public class LizardWizardsServer {
                 Server server = new Server(serverSocket);
                 thread = new Thread(server);
                 thread.start();
-                System.out.printf("using port %d", i);
+                System.out.printf("using port %d\n", i);
                 thread.join();
                 break;
             } catch (IOException e) {
-                System.out.printf("Unable to use port %d: %s%n", i, e.getMessage());
+                System.out.printf("Unable to use port %d: %s%n\n", i, e.getMessage());
             } catch (InterruptedException e) {
-                System.out.println("Server stopped");
+                System.out.println("Server stopped\n");
             }
         }
         if (thread == null)
-            System.out.println("Server not started");
+            System.out.println("Server not started\n");
     }
 }
