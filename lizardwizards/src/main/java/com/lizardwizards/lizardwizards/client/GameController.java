@@ -58,9 +58,6 @@ public class GameController {
             if (syncPacket.entities.containsKey(uuid)) // this is shit, but it's also late
             {
                 entity.update(syncPacket.entities.get(uuid));
-            } else {
-                entities.remove(uuid);
-                root.getChildren().remove(entity.sprite);
             }
         }
 
@@ -75,7 +72,7 @@ public class GameController {
             if (prevTime >= 0) {
                 createdEntities.forEach(pair -> {
                     var entity = pair.getValue();
-                    double delta = pair.getKey() - serverClientDiff;
+                    double delta = (pair.getKey() - serverClientDiff)/1000.0;
                     entity.MoveByDelta(delta, entities);
                     if (entity.entity.IsDestroyed()) {
                         root.getChildren().remove(entity.sprite);
@@ -93,7 +90,6 @@ public class GameController {
         @Override
         public void handle(long now){
             double timeElapsed;
-            List<Projectile> newProjectiles = new ArrayList<>();
             if (prevTime >= 0)
             {
                 Vector2 newMovement = playerControls.HandleMovement();
@@ -121,7 +117,7 @@ public class GameController {
                 });
             }
             else{
-                serverClientDiff -= now;
+                serverClientDiff -= now/1000000.0;
             }
             prevTime = now;
         }
