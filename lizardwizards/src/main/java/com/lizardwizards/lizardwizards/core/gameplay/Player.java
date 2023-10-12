@@ -11,10 +11,13 @@ public class Player extends Entity {
     Vector2 shootDirection = new Vector2(0,0);
     public List<Weapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
-    int health = 100;
+    int health = 4;
     double speed;
     boolean isMoving = false;
     boolean isShooting = false;
+    boolean isImmune = false;
+    double immuneTimerMax = 1;
+    double currentImmuneTimer = 0;
 
     public Player(Vector2 position, double speed)
     {
@@ -24,18 +27,30 @@ public class Player extends Entity {
 
     @Override
     public void MoveByDelta(double delta){
-        if (isMoving) { Move(moveDirection.Copy().Multiply(speed * delta));}
+        if (isImmune){
+            currentImmuneTimer -= delta;
+            if (currentImmuneTimer <= 0) {
+                isImmune = false;
+            }
+        }
+        if (isMoving) { Move(moveDirection.Copy().Multiply(speed * delta));
+        }
     }
 
     @Override
     public void Collide(CollisionLayer layer){
         final CollisionLayer ENEMY_LAYER = CollisionLayer.Enemy;
+        final CollisionLayer ENEMY_PROJECTILE_LAYER = CollisionLayer.EnemyProjectile;
 
-        if(layer == ENEMY_LAYER) {
-            this.health -= 25;
-            
-            if(this.health <= 0) {
-                this.HandleDeath();
+        if (!isImmune) {
+            if (layer == ENEMY_LAYER || layer == ENEMY_PROJECTILE_LAYER) {
+                isImmune = true;
+                currentImmuneTimer = immuneTimerMax;
+                this.health -= 1;
+
+                if (this.health <= 0) {
+                    this.HandleDeath();
+                }
             }
         }
         return;

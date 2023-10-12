@@ -27,7 +27,11 @@ public class Projectile extends Entity{
     }
 
     @Override
-    public void Collide(CollisionLayer layer) { return; }
+    public void Collide(CollisionLayer layer) {
+        if (layer == CollisionLayer.Obstacle){
+            erase = true;
+        }
+    }
 
     @Override
     public Dictionary<String, Integer> GetSpriteSettings() {

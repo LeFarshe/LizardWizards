@@ -21,7 +21,7 @@ public class Session {
     }
 
     public Session() {
-        this(2);
+        this(1);
     }
 
     public void addPlayer(PlayerHandler player) {

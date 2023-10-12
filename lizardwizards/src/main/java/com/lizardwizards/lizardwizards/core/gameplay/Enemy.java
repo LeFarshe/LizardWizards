@@ -1,23 +1,18 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.List;
 import java.util.Random;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class Enemy extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
-    Vector2 shootDirection = new Vector2(0,0);
-    public List<Weapon> weapons = new ArrayList<>();
-    int currentWeapon = 0;
-    int health = 1;
+    int health = 3;
     double speed;
-    boolean isMoving = false;
-    boolean isShooting = false;
+    double directionDelay = 1;
+    double directionTimer = directionDelay;
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
     
     public Enemy(Vector2 position, double speed)
     {
@@ -31,25 +26,29 @@ public class Enemy extends Entity {
         double randY = rand.nextDouble() * 2 - 1;
         moveDirection = new Vector2(randX, randY).Normalize();
     }
-    
-    private boolean isCollidingWithWalls(Vector2 newPos) {
-        return false;
-    }
 
     @Override
     public void MoveByDelta(double delta){
-        if (isMoving) { Move(moveDirection.Copy().Multiply(speed * delta));}
+        System.out.println("giant enemy spider");
+        directionTimer -= delta;
+        if (directionTimer <= 0){
+            setRandomDirection();
+            directionTimer = directionDelay;
+        }
+        Move(moveDirection.Copy().Multiply(speed * delta));
     }
 
     @Override
     public void Collide(CollisionLayer layer){
 
-        final CollisionLayer PLAYER_LAYER = CollisionLayer.Player;
+        final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
 
-        if(layer == PLAYER_LAYER) {
+        if(layer == PLAYER_PROJECTILE_LAYER) {
 
-            this.HandleDeath();
-            
+            health -= 1;
+            if (health <= 0) {
+                HandleDeath();
+            }
         }
 
         return;
@@ -61,28 +60,12 @@ public class Enemy extends Entity {
 
     @Override
     public boolean IsDestroyed() {
-        return false;
+        return health <= 0;
     }
 
     @Override
     public Dictionary<String, Integer> GetSpriteSettings(){
         return null;
-    }
-
-    public void StartMoving(Vector2 direction)
-    {
-        if (direction.x == 0 && direction.y == 0)
-        {
-            StopMoving();
-            return;
-        }
-        isMoving = true;
-        moveDirection = direction;
-    }
-
-    public void StopMoving()
-    {
-        isMoving = false;
     }
 
 }

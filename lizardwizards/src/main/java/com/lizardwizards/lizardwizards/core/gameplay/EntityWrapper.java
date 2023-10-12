@@ -52,12 +52,23 @@ public class EntityWrapper implements Serializable {
                             break;
                         }
                     }
+                    if (currentEntity.collider.layer == CollisionLayer.Enemy) {
+                        if (collider.Collide(currentEntity.collider)){
+                            entity.Collide(CollisionLayer.Enemy);
+                        }
+                    }
                 }
                 if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
-                            entity.IsDestroyed();
+                            entity.Collide(CollisionLayer.Obstacle);
                             break;
+                        }
+                    }
+                    if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
+                        if (collider.Collide(currentEntity.collider)){
+                            entity.Collide(CollisionLayer.Obstacle);
+                            currentEntity.entity.Collide(CollisionLayer.PlayerProjectile);
                         }
                     }
                 }
