@@ -10,6 +10,7 @@ public class Projectile extends Entity{
     double speed;
     double duration;
     boolean erase = false;
+    Vector2 spriteSize;
 
 
     public Projectile(Vector2 direction, double speed, double duration, Vector2 spriteSize)
@@ -17,6 +18,7 @@ public class Projectile extends Entity{
         this.direction = direction;
         this.speed = speed;
         this.duration = duration;
+        this.spriteSize = spriteSize;
     }
 
     @Override
@@ -45,10 +47,10 @@ public class Projectile extends Entity{
     }
 
     public EntitySprite GetSprite() {
-        return new EntitySprite(position.Copy(), new Vector2(5,5));
+        return new EntitySprite(position.Copy(), spriteSize.Copy());
     }
 
     public Collider GetCollider(CollisionLayer layer) {
-        return Collider.NewRectangle(position.Copy(), 5, 5, layer);
+        return Collider.NewRectangle(position.Copy(), spriteSize.x, spriteSize.y, layer);
     }
 }
