@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 public class PlayerControls {
     boolean wPressed = false, dPressed = false, sPressed = false, aPressed = false, moveChanged = false;
     boolean upPressed = false, rightPressed = false, downPressed = false, leftPressed = false, shootChanged = false;
+    int weaponChange = 0;
 
     public Vector2 HandleMovement()
     {
@@ -38,6 +39,12 @@ public class PlayerControls {
             return newDirection.Normalize();
         }
         return null;
+    }
+
+    public int HandleWeaponSwitching(){
+        int ans = weaponChange;
+        weaponChange = 0;
+        return ans;
     }
 
     public void SetMovementEvents(Scene scene){
@@ -146,6 +153,17 @@ public class PlayerControls {
             {
                 shootChanged = true;
                 leftPressed = false;
+            }
+        });
+    }
+
+    public void SetWeaponSwitchingEvents(Scene scene){
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.Q){
+                weaponChange = -1;
+            }
+            if (e.getCode() == KeyCode.E){
+                weaponChange = 1;
             }
         });
     }

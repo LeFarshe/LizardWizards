@@ -25,6 +25,8 @@ public class PlayerHandler {
     private final ObjectInputStream objectInput;
     private final ObjectOutputStream objectOutput;
 
+    private final WeaponFactory weaponFactory = new WeaponFactory();
+
     PlayerHandler (Socket playerSocket, Session currentSession) throws RuntimeException {
         session = currentSession;
         this.playerSocket = playerSocket;
@@ -34,7 +36,8 @@ public class PlayerHandler {
 
             Player player = new Player(new Vector2(0,0), 100);
             Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
-            player.weapons.add(new Gun());
+            player.weapons.add(weaponFactory.getWeapon("GUN"));
+            player.weapons.add(weaponFactory.getWeapon("SHOTGUN"));
             EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
             this.player = new EntityWrapper(player, playerSprite, collider);
 
@@ -68,6 +71,10 @@ public class PlayerHandler {
     public void updateMotion(Vector2 position, Vector2 direction) {
         player.SetPosition(position);
         ((Player)player.entity).StartMoving(direction);
+    }
+
+    public void updateWeapon(int weaponSwitch){
+        ((Player)player.entity).ChangeWeapon(weaponSwitch);
     }
 
     public void updateShooting(Vector2 direction) {
@@ -114,6 +121,9 @@ public class PlayerHandler {
                 }
                 if (sentPlayerData.movement != null) {
                     updateMotion(sentPlayerData.position, sentPlayerData.movement);
+                }
+                if (sentPlayerData.weaponSwitch != 0) {
+                    updateWeapon(sentPlayerData.weaponSwitch);
                 }
             } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {

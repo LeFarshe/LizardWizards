@@ -45,6 +45,7 @@ public class ClientUtils {
                 gameController = new GameController(root);
                 gameController.playerControls.SetMovementEvents(newScene);
                 gameController.playerControls.SetShootingEvents(newScene);
+                gameController.playerControls.SetWeaponSwitchingEvents(newScene);
             }
             else {
                 newScene = new Scene(fxmlLoader.load());

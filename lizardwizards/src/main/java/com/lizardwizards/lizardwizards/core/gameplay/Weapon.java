@@ -22,7 +22,7 @@ public abstract class Weapon implements Serializable {
         if (fireTimer >= 1.0/fireRate)
         {
             fireTimer -= (1.0/fireRate);
-            return Shoot(direction);
+            return Shoot(direction.Copy());
         }
         return null;
     }

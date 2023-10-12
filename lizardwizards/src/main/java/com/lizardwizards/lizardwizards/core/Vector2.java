@@ -45,4 +45,11 @@ public class Vector2 implements Serializable {
     public double DistanceTo(Vector2 secondPoint){
         return Math.sqrt(Math.pow(x - secondPoint.x, 2) + Math.pow(y - secondPoint.y, 2));
     }
+    public Vector2 Rotate(double rad){
+        double newX = Math.cos(rad) * x - Math.sin(rad) * y;
+        double newY = Math.sin(rad) * x + Math.cos(rad) * y;
+        x = newX;
+        y = newY;
+        return this;
+    }
 }
