@@ -26,6 +26,7 @@ public class GameController {
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);
         currentTimer = new GameTimer(syncPacket.serverTime);
+        currentTimer.start();
     }
 
     public void initEntityList(RoomInformation room, List<EntityWrapper> players) {
@@ -45,21 +46,19 @@ public class GameController {
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
+        currentTimer.stop();
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
             entity.sprite.ResetSize(); // TODO remove
             root.getChildren().add(entity.sprite);
             entities.put(entity.entity.uuid, entity);
         });
-        currentTimer.syncWithServerTimer(syncPacket.createdEntities);
-        for (Map.Entry<UUID, EntityWrapper> entry : entities.entrySet()) {
-            UUID uuid = entry.getKey();
-            EntityWrapper entity = entry.getValue();
-            if (syncPacket.entities.containsKey(uuid)) // this is shit, but it's also late
-            {
-                entity.update(syncPacket.entities.get(uuid));
-            }
-        }
+        currentTimer.syncWithServerTimer(syncPacket, syncPacket.createdEntities);
+        syncPacket.destroyedEntities.forEach((entity) -> {
+            EntityWrapper canonEntity = entities.get(entity.entity.uuid);
+            root.getChildren().remove(canonEntity.sprite);
+            entities.remove(canonEntity.entity.uuid);
+        });
 
         currentTimer.start();
     }
@@ -68,18 +67,23 @@ public class GameController {
         long prevTime = -1;
         long serverClientDiff;
 
-        void syncWithServerTimer(List<Pair<Long, EntityWrapper>> createdEntities) {
-            if (prevTime >= 0) {
-                createdEntities.forEach(pair -> {
-                    var entity = pair.getValue();
-                    double delta = (pair.getKey() - serverClientDiff)/1000.0;
-                    entity.MoveByDelta(delta, entities);
-                    if (entity.entity.IsDestroyed()) {
-                        root.getChildren().remove(entity.sprite);
-                        entities.remove(entity.entity.uuid);
-                    }
+        synchronized void syncWithServerTimer(SyncPacket syncPacket, List<Pair<Long, EntityWrapper>> createdEntities) {
+            createdEntities.forEach(pair -> {
+                var entity = pair.getValue();
+                double delta = (pair.getKey() / 1000.0 - serverClientDiff);
+                root.getChildren().add(entity.sprite); // TODO this spams errors like crazy, but if this isn't here the projectiles don't shoot
+                // I have no idea why but this is the case
+                // I will never use JavaFX willingly ever again
+                entity.MoveByDelta(delta, entities);
+            });
 
-                });
+            for (Map.Entry<UUID, EntityWrapper> entry : entities.entrySet()) {
+                UUID uuid = entry.getKey();
+                EntityWrapper entity = entry.getValue();
+                if (syncPacket.entities.containsKey(uuid)) // this is shit, but it's also late
+                {
+                    entity.update(syncPacket.entities.get(uuid));
+                }
             }
         }
 
@@ -88,7 +92,7 @@ public class GameController {
         }
 
         @Override
-        public void handle(long now){
+        public synchronized void handle(long now){
             double timeElapsed;
             if (prevTime >= 0)
             {
@@ -108,12 +112,12 @@ public class GameController {
 
                 // ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
 
-                entities.forEach((uuid, entity) -> {
+                entities.forEach((uuid, entity) -> { // this foreach loop updates the screen somehow
                     entity.MoveByDelta(timeElapsed, entities);
-                    if (entity.entity.IsDestroyed()) {
-                        root.getChildren().remove(entity.sprite);
-                        entities.remove(uuid);
-                    }
+                    //if (entity.entity.IsDestroyed()) {
+                        //root.getChildren().remove(entity.sprite);
+                        //entities.remove(uuid);
+                    //}
                 });
             }
             else{

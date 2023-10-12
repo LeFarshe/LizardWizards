@@ -38,13 +38,15 @@ public class ServerTimer extends TimerTask {
         long now = (new Date()).getTime();
         double elapsedTime = (now-time) / 1000.0;
 
+        List<UUID> toBeRemoved = new LinkedList<>();
         entities.forEach((entityUUID, entity) -> {
             entity.MoveByDelta(elapsedTime, entities);
             if (entity.entity.IsDestroyed()) {
                 destroyedEntities.add(entity);
-                entities.remove(entityUUID);
+                toBeRemoved.add(entityUUID);
             }
         });
+        toBeRemoved.forEach(entities::remove);
 
         players.forEach(player -> {
             var newProjectiles = player.processShooting(elapsedTime);
@@ -79,8 +81,6 @@ public class ServerTimer extends TimerTask {
         });
         entities.putAll(room.entities);
         createdEntities.clear();
-        // room.entities.forEach((uuid, entityWrapper) ->
-                // createdEntities.put(time, entityWrapper));
     }
 
     public synchronized SyncPacket getChanges(){
