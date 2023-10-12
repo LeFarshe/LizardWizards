@@ -35,6 +35,8 @@ public class ServerTimer extends TimerTask {
     @Override
     public synchronized void run() {
         long now = (new Date()).getTime();
+        if (time == 0)
+            time = now;
         double elapsedTime = (now-time) / 1000.0;
 
         List<UUID> toBeRemoved = new LinkedList<>();

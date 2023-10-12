@@ -29,7 +29,6 @@ public class Enemy extends Entity {
 
     @Override
     public void MoveByDelta(double delta){
-        System.out.println("giant enemy spider");
         directionTimer -= delta;
         if (directionTimer <= 0){
             setRandomDirection();
