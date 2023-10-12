@@ -71,20 +71,15 @@ public class GameController {
             createdEntities.forEach(pair -> {
                 var entity = pair.getValue();
                 double delta = (pair.getKey() / 1000.0 - serverClientDiff);
-                root.getChildren().add(entity.sprite); // TODO this spams errors like crazy, but if this isn't here the projectiles don't shoot
-                // I have no idea why but this is the case
-                // I will never use JavaFX willingly ever again
                 entity.MoveByDelta(delta, entities);
             });
 
-            for (Map.Entry<UUID, EntityWrapper> entry : entities.entrySet()) {
-                UUID uuid = entry.getKey();
-                EntityWrapper entity = entry.getValue();
+            entities.forEach((uuid, entity) -> {
                 if (syncPacket.entities.containsKey(uuid)) // this is shit, but it's also late
                 {
                     entity.update(syncPacket.entities.get(uuid));
                 }
-            }
+            });
         }
 
         GameTimer(long serverTime) {
@@ -110,34 +105,14 @@ public class GameController {
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 
-                // ProjectileHandling(((Player)currentPlayer.entity).Shoot(timeElapsed), CollisionLayer.PlayerProjectile);
-
                 entities.forEach((uuid, entity) -> { // this foreach loop updates the screen somehow
                     entity.MoveByDelta(timeElapsed, entities);
-                    //if (entity.entity.IsDestroyed()) {
-                        //root.getChildren().remove(entity.sprite);
-                        //entities.remove(uuid);
-                    //}
                 });
             }
             else{
                 serverClientDiff -= now/1000000.0;
             }
             prevTime = now;
-        }
-
-        private void ProjectileHandling(List<Projectile> newProjectiles, CollisionLayer layer)
-        {
-            if (newProjectiles != null) {
-                for (Projectile projectile : newProjectiles) {
-                    EntitySprite sprite = projectile.GetSprite();
-                    root.getChildren().add(sprite);
-
-                    EntityWrapper newProjectile = new EntityWrapper(projectile, sprite, projectile.GetCollider(layer));
-                    entities.put(projectile.uuid, newProjectile);
-                }
-            }
-
         }
     }
 

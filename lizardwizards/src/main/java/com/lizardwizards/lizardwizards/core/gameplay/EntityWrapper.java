@@ -10,20 +10,22 @@ import java.util.UUID;
 public class EntityWrapper implements Serializable {
     public Entity entity;
     public EntitySprite sprite;
-
     public Collider collider;
+    private Vector2 position;
 
     public EntityWrapper(Entity entity, EntitySprite sprite, Collider collider)
     {
         this.collider = collider;
         this.entity = entity;
         this.sprite = sprite;
+        position = entity.GetPosition();
     }
 
     public EntityWrapper(Entity entity, EntitySprite sprite)
     {
         this.entity = entity;
         this.sprite = sprite;
+        position = entity.GetPosition();
     }
 
     public void Move(Vector2 amount){
@@ -32,6 +34,7 @@ public class EntityWrapper implements Serializable {
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
+        position = entity.GetPosition();
     }
 
     public synchronized void MoveByDelta(double delta, HashMap<UUID, EntityWrapper> entities){
@@ -61,6 +64,7 @@ public class EntityWrapper implements Serializable {
             }
         }
         sprite.SetPosition(entity.GetPosition());
+        position = entity.GetPosition();
     }
 
     public synchronized void SetPosition(Vector2 position){
@@ -69,10 +73,20 @@ public class EntityWrapper implements Serializable {
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
+        this.position = position;
     }
 
     public synchronized void update(EntityWrapper entityWrapper) {
-       entity.SetPosition(entityWrapper.entity.position.Copy());
-        collider.position = entityWrapper.collider.position.Copy();
+       var pos = entityWrapper.position;
+       entity.SetPosition(pos);
+       sprite.SetPosition(pos);
+       collider.position = entityWrapper.collider.position.Copy();
+       position = entity.GetPosition();
+    }
+
+    public EntityWrapper cloneAndReplacePosition() { // This is for a deep enough copy of positions
+        var ew = new EntityWrapper(this.entity, this.sprite, this.collider);
+        ew.position = position.Copy();
+        return ew;
     }
 }

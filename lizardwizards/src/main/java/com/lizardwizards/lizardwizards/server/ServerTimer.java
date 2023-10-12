@@ -5,7 +5,6 @@ import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
-import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -84,8 +83,11 @@ public class ServerTimer extends TimerTask {
     }
 
     public synchronized SyncPacket getChanges(){
+        HashMap<UUID, EntityWrapper> entitiesCpy = new HashMap<>(entities);
+        entitiesCpy.forEach(((uuid, entityWrapper) -> entitiesCpy.put(uuid, entityWrapper.cloneAndReplacePosition())));
+        new LinkedList<>();
         SyncPacket syncPacket = new SyncPacket(time,
-                new HashMap<>(entities),
+                entitiesCpy,
                 new LinkedList<>(createdEntities),
                 new LinkedList<>(destroyedEntities));
         createdEntities.clear();
