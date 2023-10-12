@@ -5,8 +5,6 @@ import java.util.Dictionary;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-import java.util.Dictionary;
-
 public class Projectile extends Entity{
     Vector2 direction;
     double speed;
@@ -42,12 +40,8 @@ public class Projectile extends Entity{
     }
 
     @Override
-    public boolean IsDestroyed(boolean flag) {
-        if (flag){
-            this.erase = true;
-        }
-        if (duration <= 0 || erase) { return true;}
-        return false;
+    public boolean IsDestroyed() {
+        return duration <= 0 || erase;
     }
 
     public EntitySprite GetSprite() {

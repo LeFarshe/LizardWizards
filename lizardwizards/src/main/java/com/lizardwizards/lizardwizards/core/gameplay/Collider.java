@@ -2,10 +2,11 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Collider {
+public class Collider implements Serializable {
     // Center of shape
     public Vector2 position;
 

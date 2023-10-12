@@ -2,15 +2,19 @@ package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
 public class ClientUtils {
+    public static GameController gameController = null;
+
     public static void closeProgram(Stage window){
-        Boolean answer = ConfirmBox.display("Are you sure you want to exit?");
+        boolean answer = ConfirmBox.display("Are you sure you want to exit?");
         if (answer) {
             window.close();
         }
@@ -38,7 +42,7 @@ public class ClientUtils {
                 newScene = new Scene(root);
                 newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
-                GameController gameController = new GameController(root);
+                gameController = new GameController(root);
                 gameController.playerControls.SetMovementEvents(newScene);
                 gameController.playerControls.SetShootingEvents(newScene);
             }
@@ -50,6 +54,7 @@ public class ClientUtils {
         }
         catch (Exception e){
             System.out.println("I have no idea how u got here. Maybe the error message will help u m8, good luck :) \n Error message:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

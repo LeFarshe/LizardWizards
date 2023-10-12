@@ -1,30 +1,31 @@
-package com.lizardwizards.lizardwizards.client;
+package com.lizardwizards.lizardwizards.core.gameplay;
 
+import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.Collider;
-import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.Entity;
-import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.UUID;
 
-public class SpriteWrapper {
+public class EntityWrapper implements Serializable {
     public Entity entity;
     public EntitySprite sprite;
-
     public Collider collider;
+    private Vector2 position;
 
-    public SpriteWrapper(Entity entity, EntitySprite sprite, Collider collider)
+    public EntityWrapper(Entity entity, EntitySprite sprite, Collider collider)
     {
         this.collider = collider;
         this.entity = entity;
         this.sprite = sprite;
+        position = entity.GetPosition();
     }
 
-    public SpriteWrapper(Entity entity, EntitySprite sprite)
+    public EntityWrapper(Entity entity, EntitySprite sprite)
     {
         this.entity = entity;
         this.sprite = sprite;
+        position = entity.GetPosition();
     }
 
     public void Move(Vector2 amount){
@@ -33,20 +34,21 @@ public class SpriteWrapper {
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
+        position = entity.GetPosition();
     }
 
-    public void MoveByDelta(double delta, List<SpriteWrapper> entities){
-        Vector2 currentpos = entity.GetPosition();
+    public synchronized void MoveByDelta(double delta, HashMap<UUID, EntityWrapper> entities){
+        Vector2 currentPos = entity.GetPosition();
         entity.MoveByDelta(delta);
         if (collider != null) {
             collider.position = entity.GetPosition();
             CollisionLayer layer = collider.layer;
-            for(SpriteWrapper currentEntity: entities){
+            for(EntityWrapper currentEntity: entities.values()){
                 if (layer == CollisionLayer.Player){
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
-                            entity.SetPosition(currentpos);
-                            collider.position = currentpos.Copy();
+                            entity.SetPosition(currentPos);
+                            collider.position = currentPos.Copy();
                             break;
                         }
                     }
@@ -60,6 +62,7 @@ public class SpriteWrapper {
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
                             entity.Collide(CollisionLayer.Obstacle);
+                            break;
                         }
                     }
                     if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
@@ -72,13 +75,29 @@ public class SpriteWrapper {
             }
         }
         sprite.SetPosition(entity.GetPosition());
+        position = entity.GetPosition();
     }
 
-    public void SetPosition(Vector2 position){
+    public synchronized void SetPosition(Vector2 position){
         entity.SetPosition(position);
         sprite.SetPosition(position);
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
+        this.position = position;
+    }
+
+    public synchronized void update(EntityWrapper entityWrapper) {
+       var pos = entityWrapper.position;
+       entity.SetPosition(pos);
+       sprite.SetPosition(pos);
+       collider.position = entityWrapper.collider.position.Copy();
+       position = entity.GetPosition();
+    }
+
+    public EntityWrapper cloneAndReplacePosition() { // This is for a deep enough copy of positions
+        var ew = new EntityWrapper(this.entity, this.sprite, this.collider);
+        ew.position = position.Copy();
+        return ew;
     }
 }

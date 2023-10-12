@@ -1,7 +1,14 @@
 package com.lizardwizards.lizardwizards.core.communication;
 
 
-public class SentServerData {
+import com.lizardwizards.lizardwizards.client.GameController;
+import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
+import javafx.application.Platform;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class SentServerData implements Serializable {
     public final Object payload;
     public final SentDataType dataType;
 
@@ -10,12 +17,22 @@ public class SentServerData {
         this.dataType = dataType;
     }
 
-    public Object handleSyncPacket() {
-        return payload; // TODO: change this (these a github issue for this dw)
+    public void handleSyncPacket(GameController gameController) {
+        Platform.runLater(() -> gameController.updateEntityList((SyncPacket) payload));
     }
 
     public Boolean handleConnectionInformation() {
         return (Boolean) payload; // Might want to change this to be a little bit more in depth
+    }
+
+    public LobbyUpdate handleLobbyUpdate() {
+        return (LobbyUpdate) payload;
+    }
+    public void handleRoomLoading(GameController gameController, List<EntityWrapper> players) {
+        RoomInformation room = (RoomInformation) payload;
+        Platform.runLater(()->gameController.initEntityList(room, players));
+
+
     }
 }
 

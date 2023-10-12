@@ -1,8 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.List;
 import java.util.Random;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
@@ -14,7 +12,7 @@ public class Enemy extends Entity {
     double directionDelay = 1;
     double directionTimer = directionDelay;
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
     
     public Enemy(Vector2 position, double speed)
     {
@@ -60,11 +58,8 @@ public class Enemy extends Entity {
     }
 
     @Override
-    public boolean IsDestroyed(boolean flag) {
-        if (health <= 0){
-            return true;
-        }
-        return false;
+    public boolean IsDestroyed() {
+        return health <= 0;
     }
 
     @Override

@@ -13,11 +13,7 @@
     <HBox spacing="300" alignment="CENTER">
         <VBox spacing="30">
             <Label fx:id="p1" text="Player 1"/>
-            <Button fx:id="p1Button" text="Ready"/>
-        </VBox>
-        <VBox spacing="30">
-            <Label fx:id="p2" text="Player 2"/>
-            <Button fx:id="p2Button" text="Ready"/>
+            <Button fx:id="p1Button" onAction="#toggleReady" text="Ready"/>
         </VBox>
     </HBox>
     <Button fx:id="leaveButton" text="Leave" onAction="#onLeaveClick"/>

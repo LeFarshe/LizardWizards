@@ -1,10 +1,11 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public abstract class Weapon {
+public abstract class Weapon implements Serializable {
     double damage;
     double fireRate;
     double fireTimer = 0;

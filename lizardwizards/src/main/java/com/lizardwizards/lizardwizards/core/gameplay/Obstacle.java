@@ -24,7 +24,7 @@ public class Obstacle extends Entity{
     }
 
     @Override
-    public boolean IsDestroyed(boolean flag) {
+    public boolean IsDestroyed() {
         return false;
     }
 }
