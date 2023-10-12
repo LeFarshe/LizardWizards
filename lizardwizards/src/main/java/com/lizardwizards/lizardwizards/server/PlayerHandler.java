@@ -25,6 +25,8 @@ public class PlayerHandler {
     private final ObjectInputStream objectInput;
     private final ObjectOutputStream objectOutput;
 
+    private final WeaponFactory weaponFactory = new WeaponFactory();
+
     PlayerHandler (Socket playerSocket, Session currentSession) throws RuntimeException {
         session = currentSession;
         this.playerSocket = playerSocket;
@@ -34,7 +36,7 @@ public class PlayerHandler {
 
             Player player = new Player(new Vector2(0,0), 100);
             Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
-            player.weapons.add(new Gun());
+            player.weapons.add(weaponFactory.getWeapon("GUN"));
             EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
             this.player = new EntityWrapper(player, playerSprite, collider);
 
