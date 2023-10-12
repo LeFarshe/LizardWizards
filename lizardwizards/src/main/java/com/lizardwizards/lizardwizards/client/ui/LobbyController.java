@@ -15,10 +15,6 @@ public class LobbyController {
     @FXML
     public Button p1Button;
     @FXML
-    public Label p2;
-    @FXML
-    public Button p2Button;
-    @FXML
     public Button leaveButton;
     private boolean ready = false;
 
