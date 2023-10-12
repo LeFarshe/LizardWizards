@@ -100,8 +100,12 @@ public class GameController {
                 if (newShooting != null) {
                     ((Player)currentPlayer.entity).StartShooting(newShooting);
                 }
+                int weaponSwitch = playerControls.HandleWeaponSwitching();
+                if (weaponSwitch != 0){
+                    ((Player)currentPlayer.entity).ChangeWeapon(weaponSwitch);
+                }
 
-                ClientConnectionHandler.CurrentHandler.sendUpdate(currentPlayer.entity.GetPosition() ,newMovement, newShooting);
+                ClientConnectionHandler.CurrentHandler.sendUpdate(currentPlayer.entity.GetPosition() ,newMovement, newShooting, weaponSwitch);
 
                 timeElapsed = (now-prevTime)/1000000000.0;
 

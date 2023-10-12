@@ -122,4 +122,10 @@ public class Player extends Entity {
     {
         isShooting = false;
     }
+
+    public void ChangeWeapon(int change){
+        currentWeapon += change;
+        if (currentWeapon >= weapons.size()) { currentWeapon -= weapons.size(); }
+        else if (currentWeapon < 0) { currentWeapon += weapons.size(); }
+    }
 }
