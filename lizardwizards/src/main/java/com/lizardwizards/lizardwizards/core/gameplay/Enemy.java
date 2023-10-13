@@ -12,6 +12,7 @@ public class Enemy extends Entity {
     double speed;
     double directionDelay = 1;
     double directionTimer = directionDelay;
+    boolean isDestroyed = false;
 
     private final Random rand = new Random();
     
@@ -46,7 +47,7 @@ public class Enemy extends Entity {
         if(layer == PLAYER_PROJECTILE_LAYER) {
 
             health -= 1;
-            if (health <= 0) {
+            if (health <= 0 && !isDestroyed) {
                 HandleDeath();
             }
         }
@@ -55,13 +56,14 @@ public class Enemy extends Entity {
     }
 
     private void HandleDeath() {
+        isDestroyed = true;
         System.out.println("Enemy has died!");
         Scoreboard.getInstance().addScore(5);
     }
 
     @Override
     public boolean IsDestroyed() {
-        return health <= 0;
+        return isDestroyed;
     }
 
     @Override
