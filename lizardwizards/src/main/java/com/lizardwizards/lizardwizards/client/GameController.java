@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.client;
 
 import java.util.*;
 
+import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
@@ -20,8 +21,10 @@ public class GameController {
 
     GameController(Pane root)
     {
+        new GameHUD();
         this.root = root;
         root.setPrefSize(800,600);
+        root.getChildren().addAll(GameHUD.getInstance().getHudElements());
     }
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);

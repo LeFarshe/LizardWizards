@@ -1,7 +1,9 @@
 package com.lizardwizards.lizardwizards.core.communication;
 
 
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.GameController;
+import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import javafx.application.Platform;
 
@@ -18,9 +20,10 @@ public class SentServerData implements Serializable {
     }
 
     public void handleSyncPacket(GameController gameController) {
-        // hudcontroller.setscore(((SyncPacket)payload).currentScore);
-        System.out.printf("Current score: %d\n", ((SyncPacket)payload).currentScore);
-        Platform.runLater(() -> gameController.updateEntityList((SyncPacket) payload));
+        Platform.runLater(() -> {
+            GameHUD.getInstance().setScore(((SyncPacket)payload).currentScore);
+            gameController.updateEntityList((SyncPacket) payload);
+        });
     }
 
     public Boolean handleConnectionInformation() {
