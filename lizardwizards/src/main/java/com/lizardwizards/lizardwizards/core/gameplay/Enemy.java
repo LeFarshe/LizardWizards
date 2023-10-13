@@ -4,6 +4,7 @@ import java.util.Dictionary;
 import java.util.Random;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 public class Enemy extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
@@ -55,6 +56,7 @@ public class Enemy extends Entity {
 
     private void HandleDeath() {
         System.out.println("Enemy has died!");
+        Scoreboard.getInstance().addScore(5);
     }
 
     @Override

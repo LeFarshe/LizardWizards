@@ -18,6 +18,8 @@ public class SentServerData implements Serializable {
     }
 
     public void handleSyncPacket(GameController gameController) {
+        // hudcontroller.setscore(((SyncPacket)payload).currentScore);
+        System.out.printf("Current score: %d\n", ((SyncPacket)payload).currentScore);
         Platform.runLater(() -> gameController.updateEntityList((SyncPacket) payload));
     }
 

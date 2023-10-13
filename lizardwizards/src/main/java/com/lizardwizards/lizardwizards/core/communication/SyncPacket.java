@@ -16,10 +16,13 @@ public class SyncPacket implements Serializable {
     public final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     public final List<EntityWrapper> destroyedEntities;
 
-    public SyncPacket(long serverTime, HashMap<UUID, EntityWrapper> entities, LinkedList<Pair<Long, EntityWrapper>> createdEntities, List<EntityWrapper> destroyedEntities) {
+    public final int currentScore;
+
+    public SyncPacket(long serverTime, HashMap<UUID, EntityWrapper> entities, LinkedList<Pair<Long, EntityWrapper>> createdEntities, List<EntityWrapper> destroyedEntities, int currentScore) {
         this.serverTime = serverTime;
         this.entities = entities;
         this.createdEntities = createdEntities;
         this.destroyedEntities = destroyedEntities;
+        this.currentScore = currentScore;
     }
 }
