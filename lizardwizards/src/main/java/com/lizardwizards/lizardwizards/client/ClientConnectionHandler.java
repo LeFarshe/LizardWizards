@@ -28,7 +28,6 @@ public class ClientConnectionHandler implements Runnable {
     private final List<EntityWrapper> connectedplayerList;
     private boolean gameStarted;
     public Stage stage;
-
     public Thread currentThread;
 
     public ClientConnectionHandler(String ip, int port) throws IOException {

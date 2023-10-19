@@ -27,7 +27,9 @@ public class LobbyController {
     public void toggleReady(ActionEvent actionEvent) {
         ready = !ready;
         ClientConnectionHandler.CurrentHandler.sendReady(ready);
-        ClientConnectionHandler.CurrentHandler.start();
-        ClientConnectionHandler.CurrentHandler.stage = (Stage) leaveButton.getScene().getWindow();
+        if (ClientConnectionHandler.CurrentHandler.stage == null) {
+            ClientConnectionHandler.CurrentHandler.start();
+            ClientConnectionHandler.CurrentHandler.stage = (Stage) leaveButton.getScene().getWindow();
+        }
     }
 }
