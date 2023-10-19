@@ -51,7 +51,6 @@ public class Enemy extends Entity implements IEnemy {
             }
         }
 
-        return;
     }
 
     public void HandleDeath() {
