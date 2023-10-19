@@ -26,19 +26,19 @@ public class RoomInformation implements Serializable {
         playerStartPositions.add(new Vector2(400, 300));
         playerStartPositions.add(new Vector2(800, 300));
 
-        CreateEnemy(new Vector2(400, 400), entities);
+        CreateEnemy(new DefaultEnemyFactory(), new Vector2(400, 400), entities);
         CreateObstacle(new Vector2(200, 300), entities);
         CreateObstacle(new Vector2(600, 300), entities);
 
         return new RoomInformation(entities, playerStartPositions);
     }
 
-    public static void CreateEnemy(Vector2 position, HashMap<UUID, EntityWrapper> entities){
-    Enemy enemy = new Enemy(position, 100);
+    public static void CreateEnemy(IEnemyFactory factory, Vector2 position, HashMap<UUID, EntityWrapper> entities){
+    IEnemy enemy = factory.createEnemy(position, 100);
     EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
     Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
-    EntityWrapper newEntity = new EntityWrapper(enemy, sprite, collider);
-    entities.put(enemy.uuid, newEntity);
+    EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);
+    entities.put(((Entity) enemy).uuid, newEntity);
     }
 
     public static void CreateObstacle(Vector2 position, HashMap<UUID, EntityWrapper> entities){

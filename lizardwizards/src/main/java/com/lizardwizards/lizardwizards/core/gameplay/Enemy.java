@@ -5,8 +5,7 @@ import java.util.Random;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
-
-public class Enemy extends Entity {
+public class Enemy extends Entity implements IEnemy {
     Vector2 moveDirection = new Vector2(0,0);
     int health = 3;
     double speed;
@@ -15,7 +14,7 @@ public class Enemy extends Entity {
     boolean isDestroyed = false;
 
     private final Random rand = new Random();
-    
+
     public Enemy(Vector2 position, double speed)
     {
         this.position = position;
@@ -23,7 +22,7 @@ public class Enemy extends Entity {
         setRandomDirection();
     }
 
-    private void setRandomDirection() {
+    public void setRandomDirection() {
         double randX = rand.nextDouble() * 2 - 1;
         double randY = rand.nextDouble() * 2 - 1;
         moveDirection = new Vector2(randX, randY).Normalize();
@@ -55,7 +54,7 @@ public class Enemy extends Entity {
         return;
     }
 
-    private void HandleDeath() {
+    public void HandleDeath() {
         isDestroyed = true;
         System.out.println("Enemy has died!");
         Scoreboard.getInstance().addScore(5);
@@ -70,5 +69,4 @@ public class Enemy extends Entity {
     public Dictionary<String, Integer> GetSpriteSettings(){
         return null;
     }
-
 }
