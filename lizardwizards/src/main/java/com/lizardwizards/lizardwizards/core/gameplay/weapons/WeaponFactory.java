@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 public class WeaponFactory {
     public Weapon getWeapon(String weapon) {

@@ -4,6 +4,8 @@ import java.util.Dictionary;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 public class Projectile extends Entity{
     Vector2 direction;

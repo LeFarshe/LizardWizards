@@ -1,6 +1,7 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
 
 import java.util.ArrayList;
 import java.util.List;

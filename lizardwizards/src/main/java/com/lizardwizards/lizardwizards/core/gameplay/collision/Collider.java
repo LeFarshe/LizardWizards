@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.collision;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 

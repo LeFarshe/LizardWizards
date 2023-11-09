@@ -5,11 +5,12 @@ import java.util.Dictionary;
 import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 public abstract class Entity implements Serializable {
 
     public final UUID uuid = UUID.randomUUID();
-    Vector2 position;
+    protected Vector2 position;
 
     public void SetPosition(Vector2 position){
         this.position = position.Copy();

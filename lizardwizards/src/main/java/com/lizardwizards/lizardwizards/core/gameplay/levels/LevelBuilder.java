@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 

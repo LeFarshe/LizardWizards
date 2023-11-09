@@ -12,6 +12,9 @@ import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 
 public class PlayerHandler {
     private final Session session;

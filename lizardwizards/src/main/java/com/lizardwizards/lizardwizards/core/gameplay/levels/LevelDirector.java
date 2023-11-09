@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import java.util.ArrayList;
 import java.util.List;

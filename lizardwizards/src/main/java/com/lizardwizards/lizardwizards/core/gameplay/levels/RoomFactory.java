@@ -1,8 +1,15 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
+import com.lizardwizards.lizardwizards.core.gameplay.Entity;
+import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
+import com.lizardwizards.lizardwizards.core.gameplay.Obstacle;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 
 import java.util.HashMap;
 import java.util.UUID;

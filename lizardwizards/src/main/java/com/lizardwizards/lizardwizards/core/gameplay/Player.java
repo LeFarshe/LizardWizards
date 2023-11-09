@@ -5,6 +5,8 @@ import java.util.Dictionary;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.Weapon;
 
 public class Player extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
