@@ -12,11 +12,9 @@ import java.util.*;
 public class ServerTimer extends TimerTask {
 
     private long time;
-
-    private LevelDirector levelDirector;
     private Level currentLevel;
 
-    private RoomFactory roomFactory;
+    private LevelFacade levelFacade;
 
     private final HashMap<UUID, EntityWrapper> entities;
     private final List<PlayerHandler> players;
@@ -28,9 +26,8 @@ public class ServerTimer extends TimerTask {
     private boolean[] existingDoors;
 
     public ServerTimer(Session session) {
-        levelDirector = new LevelDirector();
-        currentLevel = levelDirector.testLevel();
-        roomFactory = new RoomFactory();
+        levelFacade = new LevelFacade();
+        currentLevel = levelFacade.getLevel("Level1");
 
         doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, 0), 55,20, CollisionLayer.Player));
         doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
@@ -90,7 +87,7 @@ public class ServerTimer extends TimerTask {
 
     public synchronized void loadRoom() {
         createdEntities.clear();
-        RoomInformation room = roomFactory.getRoom(currentLevel);
+        RoomInformation room = levelFacade.getRoom(currentLevel);
         existingDoors = currentLevel.getDoors();
         entities.clear();
         for (PlayerHandler player: players){
