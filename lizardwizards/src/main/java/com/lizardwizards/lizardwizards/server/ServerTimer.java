@@ -2,8 +2,7 @@ package com.lizardwizards.lizardwizards.server;
 
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
-import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
+import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import javafx.util.Pair;
 
@@ -14,13 +13,22 @@ public class ServerTimer extends TimerTask {
 
     private long time;
 
+    private LevelDirector levelDirector;
+    private Level currentLevel;
+
+    private RoomFactory roomFactory;
+
     private final HashMap<UUID, EntityWrapper> entities;
     private final List<PlayerHandler> players;
     private final Session currentSession;
     private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
 
-    public ServerTimer(RoomInformation room, Session session) {
+    public ServerTimer(Session session) {
+        levelDirector = new LevelDirector();
+        currentLevel = levelDirector.testLevel();
+        roomFactory = new RoomFactory();
+
         this.entities = new HashMap<>();
         currentSession = session;
         session.players.forEach(player -> this.entities.put(player.getPlayerUUID(), player.getPlayer()));
@@ -28,8 +36,7 @@ public class ServerTimer extends TimerTask {
         this.createdEntities = new LinkedList<>();
         this.destroyedEntities = new LinkedList<>();
         time = 0;
-        loadRoom(room);
-        session.sendToPlayers(room, SentDataType.Room);
+        loadRoom(roomFactory.getRoom(currentLevel.getCurrentRoom(), currentLevel.enteredDirection));
     }
 
     @Override
@@ -78,10 +85,11 @@ public class ServerTimer extends TimerTask {
         }));
         playersTemp.sort(Comparator.comparing(a -> a.entity.uuid));
         playersTemp.forEach(player -> {
-            player.SetPosition(room.playerStartPositions.get(i.getAndIncrement()));
+            player.SetPosition(room.getPlayerPosition());
         });
         entities.putAll(room.entities);
         createdEntities.clear();
+        currentSession.sendToPlayers(room, SentDataType.Room);
     }
 
     public synchronized SyncPacket getChanges(){
