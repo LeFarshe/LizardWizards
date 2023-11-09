@@ -8,14 +8,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RoomFactory {
-    DefaultEnemyFactory enemyFactory = new DefaultEnemyFactory();
-    public RoomInformation getRoom(Level currentLevel){
+    public RoomInformation getRoom(Level currentLevel, IEnemyFactory enemyFactory){
         HashMap<UUID, EntityWrapper> entities = new HashMap<>();
         CreateWalls(entities);
         CreateDoors(entities, currentLevel.getDoors());
         if (currentLevel.getCurrentRoom().id == RoomEnumerator.BasicRoom) {
             if (!currentLevel.getCurrentRoom().cleared) {
-                CreateEnemy(new Vector2(400, 400), entities);
+                CreateEnemy(new Vector2(400, 400), entities, enemyFactory);
             }
 
             CreateObstacle(new Vector2(200, 300), new Vector2(50,50), entities);
@@ -25,7 +24,7 @@ public class RoomFactory {
         return new RoomInformation(entities, currentLevel.enteredDirection);
     }
 
-    private void CreateEnemy(Vector2 position, HashMap<UUID, EntityWrapper> entities){
+    private void CreateEnemy(Vector2 position, HashMap<UUID, EntityWrapper> entities, IEnemyFactory enemyFactory){
         IEnemy enemy = enemyFactory.createEnemy(position, 100);
         EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);

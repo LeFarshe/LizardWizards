@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelDirector {
-    LevelBuilder builder = new LevelBuilder(11);
     List<GenerationRoomData> startRooms = new ArrayList<>();
     List<GenerationRoomData> basicRooms = new ArrayList<>();
 
@@ -19,7 +18,7 @@ public class LevelDirector {
         GenerationRoomData basicRoom = new GenerationRoomData(basicRoomData, 1, new boolean[] {true, true, true, true});
         basicRooms.add(basicRoom);
     }
-    public Level testLevel(){
+    public Level testLevel(LevelBuilder builder){
         builder.reset();
         builder.createLevelStructure(10, 3, 0.5);
         builder.setStartRoom(startRooms);
