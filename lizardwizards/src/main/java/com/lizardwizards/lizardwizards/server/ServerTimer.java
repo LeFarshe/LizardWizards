@@ -33,10 +33,10 @@ public class ServerTimer extends TimerTask {
         currentLevel = levelDirector.testLevel();
         roomFactory = new RoomFactory();
 
-        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, 0), 20,20, CollisionLayer.Player));
-        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax, RoomInformation.yMax / 2), 20,20, CollisionLayer.Player));
-        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax), 20,20, CollisionLayer.Player));
-        doors.add(Collider.NewRectangle(new Vector2(0, RoomInformation.yMax / 2), 20,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, 0), 55,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax), 55,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(0, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
 
         this.entities = new HashMap<>();
         currentSession = session;
