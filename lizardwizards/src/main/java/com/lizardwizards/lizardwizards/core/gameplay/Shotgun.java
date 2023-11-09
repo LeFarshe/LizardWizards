@@ -24,4 +24,12 @@ public class Shotgun extends Weapon{
         }
         return projectileList;
     }
+
+    @Override
+    public Shotgun clone(){
+        Shotgun clone = (Shotgun)super.clone();
+        clone.projectiles = projectiles;
+        clone.spread = spread;
+        return clone;
+    }
 }
