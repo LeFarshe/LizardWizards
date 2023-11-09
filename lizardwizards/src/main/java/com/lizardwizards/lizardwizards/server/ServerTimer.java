@@ -1,18 +1,20 @@
 package com.lizardwizards.lizardwizards.server;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
-import com.lizardwizards.lizardwizards.core.gameplay.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
+import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import javafx.util.Pair;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerTimer extends TimerTask {
 
     private long time;
+    private Level currentLevel;
+
+    private LevelFacade levelFacade;
 
     private final HashMap<UUID, EntityWrapper> entities;
     private final List<PlayerHandler> players;
@@ -20,7 +22,18 @@ public class ServerTimer extends TimerTask {
     private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
 
-    public ServerTimer(RoomInformation room, Session session) {
+    private final List<Collider> doors = new ArrayList<>();
+    private boolean[] existingDoors;
+
+    public ServerTimer(Session session) {
+        levelFacade = new LevelFacade();
+        currentLevel = levelFacade.getLevel("Level1");
+
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, 0), 55,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax), 55,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(0, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
+
         this.entities = new HashMap<>();
         currentSession = session;
         session.players.forEach(player -> this.entities.put(player.getPlayerUUID(), player.getPlayer()));
@@ -28,8 +41,7 @@ public class ServerTimer extends TimerTask {
         this.createdEntities = new LinkedList<>();
         this.destroyedEntities = new LinkedList<>();
         time = 0;
-        loadRoom(room);
-        session.sendToPlayers(room);
+        loadRoom();
     }
 
     @Override
@@ -62,26 +74,29 @@ public class ServerTimer extends TimerTask {
 
         currentSession.sendToPlayers(getChanges());
         time = now;
+        for(PlayerHandler player: players) {
+            for (int i = 0; i < 4; i++){
+                if (doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
+                    currentLevel.moveDirectionally(i + 1);
+                    loadRoom();
+                    break;
+                }
+            }
+        }
     }
 
-    public synchronized void loadRoom(RoomInformation room) {
-        AtomicInteger i = new AtomicInteger();
-        List<EntityWrapper> playersTemp = new LinkedList<>();
-        entities.forEach(((uuid, entity) -> {
-            if (players.stream().noneMatch(x -> entity.entity.uuid.compareTo(x.getPlayerUUID()) == 0)){
-                destroyedEntities.add(entity);
-                entities.remove(uuid);
-            }
-            else {
-                playersTemp.add(entity);
-            }
-        }));
-        playersTemp.sort(Comparator.comparing(a -> a.entity.uuid));
-        playersTemp.forEach(player -> {
-            player.SetPosition(room.playerStartPositions.get(i.getAndIncrement()));
-        });
-        entities.putAll(room.entities);
+    public synchronized void loadRoom() {
         createdEntities.clear();
+        RoomInformation room = levelFacade.getRoom(currentLevel);
+        existingDoors = currentLevel.getDoors();
+        entities.clear();
+        for (PlayerHandler player: players){
+            entities.put(player.getPlayerUUID(),player.getPlayer());
+            player.getPlayer().SetPosition(room.getPlayerPosition());
+        }
+        entities.putAll(room.entities);
+
+        currentSession.sendToPlayers(room);
     }
 
     public synchronized SyncPacket getChanges(){

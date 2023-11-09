@@ -50,7 +50,7 @@ public class Server implements Runnable{
             // It is possible to fix this by running separate threads for accepting connections and the main game, I will look into that and decide if it is better than the spaghetti this is going to become
             // I didn't look into it yet
             // Put the gameplay state here somewhere
-            ServerTimer serverTimer = new ServerTimer(RoomInformation.getTestRoom(), session);
+            ServerTimer serverTimer = new ServerTimer(session);
             Timer timer = new Timer("ServerGameTimerThread");
             timer.schedule(serverTimer, 0, 1);
             while (!serverSocket.isClosed()) { // TODO not this

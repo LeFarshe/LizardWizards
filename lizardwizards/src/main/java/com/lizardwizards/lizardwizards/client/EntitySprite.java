@@ -15,8 +15,8 @@ public class EntitySprite extends Rectangle implements Serializable {
     public EntitySprite(Vector2 position, Vector2 size)
     {
         this.size = size;
-        this.setHeight(this.size.x);
-        this.setWidth(this.size.y);
+        this.setHeight(this.size.y);
+        this.setWidth(this.size.x);
         setTranslateX(position.x - this.getWidth() / 2);
         setTranslateY(position.y - this.getHeight() / 2);
     }
@@ -31,7 +31,7 @@ public class EntitySprite extends Rectangle implements Serializable {
     }
 
     public void ResetSize(){ // this is here since shit broke and TODO remove
-        this.setHeight(size.x);
-        this.setWidth(size.y);
+        this.setHeight(size.y);
+        this.setWidth(size.x);
     }
 }

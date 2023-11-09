@@ -15,42 +15,32 @@ import java.util.List;
 import java.util.UUID;
 
 public class RoomInformation extends SentServerData{
-    public final HashMap<UUID, EntityWrapper> entities;
-    public final List<Vector2> playerStartPositions;
+    public static double xMax = 1600;
+    public static double yMax = 900;
+    public int direction = 0;
 
-    public RoomInformation(HashMap<UUID, EntityWrapper> entities, List<Vector2> playerStartPositions) {
+    public HashMap<UUID, EntityWrapper> entities;
+
+    public RoomInformation(){
+        super(SentDataType.Room);
+        entities = new HashMap<>();
+    }
+
+    public RoomInformation(HashMap<UUID, EntityWrapper> entities, int direction) {
         super(SentDataType.Room);
         this.entities = entities;
-        this.playerStartPositions = playerStartPositions;
+        this.direction = direction;
     }
 
-    public static RoomInformation getTestRoom(){
-        HashMap<UUID, EntityWrapper> entities = new HashMap<>();
-        LinkedList<Vector2> playerStartPositions = new LinkedList<>();
-        playerStartPositions.add(new Vector2(400, 300));
-        playerStartPositions.add(new Vector2(800, 300));
-
-        CreateEnemy(new DefaultEnemyFactory(), new Vector2(400, 400), entities);
-        CreateObstacle(new Vector2(200, 300), entities);
-        CreateObstacle(new Vector2(600, 300), entities);
-
-        return new RoomInformation(entities, playerStartPositions);
-    }
-
-    public static void CreateEnemy(IEnemyFactory factory, Vector2 position, HashMap<UUID, EntityWrapper> entities){
-    IEnemy enemy = factory.createEnemy(position, 100);
-    EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
-    Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
-    EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);
-    entities.put(((Entity) enemy).uuid, newEntity);
-    }
-
-    public static void CreateObstacle(Vector2 position, HashMap<UUID, EntityWrapper> entities){
-        Obstacle obstacle  = new Obstacle(position);
-        EntitySprite sprite = new EntitySprite(position, new Vector2(50, 50));
-        Collider collider = Collider.NewRectangle(position, 50, 50, CollisionLayer.Obstacle);
-        EntityWrapper newObstacle = new EntityWrapper(obstacle, sprite, collider);
-        entities.put(obstacle.uuid, newObstacle);
+    public Vector2 getPlayerPosition(){
+        Vector2 position = switch (direction) {
+            case 1 -> new Vector2(xMax / 2, 50);
+            case 2 -> new Vector2(xMax - 50, yMax / 2);
+            case 3 -> new Vector2(xMax / 2, yMax - 50);
+            case 4 -> new Vector2(50, yMax / 2);
+            default -> new Vector2(xMax / 2, yMax / 2);
+        };
+        return position;
     }
 
     @Override
