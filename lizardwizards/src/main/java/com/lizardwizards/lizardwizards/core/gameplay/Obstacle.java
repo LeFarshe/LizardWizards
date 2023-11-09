@@ -27,4 +27,9 @@ public class Obstacle extends Entity{
     public boolean IsDestroyed() {
         return false;
     }
+    @Override
+    public Obstacle clone(){
+        Obstacle clone = (Obstacle)super.clone();
+        return clone;
+    }
 }

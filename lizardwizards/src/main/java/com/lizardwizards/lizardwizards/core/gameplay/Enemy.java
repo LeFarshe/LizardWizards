@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 
 import java.util.Dictionary;
 import java.util.Random;
+import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
@@ -13,7 +14,7 @@ public class Enemy extends Entity implements IEnemy {
     double directionTimer = directionDelay;
     boolean isDestroyed = false;
 
-    private final Random rand = new Random();
+    private Random rand = new Random();
 
     public Enemy(Vector2 position, double speed)
     {
@@ -62,6 +63,21 @@ public class Enemy extends Entity implements IEnemy {
     @Override
     public boolean IsDestroyed() {
         return isDestroyed;
+    }
+
+    @Override
+    public Enemy clone() {
+        Enemy clone = (Enemy) super.clone();
+
+        if (moveDirection != null) { clone.moveDirection = moveDirection.Copy(); }
+        clone.health = health;
+        clone.speed = speed;
+        clone.directionDelay = directionDelay;
+        clone.directionTimer = directionTimer;
+        clone.isDestroyed = isDestroyed;
+        clone.rand = new Random();
+
+        return clone;
     }
 
     @Override
