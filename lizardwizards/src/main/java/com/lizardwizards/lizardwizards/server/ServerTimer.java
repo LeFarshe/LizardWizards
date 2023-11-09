@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards.server;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
@@ -7,7 +8,6 @@ import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import javafx.util.Pair;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerTimer extends TimerTask {
 
@@ -24,10 +24,19 @@ public class ServerTimer extends TimerTask {
     private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
 
+    private final List<Collider> doors = new ArrayList<>();
+    private boolean[] existingDoors;
+    private boolean roomIsBeingChanged = false;
+
     public ServerTimer(Session session) {
         levelDirector = new LevelDirector();
         currentLevel = levelDirector.testLevel();
         roomFactory = new RoomFactory();
+
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, 0), 20,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax, RoomInformation.yMax / 2), 20,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax), 20,20, CollisionLayer.Player));
+        doors.add(Collider.NewRectangle(new Vector2(0, RoomInformation.yMax / 2), 20,20, CollisionLayer.Player));
 
         this.entities = new HashMap<>();
         currentSession = session;
@@ -36,7 +45,7 @@ public class ServerTimer extends TimerTask {
         this.createdEntities = new LinkedList<>();
         this.destroyedEntities = new LinkedList<>();
         time = 0;
-        loadRoom(roomFactory.getRoom(currentLevel.getCurrentRoom(), currentLevel.enteredDirection));
+        loadRoom();
     }
 
     @Override
@@ -69,27 +78,31 @@ public class ServerTimer extends TimerTask {
 
         currentSession.sendToPlayers(getChanges(), SentDataType.SyncPacket);
         time = now;
+        for(PlayerHandler player: players) {
+            for (int i = 0; i < 4; i++){
+                if (doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i] && !roomIsBeingChanged) {
+                    currentLevel.moveDirectionally(i + 1);
+                    roomIsBeingChanged = true;
+                    loadRoom();
+                    break;
+                }
+            }
+        }
     }
 
-    public synchronized void loadRoom(RoomInformation room) {
-        AtomicInteger i = new AtomicInteger();
-        List<EntityWrapper> playersTemp = new LinkedList<>();
-        entities.forEach(((uuid, entity) -> {
-            if (players.stream().noneMatch(x -> entity.entity.uuid.compareTo(x.getPlayerUUID()) == 0)){
-                destroyedEntities.add(entity);
-                entities.remove(uuid);
-            }
-            else {
-                playersTemp.add(entity);
-            }
-        }));
-        playersTemp.sort(Comparator.comparing(a -> a.entity.uuid));
-        playersTemp.forEach(player -> {
-            player.SetPosition(room.getPlayerPosition());
-        });
-        entities.putAll(room.entities);
+    public synchronized void loadRoom() {
         createdEntities.clear();
+        RoomInformation room = roomFactory.getRoom(currentLevel);
+        existingDoors = currentLevel.getDoors();
+        entities.clear();
+        for (PlayerHandler player: players){
+            entities.put(player.getPlayerUUID(),player.getPlayer());
+            player.getPlayer().SetPosition(room.getPlayerPosition());
+        }
+        entities.putAll(room.entities);
+
         currentSession.sendToPlayers(room, SentDataType.Room);
+        roomIsBeingChanged = false;
     }
 
     public synchronized SyncPacket getChanges(){

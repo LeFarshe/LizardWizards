@@ -20,15 +20,19 @@ public class Level {
         return rooms[(int)currentPos.x][(int)currentPos.y];
     }
 
+    public boolean[] getDoors(){
+        boolean[] enterableDirections = new boolean[4];
+        Vector2 newPos;
+
+        for (int i = 0; i < 4; i++){
+            enterableDirections[i] = canMove(directionalPosition(i + 1));
+        }
+
+        return enterableDirections;
+    }
+
     public boolean moveDirectionally(int direction){
-        if (direction < 1 || direction > 4) { return false; }
-        Vector2 newPos = currentPos.Copy();
-        if (direction % 2 == 1) {
-            newPos.x += (direction - 2);
-        }
-        else {
-            newPos.y += (direction - 3) * (-1);
-        }
+        Vector2 newPos = directionalPosition(direction);
         enteredDirection = (direction + 2) % 4;
         if (enteredDirection == 0) { enteredDirection = 4; }
         return teleport(newPos, enteredDirection);
@@ -49,5 +53,16 @@ public class Level {
             return false;
         }
         return true;
+    }
+
+    private Vector2 directionalPosition(int direction){
+        Vector2 newPos = currentPos.Copy();
+        if (direction % 2 == 1) {
+            newPos.x += (direction - 2);
+        }
+        else {
+            newPos.y += (direction - 3) * (-1);
+        }
+        return newPos;
     }
 }
