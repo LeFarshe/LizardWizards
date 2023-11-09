@@ -26,7 +26,6 @@ public class ServerTimer extends TimerTask {
 
     private final List<Collider> doors = new ArrayList<>();
     private boolean[] existingDoors;
-    private boolean roomIsBeingChanged = false;
 
     public ServerTimer(Session session) {
         levelDirector = new LevelDirector();
@@ -80,9 +79,8 @@ public class ServerTimer extends TimerTask {
         time = now;
         for(PlayerHandler player: players) {
             for (int i = 0; i < 4; i++){
-                if (doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i] && !roomIsBeingChanged) {
+                if (doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
                     currentLevel.moveDirectionally(i + 1);
-                    roomIsBeingChanged = true;
                     loadRoom();
                     break;
                 }
@@ -102,7 +100,6 @@ public class ServerTimer extends TimerTask {
         entities.putAll(room.entities);
 
         currentSession.sendToPlayers(room, SentDataType.Room);
-        roomIsBeingChanged = false;
     }
 
     public synchronized SyncPacket getChanges(){
