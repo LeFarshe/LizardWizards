@@ -39,8 +39,8 @@ public class GameController {
         entities.putAll(room.entities);
 
         players.sort(Comparator.comparing(a -> a.entity.uuid));
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).SetPosition(room.playerStartPositions.get(i));
+        for (EntityWrapper player : players) {
+            player.SetPosition(room.getPlayerPosition());
         }
 
         entities.forEach((uuid, entity) -> {
