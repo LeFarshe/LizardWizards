@@ -29,7 +29,7 @@ public class ServerTimer extends TimerTask {
         this.destroyedEntities = new LinkedList<>();
         time = 0;
         loadRoom(room);
-        session.sendToPlayers(room, SentDataType.Room);
+        session.sendToPlayers(room);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ServerTimer extends TimerTask {
             }
         });
 
-        currentSession.sendToPlayers(getChanges(), SentDataType.SyncPacket);
+        currentSession.sendToPlayers(getChanges());
         time = now;
     }
 

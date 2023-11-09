@@ -1,8 +1,12 @@
 package com.lizardwizards.lizardwizards.core.communication;
 
+import com.lizardwizards.lizardwizards.client.ClientConnectionHandler;
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.GameController;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
+import javafx.application.Platform;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,12 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class RoomInformation implements Serializable {
+public class RoomInformation extends SentServerData{
     public final HashMap<UUID, EntityWrapper> entities;
     public final List<Vector2> playerStartPositions;
 
-
     public RoomInformation(HashMap<UUID, EntityWrapper> entities, List<Vector2> playerStartPositions) {
+        super(SentDataType.Room);
         this.entities = entities;
         this.playerStartPositions = playerStartPositions;
     }
@@ -47,5 +51,11 @@ public class RoomInformation implements Serializable {
         Collider collider = Collider.NewRectangle(position, 50, 50, CollisionLayer.Obstacle);
         EntityWrapper newObstacle = new EntityWrapper(obstacle, sprite, collider);
         entities.put(obstacle.uuid, newObstacle);
+    }
+
+    @Override
+    public void execute() {
+        var cch = ClientConnectionHandler.CurrentHandler;
+        Platform.runLater(()-> ClientUtils.gameController.initEntityList(this, cch.connectedplayerList));
     }
 }

@@ -7,9 +7,11 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Timer;
 
+import com.lizardwizards.lizardwizards.core.communication.ConnectionInformation;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
+import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 
 public class Server implements Runnable{
     private final ServerSocket serverSocket;
@@ -39,7 +41,7 @@ public class Server implements Runnable{
                 }
                 else {
                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                    outputStream.writeObject(new SentServerData(false, SentDataType.ConnectionInformation));
+                    outputStream.writeObject(new ConnectionInformation(GameState.NotConnected));
                     outputStream.close();
                     socket.close();
                 }
@@ -60,7 +62,7 @@ public class Server implements Runnable{
                     continue;
                 }
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                outputStream.writeObject(new SentServerData(false, SentDataType.ConnectionInformation));
+                outputStream.writeObject(new ConnectionInformation(GameState.NotConnected));
                 outputStream.close();
                 socket.close();
             }
@@ -70,6 +72,7 @@ public class Server implements Runnable{
                 e.printStackTrace();
                 stopServer();
             } catch (IOException ex) {
+                System.out.println("Failed to stop server");
                 ex.printStackTrace();
             }
         }
