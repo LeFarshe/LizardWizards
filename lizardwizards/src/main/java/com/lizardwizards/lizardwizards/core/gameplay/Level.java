@@ -7,13 +7,17 @@ public class Level {
     int size;
     Vector2 currentPos;
     // 0 is center, 1 is up, continues clockwise until 4 which means left.
-    int enteredDirection = 0;
+    public int enteredDirection = 0;
 
     public Level(RoomData[][] rooms, int size){
         this.rooms = rooms;
         this.size = size;
         int startPos = (size - 1) / 2;
         currentPos = new Vector2(startPos, startPos);
+    }
+
+    public RoomData getCurrentRoom(){
+        return rooms[(int)currentPos.x][(int)currentPos.y];
     }
 
     public boolean moveDirectionally(int direction){

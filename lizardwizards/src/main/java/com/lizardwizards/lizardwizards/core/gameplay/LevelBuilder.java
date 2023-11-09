@@ -15,6 +15,12 @@ public class LevelBuilder {
         this.size = size;
     }
 
+    public void reset(){
+        rooms = null;
+        levelStructure = null;
+        deadEnds = null;
+    }
+
     public Level build(){
         return new Level(rooms, size);
     }
