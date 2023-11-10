@@ -42,7 +42,14 @@ public class StandardEnemy extends Enemy {
 
     @Override
     public void Collide(Entity collider, CollisionLayer layer) {
-
+        implementor.onCollision(layer);
+        if (layer == CollisionLayer.PlayerProjectile) {
+            health -= 1;
+            if (health <= 0 && !isDestroyed) {
+                isDestroyed = implementor.isDestroyed(); // This could also call a method like `handleDestruction()`
+                HandleDeath();
+            }
+        }
     }
 
     ;
