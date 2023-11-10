@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public abstract class Entity implements Serializable {
+public abstract class Entity implements Serializable, Cloneable {
 
-    public final UUID uuid = UUID.randomUUID();
+    public UUID uuid = UUID.randomUUID();
     Vector2 position;
 
     public void SetPosition(Vector2 position){
@@ -29,4 +29,17 @@ public abstract class Entity implements Serializable {
 
     public abstract Dictionary<String, Integer> GetSpriteSettings();
     public abstract boolean IsDestroyed();
+
+    public Entity clone() {
+        try {
+            Entity clone = (Entity) super.clone();
+            clone.uuid = UUID.randomUUID();
+            if (position != null) {
+                clone.position = position.Copy();
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
