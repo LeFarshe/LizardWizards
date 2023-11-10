@@ -1,12 +1,14 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 public class StandardEnemy extends Enemy {
 
-    public StandardEnemy(IEnemyImplementor implementor, int health) {
-        super(implementor, health);
+    public StandardEnemy(IEnemyImplementor implementor, int health, Vector2 position) {
+        super(implementor, health, position);
+        this.position = position;
     }
 
     @Override

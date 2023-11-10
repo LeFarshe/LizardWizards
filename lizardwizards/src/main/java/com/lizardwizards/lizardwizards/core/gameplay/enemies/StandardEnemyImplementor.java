@@ -5,12 +5,13 @@ import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
+import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.Random;
 
-public class StandardEnemyImplementor implements IEnemyImplementor {
-
-    private Entity enemyEntity;
+public class StandardEnemyImplementor implements IEnemyImplementor, Serializable {
+    private static final long serialVersionUID = 1L;
+    private final Entity enemyEntity;
     int health = 3;
     double speed;
     double directionDelay = 1;
@@ -27,7 +28,6 @@ public class StandardEnemyImplementor implements IEnemyImplementor {
         this.health = initialHealth;
         setRandomDirection();
     }
-
 
     @Override
     public void move(double delta) {
@@ -66,9 +66,6 @@ public class StandardEnemyImplementor implements IEnemyImplementor {
     public Dictionary<String, Integer> GetSpriteSettings(){
         return null;
     }
-
-
-
 
     @Override
     public boolean isDestroyed() {

@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
 import java.util.Dictionary;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
@@ -10,9 +11,12 @@ public abstract class Enemy extends Entity implements IEnemy {
     protected int health;
     protected boolean isDestroyed;
 
-    public Enemy(IEnemyImplementor implementor, int health) {
+    protected Vector2 position;
+    public Enemy(IEnemyImplementor implementor, int health, Vector2 position) {
+        this.SetPosition(position);
         this.implementor = implementor;
         this.health = health;
+        this.position = position;
     }
 
     @Override

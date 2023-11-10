@@ -9,5 +9,4 @@ public interface IEnemyImplementor {
     boolean isDestroyed();
 
     void setRandomDirection();
-    // Other methods related to the 'implementation' of the Enemy...
 }
