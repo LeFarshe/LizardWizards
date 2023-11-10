@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EntityWrapper implements Serializable {
+public class EntityWrapper implements Serializable, Cloneable {
     public Entity entity;
     public EntitySprite sprite;
     public Collider collider;
@@ -101,5 +101,19 @@ public class EntityWrapper implements Serializable {
         var ew = new EntityWrapper(this.entity, this.sprite, this.collider);
         ew.position = position.Copy();
         return ew;
+    }
+
+    @Override
+    public EntityWrapper clone() {
+        try {
+            EntityWrapper clone = (EntityWrapper) super.clone();
+            if (entity != null) { clone.entity = entity.clone(); }
+            if (sprite != null) { clone.sprite = sprite.clone(); }
+            if (collider != null) { clone.collider = collider.clone(); }
+            if (position != null) { clone.position = position.Copy(); }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

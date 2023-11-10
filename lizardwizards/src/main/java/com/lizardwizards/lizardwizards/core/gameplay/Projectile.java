@@ -55,4 +55,15 @@ public class Projectile extends Entity{
     public Collider GetCollider(CollisionLayer layer) {
         return Collider.NewRectangle(position.Copy(), spriteSize.x, spriteSize.y, layer);
     }
+
+    @Override
+    public Projectile clone(){
+        Projectile clone = (Projectile)super.clone();
+        if (direction != null) { clone.direction = direction.Copy(); }
+        clone.speed = speed;
+        clone.duration = duration;
+        clone.erase = erase;
+        if (spriteSize != null) { clone.spriteSize = spriteSize.Copy(); }
+        return clone;
+    }
 }

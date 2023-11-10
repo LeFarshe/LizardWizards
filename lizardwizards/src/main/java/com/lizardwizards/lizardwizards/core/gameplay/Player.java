@@ -130,4 +130,26 @@ public class Player extends Entity {
         if (currentWeapon >= weapons.size()) { currentWeapon -= weapons.size(); }
         else if (currentWeapon < 0) { currentWeapon += weapons.size(); }
     }
+
+    @Override
+    public Player clone(){
+        Player clone = (Player)super.clone();
+        if (moveDirection != null) { clone.moveDirection = moveDirection.Copy(); }
+        if (shootDirection != null) { clone.shootDirection = shootDirection.Copy(); }
+
+        clone.weapons = new ArrayList<>();
+        for (Weapon weapon: weapons){
+            clone.weapons.add(weapon.clone());
+        }
+
+        clone.currentWeapon = currentWeapon;
+        clone.health = health;
+        clone.speed = speed;
+        clone.isMoving = isMoving;
+        clone.isShooting = isShooting;
+        clone.isImmune = isImmune;
+        clone.immuneTimerMax = immuneTimerMax;
+        clone.currentImmuneTimer = currentImmuneTimer;
+        return clone;
+    }
 }

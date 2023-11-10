@@ -21,4 +21,10 @@ public class Gun extends Weapon{
         projectiles.add(projectile);
         return projectiles;
     }
+
+    @Override
+    public Gun clone(){
+        Gun clone = (Gun)super.clone();
+        return clone;
+    }
 }

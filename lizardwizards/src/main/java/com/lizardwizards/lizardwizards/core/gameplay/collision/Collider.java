@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Collider implements Serializable {
+public class Collider implements Serializable, Cloneable {
     // Center of shape
     public Vector2 position;
 
@@ -70,5 +70,26 @@ public class Collider implements Serializable {
         if (value < min){ return min;}
         if (value > max){ return max;}
         return value;
+    }
+
+    @Override
+    public Collider clone() {
+        try {
+            Collider clone = (Collider) super.clone();
+            if (position != null) { clone.position = position.Copy(); }
+
+            if (shapeDetails != null) {
+                clone.shapeDetails = new ArrayList<>();
+                for (Double detail: shapeDetails){
+                    clone.shapeDetails.add(detail.doubleValue());
+                }
+            }
+
+            clone.shape = shape;
+            clone.layer = layer;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

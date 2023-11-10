@@ -10,8 +10,8 @@ import java.io.Serializable;
 //Rectangle is temporary
 // No it's not
 // Yes it is
-public class EntitySprite extends Rectangle implements Serializable {
-    private final Vector2 size; // TODO remove
+public class EntitySprite extends Rectangle implements Serializable, Cloneable {
+    private Vector2 size; // TODO remove
     public EntitySprite(Vector2 position, Vector2 size)
     {
         this.size = size;
@@ -33,5 +33,24 @@ public class EntitySprite extends Rectangle implements Serializable {
     public void ResetSize(){ // this is here since shit broke and TODO remove
         this.setHeight(size.y);
         this.setWidth(size.x);
+    }
+
+    @Override
+    public EntitySprite clone(){
+        try {
+            EntitySprite clone = (EntitySprite) super.clone();
+
+            clone.setHeight(getHeight());
+            clone.setWidth(getWidth());
+            clone.setTranslateX(getTranslateX());
+            clone.setTranslateY(getTranslateY());
+
+            if (size != null) { clone.size = size.Copy(); }
+
+            return clone;
+
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
