@@ -23,6 +23,9 @@ public class RoomFactory {
         if (currentLevel.getCurrentRoom().id == RoomEnumerator.BasicRoom) {
             if (!currentLevel.getCurrentRoom().cleared) {
                 AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
             }
 
             AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50,50)), entities);
@@ -35,7 +38,7 @@ public class RoomFactory {
 
 
     private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
-        IEnemy enemy = enemyFactory.createEnemy(position, 100);
+        IEnemy enemy = enemyFactory.createEnemy(position, 5);
         EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
         EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);

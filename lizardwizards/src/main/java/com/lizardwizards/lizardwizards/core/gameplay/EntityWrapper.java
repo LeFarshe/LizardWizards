@@ -79,13 +79,11 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
                 }
             }
         }
-        if (entity instanceof StandardEnemy) {
+
             sprite.SetPosition(entity.GetPosition());
             position = entity.GetPosition();
-        } else {
-            sprite.SetPosition(entity.GetPosition());
-            position = entity.GetPosition();
-        }
+        
+        
     }
 
     public synchronized void SetPosition(Vector2 position){
