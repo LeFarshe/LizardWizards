@@ -2,6 +2,8 @@ package com.lizardwizards.lizardwizards.server;
 
 import com.lizardwizards.lizardwizards.core.communication.LobbyUpdate;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
+import com.lizardwizards.lizardwizards.core.communication.SentServerData;
+import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class Session {
     private GameState gameState;
 
     public Session(int maxPlayers) {
-        gameState = GameState.Lobby;
+        gameState = GameState.InLobby;
         playersConnected = 0;
         this.maxPlayers = maxPlayers;
         players = new ArrayList<>(maxPlayers);
@@ -37,10 +39,10 @@ public class Session {
         return gameState;
     }
 
-    public void sendToPlayers(Object data, SentDataType dataType) {
+    public void sendToPlayers(SentServerData sentServerData) {
         try {
             for (PlayerHandler x : players) {
-                x.sendToPlayer(data, dataType);
+                x.sendToPlayer(sentServerData);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -50,14 +52,13 @@ public class Session {
     public void updateLobby() {
         sendToPlayers(new LobbyUpdate(
                         players.stream().filter(PlayerHandler::isReady).map(PlayerHandler::getPlayer).toList(),
-                        maxPlayers),
-                SentDataType.LobbyUpdate);
+                        maxPlayers));
     }
 
     public boolean startGame() {
         if (playersConnected == maxPlayers && players.stream().allMatch(PlayerHandler::isReady)) {
             // This assumes that the game will start as soon as the lobby is full and every player is ready
-            gameState = GameState.MainGame;
+            gameState = GameState.InGame;
             players.forEach(PlayerHandler::handleMainGame);
             return true;
         }

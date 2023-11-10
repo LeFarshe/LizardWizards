@@ -1,10 +1,12 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
 import java.util.Dictionary;
 import java.util.Random;
 import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.Entity;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 public class Enemy extends Entity implements IEnemy {
     Vector2 moveDirection = new Vector2(0,0);

@@ -1,10 +1,13 @@
 package com.lizardwizards.lizardwizards.server;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.levels.Level;
+import com.lizardwizards.lizardwizards.core.gameplay.levels.LevelFacade;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -12,10 +15,8 @@ import java.util.*;
 public class ServerTimer extends TimerTask {
 
     private long time;
-    private Level currentLevel;
-
-    private LevelFacade levelFacade;
-
+    private final Level currentLevel;
+    private final LevelFacade levelFacade;
     private final HashMap<UUID, EntityWrapper> entities;
     private final List<PlayerHandler> players;
     private final Session currentSession;
@@ -72,7 +73,7 @@ public class ServerTimer extends TimerTask {
             }
         });
 
-        currentSession.sendToPlayers(getChanges(), SentDataType.SyncPacket);
+        currentSession.sendToPlayers(getChanges());
         time = now;
         for(PlayerHandler player: players) {
             for (int i = 0; i < 4; i++){
@@ -96,7 +97,7 @@ public class ServerTimer extends TimerTask {
         }
         entities.putAll(room.entities);
 
-        currentSession.sendToPlayers(room, SentDataType.Room);
+        currentSession.sendToPlayers(room);
     }
 
     public synchronized SyncPacket getChanges(){

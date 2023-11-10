@@ -1,8 +1,7 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
-
-import java.util.Random;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
 
 public class LevelFacade {
     private LevelDirector levelDirector;

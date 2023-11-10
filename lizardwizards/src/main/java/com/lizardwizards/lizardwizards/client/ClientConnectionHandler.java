@@ -7,16 +7,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
-import com.lizardwizards.lizardwizards.client.ui.ConnectionController;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
-import javafx.application.Platform;
+import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 import javafx.stage.Stage;
 
 public class ClientConnectionHandler implements Runnable {
@@ -24,9 +22,9 @@ public class ClientConnectionHandler implements Runnable {
     private final Socket clientSocket;
     private final ObjectOutputStream socketOutput;
     private final ObjectInputStream socketInput;
-    private final EntityWrapper player;
-    private final List<EntityWrapper> connectedplayerList;
-    private boolean gameStarted;
+    public final EntityWrapper player;
+    public final List<EntityWrapper> connectedplayerList;
+    private GameState gameState = GameState.NotConnected;
     public Stage stage;
     public Thread currentThread;
 
@@ -34,13 +32,17 @@ public class ClientConnectionHandler implements Runnable {
         if (CurrentHandler != null){
             CurrentHandler.closeConnection();
         }
+        CurrentHandler = this;
         connectedplayerList = new LinkedList<>();
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(ip, port), 3000);
         socketInput = new ObjectInputStream(clientSocket.getInputStream());
         try {
             SentServerData sentServerData = listen();
-            if (sentServerData.dataType == SentDataType.ConnectionInformation && sentServerData.handleConnectionInformation()){
+            if (sentServerData.dataType == SentDataType.ConnectionInformation){
+                sentServerData.execute();
+            }
+            if (gameState == GameState.InLobby) {
                 this.player = (EntityWrapper) socketInput.readObject();
             }
             else {
@@ -93,9 +95,10 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     public void closeConnection() {
-        // Something to inform about the closed connection maybe?
         try {
             clientSocket.close();
+            CurrentHandler = null;
+            currentThread.interrupt();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -103,28 +106,11 @@ public class ClientConnectionHandler implements Runnable {
 
     @Override
     public void run() {
-        // Listen for updates and other messages
-
         //This is the lobby state
-        while (!gameStarted){
+        while (gameState == GameState.InLobby){
             var data = listen();
             switch (data.dataType){
-                case LobbyUpdate -> {
-                    var lobby_status = data.handleLobbyUpdate();
-                    if (lobby_status.maxPlayers == lobby_status.readyPlayers.size()) {
-                        gameStarted = true;
-                        connectedplayerList.clear(); // This is just cleaner
-                        connectedplayerList.addAll(lobby_status.readyPlayers);
-                        Platform.runLater(() -> {
-                            ClientUtils.changeScene(stage, 3);
-                            ClientUtils.gameController.SetPlayer(player);
-                        });
-                    }
-                }
-                case ConnectionInformation -> {
-                    if (!data.handleConnectionInformation())
-                        closeConnection();
-                }
+                case LobbyUpdate, ConnectionInformation -> data.execute();
                 default -> {
                     throw new RuntimeException("Unexpected datatype received from server while in lobby");
                 }
@@ -132,22 +118,15 @@ public class ClientConnectionHandler implements Runnable {
             }
         }
         boolean waitingForFirstSync = true;
-        while (waitingForFirstSync && gameStarted) {
+        while (waitingForFirstSync && gameState == GameState.InGame) {
             var data = listen();
             switch (data.dataType) {
                 case SyncPacket -> {
-                    ClientUtils.gameController.start((SyncPacket) data.payload);
-                    data.handleSyncPacket(ClientUtils.gameController);
+                    ClientUtils.gameController.start((SyncPacket) data);
+                    data.execute();
                     waitingForFirstSync = false;
                 }
-                case Room -> {
-                    data.handleRoomLoading(ClientUtils.gameController, connectedplayerList);
-                }
-                case ConnectionInformation -> {
-                    if (!data.handleConnectionInformation()) {
-                        gameStarted = false;
-                    }
-                }
+                case Room, ConnectionInformation -> data.execute();
                 default -> {
                     System.out.println(data.dataType);
                     throw new RuntimeException("Unexpected datatype received from server while waiting for first sync");
@@ -156,23 +135,17 @@ public class ClientConnectionHandler implements Runnable {
         }
 
         // This is the game state
-        while (gameStarted) {
+        while (gameState == GameState.InGame) {
             var data = listen();
             switch (data.dataType) {
-                case SyncPacket -> {
-                    data.handleSyncPacket(ClientUtils.gameController);
-                }
-                case Room -> {
-                    data.handleRoomLoading(ClientUtils.gameController, connectedplayerList);
-                }
-                case ConnectionInformation -> {
-                    if (!data.handleConnectionInformation()) {
-                        gameStarted = false;
-                    }
-                }
+                case SyncPacket, ConnectionInformation, Room -> data.execute();
                 default ->
                         throw new RuntimeException("Unexpected datatype received from server while in game");
             }
         }
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 }

@@ -18,4 +18,12 @@ module com.lizardwizards.lizardwizards {
     opens com.lizardwizards.lizardwizards.client.ui to javafx.fxml;
     exports com.lizardwizards.lizardwizards.client.ui.modals;
     opens com.lizardwizards.lizardwizards.client.ui.modals to javafx.fxml;
+    exports com.lizardwizards.lizardwizards.core.gameplay.weapons;
+    opens com.lizardwizards.lizardwizards.core.gameplay.weapons to javafx.fxml;
+    exports com.lizardwizards.lizardwizards.core.gameplay.collision;
+    opens com.lizardwizards.lizardwizards.core.gameplay.collision to javafx.fxml;
+    exports com.lizardwizards.lizardwizards.core.gameplay.levels;
+    opens com.lizardwizards.lizardwizards.core.gameplay.levels to javafx.fxml;
+    exports com.lizardwizards.lizardwizards.core.gameplay.enemies;
+    opens com.lizardwizards.lizardwizards.core.gameplay.enemies to javafx.fxml;
 }
