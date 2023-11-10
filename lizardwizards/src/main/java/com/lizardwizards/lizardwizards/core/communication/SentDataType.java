@@ -4,5 +4,6 @@ public enum SentDataType {
     SyncPacket,
     ConnectionInformation,
     Room,
-    LobbyUpdate
+    LobbyUpdate,
+    Undo
 }
