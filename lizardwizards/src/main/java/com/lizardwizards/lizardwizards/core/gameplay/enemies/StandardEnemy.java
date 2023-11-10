@@ -19,7 +19,8 @@ public class StandardEnemy extends Enemy {
         if (layer == CollisionLayer.PlayerProjectile) {
             health -= 1;
             if (health <= 0 && !isDestroyed) {
-                isDestroyed = implementor.isDestroyed(); // This could also call a method like `handleDestruction()`
+                // isDestroyed = implementor.isDestroyed(); // This could also call a method like `handleDestruction()`
+                isDestroyed = true;
                 HandleDeath();
             }
         }

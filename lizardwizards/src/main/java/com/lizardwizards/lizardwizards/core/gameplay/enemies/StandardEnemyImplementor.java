@@ -60,10 +60,10 @@ public class StandardEnemyImplementor implements IEnemyImplementor, Serializable
         return enemyEntity.GetPosition();
     }
 
-    public void HandleDeath() {
-        isDestroyed = true;
-        System.out.println("Enemy has died!");
-        Scoreboard.getInstance().addScore(5);
+    public void HandleDeath() { // why is this here? StandardEnemy already does this???
+        // isDestroyed = true;
+        // System.out.println("Enemy has died!");
+        // Scoreboard.getInstance().addScore(5);
     }
 
     public Dictionary<String, Integer> GetSpriteSettings(){
