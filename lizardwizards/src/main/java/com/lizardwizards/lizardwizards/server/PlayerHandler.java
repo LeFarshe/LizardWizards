@@ -41,6 +41,7 @@ public class PlayerHandler {
             Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
             player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Pistol));
             player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Shotgun));
+            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Chaingun));
             var playerColor = session.sessionColors.get(session.playersConnected%session.sessionColors.size());
             EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20), playerColor);
             this.player = new EntityWrapper(player, playerSprite, collider);
