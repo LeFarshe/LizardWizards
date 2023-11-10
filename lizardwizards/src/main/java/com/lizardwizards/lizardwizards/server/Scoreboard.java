@@ -13,7 +13,9 @@ public class Scoreboard {
     }
 
     public int getScore() {
-        return score;
+        synchronized (Scoreboard.class) {
+            return score;
+        }
     }
 
     public void addScore(int score) {
