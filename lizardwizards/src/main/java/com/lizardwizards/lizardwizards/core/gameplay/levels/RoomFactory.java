@@ -9,6 +9,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.Obstacle;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 
@@ -16,12 +17,15 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RoomFactory {
-    public RoomInformation getRoom(Level currentLevel, IEnemyFactory enemyFactory){
+    public RoomInformation getRoom(Level currentLevel, DefaultEnemyFactory enemyFactory){
         HashMap<UUID, EntityWrapper> entities = new HashMap<>();
         CreateWalls(entities);
         CreateDoors(entities, currentLevel.getDoors());
         if (currentLevel.getCurrentRoom().id == RoomEnumerator.BasicRoom) {
             if (!currentLevel.getCurrentRoom().cleared) {
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
                 AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
             }
 
@@ -34,8 +38,8 @@ public class RoomFactory {
 
 
 
-    private EntityWrapper CreateEnemy(Vector2 position, IEnemyFactory enemyFactory){
-        IEnemy enemy = enemyFactory.createEnemy(position, 100);
+    private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
+        IEnemy enemy = enemyFactory.createEnemy(position, 5);
         EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
         EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);

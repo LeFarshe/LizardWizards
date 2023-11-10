@@ -17,7 +17,7 @@ public abstract class Entity implements Serializable, Cloneable {
     };
 
     public Vector2 GetPosition(){
-        return position.Copy();
+            return this.position.Copy();
     };
 
     public void Move(Vector2 amount){

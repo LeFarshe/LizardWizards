@@ -5,6 +5,8 @@ import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyImplementor;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.StandardEnemy;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -78,8 +80,11 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
                 }
             }
         }
-        sprite.SetPosition(entity.GetPosition());
-        position = entity.GetPosition();
+
+            sprite.SetPosition(entity.GetPosition());
+            position = entity.GetPosition();
+        
+        
     }
 
     public synchronized void SetPosition(Vector2 position){
