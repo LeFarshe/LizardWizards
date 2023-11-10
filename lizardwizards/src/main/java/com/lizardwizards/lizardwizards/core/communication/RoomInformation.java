@@ -18,8 +18,8 @@ public class RoomInformation extends SentServerData{
     public static double xMax = 1600;
     public static double yMax = 900;
     public int direction = 0;
-
     public HashMap<UUID, EntityWrapper> entities;
+    private HashMap<UUID, EntityWrapper> oldEntities;
 
     public RoomInformation(){
         super(SentDataType.Room);
@@ -45,7 +45,16 @@ public class RoomInformation extends SentServerData{
 
     @Override
     public void execute() {
+        addToHistory();
         var cch = ClientConnectionHandler.CurrentHandler;
+        oldEntities = ClientUtils.gameController.getCopyOfEntities();
+        Platform.runLater(()-> ClientUtils.gameController.initEntityList(this, cch.connectedplayerList));
+    }
+
+    @Override
+    public void undo() {
+        var cch = ClientConnectionHandler.CurrentHandler;
+        entities = oldEntities;
         Platform.runLater(()-> ClientUtils.gameController.initEntityList(this, cch.connectedplayerList));
     }
 }

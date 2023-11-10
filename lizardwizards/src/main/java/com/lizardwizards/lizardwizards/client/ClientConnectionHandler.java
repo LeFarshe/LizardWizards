@@ -5,14 +5,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
+import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 import javafx.stage.Stage;
@@ -27,6 +27,7 @@ public class ClientConnectionHandler implements Runnable {
     private GameState gameState = GameState.NotConnected;
     public Stage stage;
     public Thread currentThread;
+    private Deque<SentServerData> commandHistory;
 
     public ClientConnectionHandler(String ip, int port) throws IOException {
         if (CurrentHandler != null){
@@ -145,7 +146,33 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public void setGameState(GameState gameState) {
+    public GameState setGameState(GameState gameState) {
+        var oldGameState = this.gameState;
         this.gameState = gameState;
+        return oldGameState;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void addToCommandHistory(SentServerData sentServerData) {
+        commandHistory.add(sentServerData);
+        if (commandHistory.size() > 5) {
+            commandHistory.removeLast();
+        }
+    }
+
+    public SentServerData tryUndo(boolean redo) {
+        if (commandHistory.isEmpty())
+            return null;
+        var command = commandHistory.removeFirst();
+        if (!redo || (command.dataType == SentDataType.Undo)) {
+            command.undo();
+            return command;
+        }
+        var nextCommand = tryUndo(true);
+        commandHistory.addFirst(command);
+        return nextCommand;
     }
 }

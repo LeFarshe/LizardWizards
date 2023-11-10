@@ -123,6 +123,10 @@ public class GameController {
         }
     }
 
+    public synchronized HashMap<UUID, EntityWrapper> getCopyOfEntities() { // this exists only to serve UNDO
+        return new HashMap<>(entities);
+    }
+
     public void SetPlayer(EntityWrapper player)
     {
         currentPlayer = player;

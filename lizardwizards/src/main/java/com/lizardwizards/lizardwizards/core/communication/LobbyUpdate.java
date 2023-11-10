@@ -7,11 +7,13 @@ import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 import javafx.application.Platform;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LobbyUpdate extends SentServerData{
     public final List<EntityWrapper> readyPlayers;
     public final int maxPlayers;
+    private List<EntityWrapper> oldReadyPlayers;
 
     public LobbyUpdate(List<EntityWrapper> readyPlayers, int maxPlayers) {
         super(SentDataType.LobbyUpdate);
@@ -21,7 +23,9 @@ public class LobbyUpdate extends SentServerData{
 
     @Override
     public void execute() {
+        addToHistory();
         var cch = ClientConnectionHandler.CurrentHandler;
+        oldReadyPlayers = new ArrayList<>(cch.connectedplayerList);
         cch.connectedplayerList.clear(); // This is just cleaner
         cch.connectedplayerList.addAll(readyPlayers);
         if (maxPlayers == readyPlayers.size()) {
@@ -30,6 +34,19 @@ public class LobbyUpdate extends SentServerData{
                 ClientUtils.changeScene(cch.stage, 3);
                 assert cch.player != null;
                 ClientUtils.gameController.SetPlayer(cch.player);
+            });
+        }
+    }
+
+    @Override
+    public void undo() {
+        var cch = ClientConnectionHandler.CurrentHandler;
+        cch.connectedplayerList.clear();
+        cch.connectedplayerList.addAll(oldReadyPlayers);
+        if (cch.getGameState() == GameState.InGame && maxPlayers != oldReadyPlayers.size()) {
+            cch.setGameState(GameState.InLobby);
+            Platform.runLater(() -> {
+                ClientUtils.changeScene(cch.stage, 2);
             });
         }
     }
