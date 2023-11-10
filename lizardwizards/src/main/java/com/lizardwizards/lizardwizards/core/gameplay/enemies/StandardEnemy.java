@@ -35,6 +35,11 @@ public class StandardEnemy extends Enemy {
     }
 
     @Override
+    public Vector2 GetPosition(){
+            return this.implementor.getPosition().Copy();
+    };
+
+    @Override
     public boolean IsDestroyed() {
         return isDestroyed;
     }

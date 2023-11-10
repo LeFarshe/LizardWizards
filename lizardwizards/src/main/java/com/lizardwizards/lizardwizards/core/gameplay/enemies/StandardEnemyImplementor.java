@@ -56,6 +56,11 @@ public class StandardEnemyImplementor implements IEnemyImplementor, Serializable
         moveDirection = new Vector2(randX, randY).Normalize();
     }
 
+    @Override
+    public Vector2 getPosition() {
+        return enemyEntity.GetPosition();
+    }
+
 
     public void HandleDeath() {
         isDestroyed = true;
