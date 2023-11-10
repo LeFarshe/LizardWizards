@@ -14,6 +14,7 @@ import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 
 public class PlayerHandler {
@@ -34,7 +35,7 @@ public class PlayerHandler {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
             sendToPlayer(new ConnectionInformation(GameState.InLobby));
 
-            Player player = new Player(new Vector2(0,0), 100);
+            Player player = new Player(new Vector2(0,0), 250);
             Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
             player.weapons.add(weaponFactory.getWeapon("GUN"));
             player.weapons.add(weaponFactory.getWeapon("SHOTGUN"));

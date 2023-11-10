@@ -1,26 +1,37 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import java.util.Dictionary;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
-public class Projectile extends Entity{
-    Vector2 direction;
-    double speed;
-    double duration;
-    boolean erase = false;
-    Vector2 spriteSize;
+public class Projectile extends Entity {
+    protected Vector2 direction;
+    protected double speed;
+    protected double duration;
+    protected double damage;
+    protected boolean erase = false;
+    protected Vector2 spriteSize;
 
 
-    public Projectile(Vector2 direction, double speed, double duration, Vector2 spriteSize)
+    public Projectile(Vector2 direction, double speed, double duration, double damage, Vector2 spriteSize)
     {
         this.direction = direction;
         this.speed = speed;
         this.duration = duration;
+        this.damage = damage;
         this.spriteSize = spriteSize;
+    }
+
+    public Projectile(Projectile projectile) {
+        this.direction = projectile.direction;
+        this.speed = projectile.speed;
+        this.duration = projectile.duration;
+        this.damage = projectile.damage;
+        this.spriteSize = projectile.spriteSize;
     }
 
     @Override
@@ -31,7 +42,7 @@ public class Projectile extends Entity{
     }
 
     @Override
-    public void Collide(CollisionLayer layer) {
+    public void Collide(Entity collider, CollisionLayer layer) {
         if (layer == CollisionLayer.Obstacle){
             erase = true;
         }
@@ -54,6 +65,10 @@ public class Projectile extends Entity{
 
     public Collider GetCollider(CollisionLayer layer) {
         return Collider.NewRectangle(position.Copy(), spriteSize.x, spriteSize.y, layer);
+    }
+
+    public double getDamage() {
+        return damage;
     }
 
     @Override

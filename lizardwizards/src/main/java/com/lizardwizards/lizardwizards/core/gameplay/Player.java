@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.Weapon;
 
 public class Player extends Entity {
@@ -40,7 +41,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void Collide(CollisionLayer layer){
+    public void Collide(Entity collider, CollisionLayer layer){
         final CollisionLayer ENEMY_LAYER = CollisionLayer.Enemy;
         final CollisionLayer ENEMY_PROJECTILE_LAYER = CollisionLayer.EnemyProjectile;
 

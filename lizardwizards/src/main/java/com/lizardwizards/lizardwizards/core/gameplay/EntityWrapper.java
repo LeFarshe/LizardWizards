@@ -56,21 +56,21 @@ public class EntityWrapper implements Serializable, Cloneable {
                     }
                     if (currentEntity.collider.layer == CollisionLayer.Enemy) {
                         if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(CollisionLayer.Enemy);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Enemy);
                         }
                     }
                 }
                 if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
-                            entity.Collide(CollisionLayer.Obstacle);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Obstacle);
                             break;
                         }
                     }
                     if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
                         if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(CollisionLayer.Obstacle);
-                            currentEntity.entity.Collide(CollisionLayer.PlayerProjectile);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Obstacle);
+                            currentEntity.entity.Collide(entity, CollisionLayer.PlayerProjectile);
                         }
                     }
                 }

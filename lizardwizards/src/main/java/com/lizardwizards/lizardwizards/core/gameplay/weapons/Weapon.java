@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
 public abstract class Weapon implements Serializable, Cloneable {
     double damage;
