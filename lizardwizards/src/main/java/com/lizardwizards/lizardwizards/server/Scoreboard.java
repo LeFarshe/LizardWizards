@@ -7,7 +7,9 @@ public class Scoreboard {
     }
 
     public static Scoreboard  getInstance(){
-        return scoreboard;
+        synchronized (Scoreboard.class) {
+            return scoreboard;
+        }
     }
 
     public int getScore() {
@@ -15,10 +17,14 @@ public class Scoreboard {
     }
 
     public void addScore(int score) {
-        this.score += score;
+        synchronized (Scoreboard.class) {
+            this.score += score;
+        }
     }
 
     public void substractScore(int score) {
-        this.score -= score;
+        synchronized (Scoreboard.class) {
+            this.score -= score;
+        }
     }
 }
