@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
@@ -59,21 +60,21 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
                     }
                     if (currentEntity.collider.layer == CollisionLayer.Enemy) {
                         if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(CollisionLayer.Enemy);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Enemy);
                         }
                     }
                 }
                 if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
                     if (currentEntity.collider.layer == CollisionLayer.Obstacle){
                         if(collider.Collide(currentEntity.collider)){
-                            entity.Collide(CollisionLayer.Obstacle);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Obstacle);
                             break;
                         }
                     }
                     if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
                         if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(CollisionLayer.Obstacle);
-                            currentEntity.entity.Collide(CollisionLayer.PlayerProjectile);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Obstacle);
+                            currentEntity.entity.Collide(entity, CollisionLayer.PlayerProjectile);
                         }
                     }
                 }
@@ -93,6 +94,10 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
             collider.position = entity.GetPosition();
         }
         this.position = position;
+    }
+
+    public synchronized void SetColor(SpriteColor color) {
+        sprite.SetPaint(color);
     }
 
     public synchronized void update(EntityWrapper entityWrapper) {

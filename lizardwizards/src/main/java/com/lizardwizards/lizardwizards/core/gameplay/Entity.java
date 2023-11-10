@@ -26,7 +26,7 @@ public abstract class Entity implements Serializable, Cloneable {
     // Delta is in seconds
     public abstract void MoveByDelta(double delta);
 
-    public abstract void Collide(CollisionLayer layer);
+    public abstract void Collide(Entity collider, CollisionLayer layer);
 
     public abstract Dictionary<String, Integer> GetSpriteSettings();
     public abstract boolean IsDestroyed();

@@ -14,7 +14,10 @@ import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponTypes;
 
 public class PlayerHandler {
     private final Session session;
@@ -34,11 +37,13 @@ public class PlayerHandler {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
             sendToPlayer(new ConnectionInformation(GameState.InLobby));
 
-            Player player = new Player(new Vector2(0,0), 100);
+            Player player = new Player(new Vector2(0,0), 250);
             Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
-            player.weapons.add(weaponFactory.getWeapon("GUN"));
-            player.weapons.add(weaponFactory.getWeapon("SHOTGUN"));
-            EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20));
+            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Pistol));
+            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Shotgun));
+            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Chaingun));
+            var playerColor = session.sessionColors.get(session.playersConnected%session.sessionColors.size());
+            EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20), playerColor);
             this.player = new EntityWrapper(player, playerSprite, collider);
 
             session.addPlayer(this);
@@ -81,7 +86,7 @@ public class PlayerHandler {
         ((Player)player.entity).StartShooting(direction);
     }
 
-    public synchronized List<Projectile> processShooting(double delta) {
+    public synchronized List<IProjectile> processShooting(double delta) {
         return ((Player)player.entity).Shoot(delta);
     }
 
@@ -116,14 +121,14 @@ public class PlayerHandler {
             try {
                 SentPlayerData sentPlayerData = (SentPlayerData) objectInput.readObject();
 
+                if (sentPlayerData.weaponSwitch != 0) {
+                    updateWeapon(sentPlayerData.weaponSwitch);
+                }
                 if (sentPlayerData.shooting != null) {
                     updateShooting(sentPlayerData.shooting);
                 }
                 if (sentPlayerData.movement != null) {
                     updateMotion(sentPlayerData.position, sentPlayerData.movement);
-                }
-                if (sentPlayerData.weaponSwitch != 0) {
-                    updateWeapon(sentPlayerData.weaponSwitch);
                 }
             } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {

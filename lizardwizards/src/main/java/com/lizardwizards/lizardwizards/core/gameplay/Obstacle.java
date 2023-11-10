@@ -11,12 +11,10 @@ public class Obstacle extends Entity{
     }
     @Override
     public void MoveByDelta(double delta) {
-        return;
     }
 
     @Override
-    public void Collide(CollisionLayer layer) {
-        return;
+    public void Collide(Entity collider, CollisionLayer layer) {
     }
 
     @Override
@@ -30,7 +28,6 @@ public class Obstacle extends Entity{
     }
     @Override
     public Obstacle clone(){
-        Obstacle clone = (Obstacle)super.clone();
-        return clone;
+        return (Obstacle)super.clone();
     }
 }
