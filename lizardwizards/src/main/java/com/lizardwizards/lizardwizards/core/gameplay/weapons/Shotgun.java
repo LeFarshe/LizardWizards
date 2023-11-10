@@ -11,10 +11,6 @@ public class Shotgun extends Weapon{
     double spread = 0.5;
     public Shotgun() {
         super(1, 1.5, new Projectile(500,0.5, 1, new Vector2(3,3)));
-        shotProjectile = new ItmSpectral(shotProjectile);
-        shotProjectile = new ItmDoubleCaliber(shotProjectile);
-        shotProjectile = new ItmAggravator(shotProjectile);
-        shotProjectile = new ItmTimeBullets(shotProjectile);
     }
 
     @Override

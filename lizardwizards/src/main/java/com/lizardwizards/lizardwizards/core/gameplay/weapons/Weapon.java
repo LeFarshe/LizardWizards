@@ -1,11 +1,11 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.*;
 
 public abstract class Weapon implements Serializable, Cloneable {
     double damage;
@@ -36,6 +36,15 @@ public abstract class Weapon implements Serializable, Cloneable {
         if (fireTimer != 1.0/fireRate){
             fireTimer += delta;
             if (fireTimer > 1.0/fireRate) { fireTimer = 1.0/fireRate; }
+        }
+    }
+
+    public void DecorateProjectile(ProjectileDecorators projectileDecorator) {
+        switch (projectileDecorator) {
+            case Spectral -> shotProjectile = new ItmSpectral(shotProjectile);
+            case Aggrevator -> shotProjectile = new ItmAggravator(shotProjectile);
+            case TimeBullets -> shotProjectile = new ItmTimeBullets(shotProjectile);
+            case DoubleCaliber -> shotProjectile = new ItmDoubleCaliber(shotProjectile);
         }
     }
 

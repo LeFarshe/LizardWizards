@@ -12,7 +12,7 @@ public class ItmSpectral extends ProjectileDecorator {
     SpriteColor spriteColor;
     public ItmSpectral(IProjectile projectile) {
         super(projectile);
-        spriteColor = new SpriteColor(0, 0, 0.3, 0.5);
+        spriteColor = new SpriteColor(0, 0, 0.5, 0.8);
     }
 
     @Override

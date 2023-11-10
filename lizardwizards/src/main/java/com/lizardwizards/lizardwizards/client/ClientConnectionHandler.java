@@ -12,7 +12,6 @@ import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
-import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 import javafx.stage.Stage;
