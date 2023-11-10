@@ -2,6 +2,8 @@ package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import java.io.Serializable;
 // Yes it is
 public class EntitySprite extends Rectangle implements Serializable, Cloneable {
     private Vector2 size; // TODO remove
+    private SpriteColor paint;
     public EntitySprite(Vector2 position, Vector2 size)
     {
         this.size = size;
@@ -19,6 +22,19 @@ public class EntitySprite extends Rectangle implements Serializable, Cloneable {
         this.setWidth(this.size.x);
         setTranslateX(position.x - this.getWidth() / 2);
         setTranslateY(position.y - this.getHeight() / 2);
+        paint = new SpriteColor(0, 0, 0);
+        setFill(Color.BLACK);
+    }
+
+    public EntitySprite(Vector2 position, Vector2 size, SpriteColor paint)
+    {
+        this.size = size;
+        this.setHeight(this.size.y);
+        this.setWidth(this.size.x);
+        setTranslateX(position.x - this.getWidth() / 2);
+        setTranslateY(position.y - this.getHeight() / 2);
+        this.paint = paint;
+        setFill(adaptSpriteColor(paint));
     }
     public void Move(Vector2 position) {
         setTranslateX(getTranslateX() + position.x);
@@ -30,9 +46,20 @@ public class EntitySprite extends Rectangle implements Serializable, Cloneable {
         setTranslateY(position.y - this.getHeight() / 2);
     }
 
-    public void ResetSize(){ // this is here since shit broke and TODO remove
+    public void ResetSprite(){ // this is here since shit broke and TODO remove
         this.setHeight(size.y);
         this.setWidth(size.x);
+        this.setFill(adaptSpriteColor(paint));
+    }
+
+    public void Resize(double sizeMultiplier) {
+        size.Multiply(sizeMultiplier);
+        ResetSprite();
+    }
+
+    public void SetPaint(SpriteColor color) {
+        this.paint = color;
+        setFill(adaptSpriteColor(paint));
     }
 
     @Override
@@ -52,5 +79,9 @@ public class EntitySprite extends Rectangle implements Serializable, Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Paint adaptSpriteColor(SpriteColor spriteColor) {
+        return new Color(spriteColor.red, spriteColor.green, spriteColor.blue, spriteColor.opacity);
     }
 }

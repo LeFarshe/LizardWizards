@@ -10,11 +10,13 @@ public abstract class Weapon implements Serializable, Cloneable {
     double damage;
     double fireRate;
     double fireTimer = 0;
+    Projectile shotProjectile;
 
-    Weapon(double damage, double fireRate)
+    Weapon(double damage, double fireRate, Projectile shotProjectile)
     {
         this.damage = damage;
         this.fireRate = fireRate;
+        this.shotProjectile = shotProjectile;
     }
     public abstract List<Projectile> Shoot(Vector2 direction);
     public List<Projectile> ContinueShooting(double delta, Vector2 direction)

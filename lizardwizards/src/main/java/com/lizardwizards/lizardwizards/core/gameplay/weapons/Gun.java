@@ -11,12 +11,12 @@ public class Gun extends Weapon{
 
     public Gun()
     {
-        super(2,4);
+        super(2,4, new Projectile(300, 2, 2, new Vector2(6,6)));
     }
 
     @Override
     public List<Projectile> Shoot(Vector2 direction) {
-        Projectile projectile = new Projectile(direction.Copy(), 300, 2, damage, new Vector2(6,6));
+        Projectile projectile = shotProjectile.shoot(direction);
         List<Projectile> projectiles = new ArrayList<>();
         projectiles.add(projectile);
         return projectiles;

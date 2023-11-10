@@ -1,6 +1,9 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.ItmAggravator;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.ItmDoubleCaliber;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.ItmSpectral;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
 import java.util.ArrayList;
@@ -10,7 +13,8 @@ public class Shotgun extends Weapon{
     int projectiles = 8;
     double spread = 0.5;
     public Shotgun() {
-        super(1, 1);
+        super(1, 1.5, new Projectile(500,0.5, 1, new Vector2(3,3)));
+        shotProjectile = new ItmSpectral(shotProjectile);
     }
 
     @Override
@@ -20,7 +24,7 @@ public class Shotgun extends Weapon{
         double spreadPerIteration = spread / (projectiles - 1);
         direction.Rotate(-startSpread);
         for (int i = 0; i < projectiles; i++){
-            projectileList.add(new Projectile(direction.Copy(), 500,0.5, damage, new Vector2(3,3)));
+            projectileList.add(shotProjectile.shoot(direction));
             direction.Rotate(spreadPerIteration);
         }
         return projectileList;

@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
@@ -87,6 +88,10 @@ public class EntityWrapper implements Serializable, Cloneable {
             collider.position = entity.GetPosition();
         }
         this.position = position;
+    }
+
+    public synchronized void SetColor(SpriteColor color) {
+        sprite.SetPaint(color);
     }
 
     public synchronized void update(EntityWrapper entityWrapper) {
