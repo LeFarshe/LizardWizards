@@ -7,16 +7,15 @@ import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 public class StandardEnemy extends Enemy {
 
-    public StandardEnemy(IEnemyImplementor implementor, int health, Vector2 position) {
+    public StandardEnemy(IEnemyImplementor implementor, double health, Vector2 position) {
         super(implementor, health, position);
         this.position = position;
     }
 
 
-
     @Override
-    public void Collide(CollisionLayer layer) {
-        implementor.onCollision(layer);
+    public void Collide(Entity collidingEntity, CollisionLayer layer) {
+        implementor.onCollision(collidingEntity, layer);
         if (layer == CollisionLayer.PlayerProjectile) {
             health -= 1;
             if (health <= 0 && !isDestroyed) {
@@ -25,9 +24,6 @@ public class StandardEnemy extends Enemy {
             }
         }
     }
-
-
-
 
     public void HandleDeath() {
         isDestroyed = true;
@@ -39,13 +35,6 @@ public class StandardEnemy extends Enemy {
     public Vector2 GetPosition(){
             return this.implementor.getPosition().Copy();
     }
-
-    @Override
-    public void Collide(Entity collider, CollisionLayer layer) {
-
-    }
-
-    ;
 
     @Override
     public boolean IsDestroyed() {

@@ -8,11 +8,11 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 public abstract class Enemy extends IEnemy {
     protected IEnemyImplementor implementor;
-    protected int health;
+    protected double health;
     protected boolean isDestroyed;
 
     protected Vector2 position;
-    public Enemy(IEnemyImplementor implementor, int health, Vector2 position) {
+    public Enemy(IEnemyImplementor implementor, double health, Vector2 position) {
         this.SetPosition(position);
         this.implementor = implementor;
         this.health = health;
@@ -25,8 +25,8 @@ public abstract class Enemy extends IEnemy {
     }
 
 
-    public void Collide(CollisionLayer layer) {
-        implementor.onCollision(layer);
+    public void Collide(Entity collidingEntity, CollisionLayer layer) {
+        implementor.onCollision(collidingEntity, layer);
     }
 
     @Override

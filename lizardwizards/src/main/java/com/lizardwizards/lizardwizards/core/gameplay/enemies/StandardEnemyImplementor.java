@@ -3,6 +3,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 import java.io.Serializable;
@@ -10,9 +11,8 @@ import java.util.Dictionary;
 import java.util.Random;
 
 public class StandardEnemyImplementor implements IEnemyImplementor, Serializable {
-    private static final long serialVersionUID = 1L;
     private final Entity enemyEntity;
-    int health = 3;
+    double health = 3;
     double speed;
     double directionDelay = 1;
     double directionTimer = directionDelay;
@@ -22,7 +22,7 @@ public class StandardEnemyImplementor implements IEnemyImplementor, Serializable
 
     private Vector2 moveDirection;
 
-    public StandardEnemyImplementor(Entity enemyEntity, Vector2 initialPosition, double speed, int initialHealth) {
+    public StandardEnemyImplementor(Entity enemyEntity, Vector2 initialPosition, double speed, double initialHealth) {
         this.enemyEntity = enemyEntity;
         this.speed = speed;
         this.health = initialHealth;
@@ -40,15 +40,14 @@ public class StandardEnemyImplementor implements IEnemyImplementor, Serializable
     }
 
     @Override
-    public void onCollision(CollisionLayer layer) {
+    public void onCollision(Entity collidingEntity, CollisionLayer layer) {
         if (layer == CollisionLayer.PlayerProjectile) {
-            health -= 1;
+            health -= ((IProjectile)collidingEntity).getDamage();
             if (health <= 0) {
                 HandleDeath();
             }
         }
     }
-
 
     public void setRandomDirection() {
         double randX = rand.nextDouble() * 2 - 1;
@@ -60,7 +59,6 @@ public class StandardEnemyImplementor implements IEnemyImplementor, Serializable
     public Vector2 getPosition() {
         return enemyEntity.GetPosition();
     }
-
 
     public void HandleDeath() {
         isDestroyed = true;
