@@ -6,11 +6,21 @@ public class UndoPacket extends SentServerData {
     private final boolean redo;
     private SentServerData undoneCommand;
 
-    public UndoPacket() { // THIS THING SHOULD NEVER BE USED
-        super(SentDataType.Undo); // IF YOU THINK YOU MIGHT NEED TO USE THIS, YOU DON'T
-        redo = false; // IF THIS WASN'T A REQUIREMENT, THIS THING WOULD NOT EXIST
+    /**
+     * THIS THING SHOULD NEVER BE USED.
+     * IF YOU THINK YOU MIGHT NEED TO USE THIS, YOU DON'T.
+     * IF THIS WASN'T A REQUIREMENT, THIS THING WOULD NOT EXIST.
+     */
+    public UndoPacket() {
+        super(SentDataType.Undo);
+        redo = false;
     }
 
+    /**
+     * THIS THING SHOULD NEVER BE USED.
+     * IF YOU THINK YOU MIGHT NEED TO USE THIS, YOU DON'T.
+     * IF THIS WASN'T A REQUIREMENT, THIS THING WOULD NOT EXIST.
+     */
     public UndoPacket(boolean redo) {
         super(SentDataType.Undo);
         this.redo = redo;
