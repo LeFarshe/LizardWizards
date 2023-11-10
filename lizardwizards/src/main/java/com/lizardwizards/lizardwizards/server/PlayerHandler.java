@@ -120,14 +120,14 @@ public class PlayerHandler {
             try {
                 SentPlayerData sentPlayerData = (SentPlayerData) objectInput.readObject();
 
+                if (sentPlayerData.weaponSwitch != 0) {
+                    updateWeapon(sentPlayerData.weaponSwitch);
+                }
                 if (sentPlayerData.shooting != null) {
                     updateShooting(sentPlayerData.shooting);
                 }
                 if (sentPlayerData.movement != null) {
                     updateMotion(sentPlayerData.position, sentPlayerData.movement);
-                }
-                if (sentPlayerData.weaponSwitch != 0) {
-                    updateWeapon(sentPlayerData.weaponSwitch);
                 }
             } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {
