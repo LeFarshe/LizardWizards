@@ -27,7 +27,7 @@ public class ClientConnectionHandler implements Runnable {
     private GameState gameState = GameState.NotConnected;
     public Stage stage;
     public Thread currentThread;
-    private Deque<SentServerData> commandHistory;
+    private Deque<SentServerData> commandHistory = new ArrayDeque<SentServerData>();
 
     public ClientConnectionHandler(String ip, int port) throws IOException {
         if (CurrentHandler != null){
