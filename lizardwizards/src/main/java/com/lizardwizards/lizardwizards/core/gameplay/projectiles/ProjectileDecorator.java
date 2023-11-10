@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
@@ -8,11 +9,16 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 import java.util.Dictionary;
 
-public abstract class ProjectileDecorator extends Projectile {
-    protected final Projectile wrappedProjectile;
-    public ProjectileDecorator(Projectile projectile) {
-        super(projectile);
+public abstract class ProjectileDecorator extends IProjectile {
+    protected final IProjectile wrappedProjectile;
+
+    public ProjectileDecorator(IProjectile projectile) {
         wrappedProjectile = projectile;
+    }
+
+    @Override
+    public void MoveByDelta(double delta) {
+        wrappedProjectile.MoveByDelta(delta);
     }
 
     @Override
@@ -46,7 +52,45 @@ public abstract class ProjectileDecorator extends Projectile {
     }
 
     @Override
-    public Projectile shoot(Vector2 direction) {
-        return wrappedProjectile.shoot(direction);
+    public double getDuration() {
+        return wrappedProjectile.getDuration();
+    }
+
+    @Override
+    public double getSpeed() {
+        return wrappedProjectile.getSpeed();
+    }
+
+    @Override
+    public void setDuration(double duration) {
+        wrappedProjectile.setDuration(duration);
+    }
+
+    @Override
+    public void setSpeed(double speed) {
+        wrappedProjectile.setSpeed(speed);
+    }
+
+    @Override
+    public void setColor(SpriteColor color) {
+        wrappedProjectile.setColor(color);
+    }
+
+    @Override
+    public abstract IProjectile shoot(Vector2 direction);
+
+    @Override
+    public void SetPosition(Vector2 position) {
+        wrappedProjectile.SetPosition(position);
+    }
+
+    @Override
+    public Vector2 GetPosition() {
+        return wrappedProjectile.GetPosition();
+    }
+
+    @Override
+    public void Move(Vector2 amount) {
+        wrappedProjectile.Move(amount);
     }
 }

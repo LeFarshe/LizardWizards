@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
 public class Gun extends Weapon{
@@ -15,9 +16,9 @@ public class Gun extends Weapon{
     }
 
     @Override
-    public List<Projectile> Shoot(Vector2 direction) {
-        Projectile projectile = shotProjectile.shoot(direction);
-        List<Projectile> projectiles = new ArrayList<>();
+    public List<IProjectile> Shoot(Vector2 direction) {
+        IProjectile projectile = shotProjectile.shoot(direction);
+        List<IProjectile> projectiles = new ArrayList<>();
         projectiles.add(projectile);
         return projectiles;
     }

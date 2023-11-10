@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 public class Enemy extends  IEnemy {
@@ -48,7 +49,7 @@ public class Enemy extends  IEnemy {
         final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
 
         if(layer == PLAYER_PROJECTILE_LAYER) {
-            var projectile = (Projectile) collider;
+            var projectile = (IProjectile) collider;
             health -= projectile.getDamage();
             if (health <= 0 && !isDestroyed) {
                 HandleDeath();

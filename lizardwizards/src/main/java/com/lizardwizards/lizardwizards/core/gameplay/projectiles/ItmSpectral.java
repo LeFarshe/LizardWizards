@@ -9,16 +9,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class ItmSpectral extends ProjectileDecorator {
-    public ItmSpectral(Projectile projectile) {
+    SpriteColor spriteColor;
+    public ItmSpectral(IProjectile projectile) {
         super(projectile);
         spriteColor = new SpriteColor(0, 0, 0.3, 0.5);
     }
 
     @Override
-    public Projectile shoot(Vector2 direction) {
+    public IProjectile shoot(Vector2 direction) {
         var projectile = wrappedProjectile.shoot(direction);
-        projectile.spriteColor = spriteColor;
-        return projectile;
+        projectile.setColor(spriteColor);
+        return new ItmSpectral(projectile);
     }
 
     @Override
@@ -36,4 +37,8 @@ public class ItmSpectral extends ProjectileDecorator {
         return sprite;
     }
 
+    @Override
+    public IProjectile clone() {
+        return new ItmSpectral(wrappedProjectile.clone());
+    }
 }

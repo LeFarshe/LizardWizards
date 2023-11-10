@@ -4,22 +4,23 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
 public abstract class Weapon implements Serializable, Cloneable {
     double damage;
     double fireRate;
     double fireTimer = 0;
-    Projectile shotProjectile;
+    IProjectile shotProjectile;
 
-    Weapon(double damage, double fireRate, Projectile shotProjectile)
+    Weapon(double damage, double fireRate, IProjectile shotProjectile)
     {
         this.damage = damage;
         this.fireRate = fireRate;
         this.shotProjectile = shotProjectile;
     }
-    public abstract List<Projectile> Shoot(Vector2 direction);
-    public List<Projectile> ContinueShooting(double delta, Vector2 direction)
+    public abstract List<IProjectile> Shoot(Vector2 direction);
+    public List<IProjectile> ContinueShooting(double delta, Vector2 direction)
     {
         fireTimer += delta;
         if (fireTimer >= 1.0/fireRate)

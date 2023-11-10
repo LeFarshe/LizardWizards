@@ -14,6 +14,7 @@ import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 
@@ -83,7 +84,7 @@ public class PlayerHandler {
         ((Player)player.entity).StartShooting(direction);
     }
 
-    public synchronized List<Projectile> processShooting(double delta) {
+    public synchronized List<IProjectile> processShooting(double delta) {
         return ((Player)player.entity).Shoot(delta);
     }
 

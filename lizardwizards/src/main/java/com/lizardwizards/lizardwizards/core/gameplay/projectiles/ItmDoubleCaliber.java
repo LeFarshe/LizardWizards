@@ -4,20 +4,17 @@ import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class ItmDoubleCaliber extends ProjectileDecorator {
-    private final double damageMultiplier = 2;
-    private final double sizeMultiplier = 1.5;
+    private final double damageMultiplier = 2.5;
+    private final double sizeMultiplier = 2.5;
 
-    public ItmDoubleCaliber(Projectile projectile) {
+    public ItmDoubleCaliber(IProjectile projectile) {
         super(projectile);
-        spriteSize.Multiply(sizeMultiplier);
     }
 
     @Override
-    public Projectile shoot(Vector2 direction) {
+    public IProjectile shoot(Vector2 direction) {
         var projectile = wrappedProjectile.shoot(direction);
-        projectile.damage *= damageMultiplier;
-        projectile.spriteSize.Multiply(sizeMultiplier);
-        return projectile;
+        return new ItmDoubleCaliber(projectile);
     }
 
     @Override
@@ -30,5 +27,10 @@ public class ItmDoubleCaliber extends ProjectileDecorator {
         var sprite = wrappedProjectile.GetSprite();
         sprite.Resize(sizeMultiplier);
         return sprite;
+    }
+
+    @Override
+    public IProjectile clone() {
+        return new ItmDoubleCaliber(wrappedProjectile.clone());
     }
 }

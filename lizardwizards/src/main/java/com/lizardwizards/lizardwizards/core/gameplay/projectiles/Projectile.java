@@ -10,7 +10,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
-public class Projectile extends Entity implements Serializable {
+public class Projectile extends IProjectile {
     protected Vector2 direction;
     protected double speed;
     protected double duration;
@@ -48,6 +48,7 @@ public class Projectile extends Entity implements Serializable {
         this.erase = projectile.erase;
     }
 
+    @Override
     public Projectile shoot(Vector2 direction){
         var newProjectile = new Projectile(this);
         newProjectile.direction = direction.Copy();
@@ -78,22 +79,51 @@ public class Projectile extends Entity implements Serializable {
         return duration <= 0 || erase;
     }
 
+    @Override
     public EntitySprite GetSprite() {
         return new EntitySprite(position.Copy(), spriteSize.Copy(), spriteColor);
     }
 
+    @Override
     public Collider GetCollider(CollisionLayer layer) {
         return Collider.NewRectangle(position.Copy(), spriteSize.x, spriteSize.y, layer);
     }
 
+    @Override
+    public void setColor(SpriteColor color) {
+        spriteColor = color;
+    }
+    @Override
     public double getDamage() {
         return damage;
     }
 
     @Override
-    public Projectile clone(){
-        Projectile clone = (Projectile)super.clone();
-        if (direction != null) { clone.direction = direction.Copy(); }
+    public double getDuration() {
+        return duration;
+    }
+
+    @Override
+    public double getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    @Override
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public Projectile clone() {
+        Projectile clone = new Projectile(this);
+        if (direction != null) {
+            clone.direction = direction.Copy();
+        }
         clone.speed = speed;
         clone.duration = duration;
         clone.erase = erase;
