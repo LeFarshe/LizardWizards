@@ -19,6 +19,11 @@ public class WeaponFactory {
                 randomlyDecorate(gun);
                 return gun;
             }
+            case Chaingun -> {
+                var gun = new Chaingun();
+                randomlyDecorate(gun);
+                return gun;
+            }
             default ->
             {
                 return null;
