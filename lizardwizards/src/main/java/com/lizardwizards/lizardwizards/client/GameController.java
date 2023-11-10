@@ -129,6 +129,7 @@ public class GameController {
     public void SetPlayer(EntityWrapper player)
     {
         currentPlayer = player;
+        currentPlayer.addObserver(GameHUD.getInstance());
         entities.put(player.entity.uuid, currentPlayer);
         root.getChildren().add(player.sprite);
     }

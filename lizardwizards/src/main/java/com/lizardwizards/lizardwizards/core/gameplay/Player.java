@@ -55,6 +55,7 @@ public class Player extends Entity {
                 this.health -= 1;
 
                 if (this.health <= 0) {
+                    health = 0;
                     this.HandleDeath();
                 }
             }

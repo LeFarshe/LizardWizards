@@ -7,18 +7,26 @@ public class Scoreboard {
     }
 
     public static Scoreboard  getInstance(){
-        return scoreboard;
+        synchronized (Scoreboard.class) {
+            return scoreboard;
+        }
     }
 
     public int getScore() {
-        return score;
+        synchronized (Scoreboard.class) {
+            return score;
+        }
     }
 
     public void addScore(int score) {
-        this.score += score;
+        synchronized (Scoreboard.class) {
+            this.score += score;
+        }
     }
 
     public void substractScore(int score) {
-        this.score -= score;
+        synchronized (Scoreboard.class) {
+            this.score -= score;
+        }
     }
 }
