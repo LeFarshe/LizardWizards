@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 import java.util.Dictionary;
 

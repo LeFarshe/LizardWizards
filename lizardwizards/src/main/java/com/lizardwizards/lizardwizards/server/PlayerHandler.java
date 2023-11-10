@@ -10,11 +10,11 @@ import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.communication.SentDataType;
-import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
-import com.lizardwizards.lizardwizards.core.communication.SentServerData;
-import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
+import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 
 public class PlayerHandler {
     private final Session session;
@@ -32,7 +32,7 @@ public class PlayerHandler {
         this.playerSocket = playerSocket;
         try {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
-            sendToPlayer(true, SentDataType.ConnectionInformation);
+            sendToPlayer(new ConnectionInformation(GameState.InLobby));
 
             Player player = new Player(new Vector2(0,0), 100);
             Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
@@ -62,7 +62,7 @@ public class PlayerHandler {
 
     public synchronized void synchronizeWithClient(SyncPacket syncPacket) {
         try {
-            sendToPlayer(syncPacket, SentDataType.SyncPacket);
+            sendToPlayer(syncPacket);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,8 +85,8 @@ public class PlayerHandler {
         return ((Player)player.entity).Shoot(delta);
     }
 
-    public void sendToPlayer(Object data, SentDataType dataType) throws IOException {
-        objectOutput.writeObject(new SentServerData(data, dataType));
+    public void sendToPlayer(SentServerData sentServerData) throws IOException {
+        objectOutput.writeObject(sentServerData);
         objectOutput.flush();
     }
 
@@ -112,7 +112,7 @@ public class PlayerHandler {
     }
 
     private void mainGameListener() {
-        while (session.getGameState() == GameState.MainGame) {
+        while (session.getGameState() == GameState.InGame) {
             try {
                 SentPlayerData sentPlayerData = (SentPlayerData) objectInput.readObject();
 
@@ -134,7 +134,7 @@ public class PlayerHandler {
 
     private void lobbyListener(){
         System.out.println(player.entity.uuid);
-        while (session.getGameState() == GameState.Lobby) {
+        while (session.getGameState() == GameState.InLobby) {
             try {
                 ready = (Boolean) objectInput.readObject();
                 session.updateLobby();

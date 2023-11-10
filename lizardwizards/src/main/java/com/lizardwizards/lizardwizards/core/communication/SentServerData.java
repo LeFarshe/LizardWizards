@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.communication;
 
 
+import com.lizardwizards.lizardwizards.client.ClientConnectionHandler;
 import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.GameController;
 import com.lizardwizards.lizardwizards.client.ui.GameHUD;
@@ -10,34 +11,19 @@ import javafx.application.Platform;
 import java.io.Serializable;
 import java.util.List;
 
-public class SentServerData implements Serializable {
-    public final Object payload;
+public abstract class SentServerData implements Serializable {
     public final SentDataType dataType;
 
-    public SentServerData(Object payload, SentDataType dataType) {
-        this.payload = payload;
+    public SentServerData(SentDataType dataType) {
         this.dataType = dataType;
     }
 
-    public void handleSyncPacket(GameController gameController) {
-        Platform.runLater(() -> {
-            GameHUD.getInstance().setScore(((SyncPacket)payload).currentScore);
-            gameController.updateEntityList((SyncPacket) payload);
-        });
+    protected void addToHistory() {
+        ClientConnectionHandler.CurrentHandler.addToCommandHistory(this);
     }
 
-    public Boolean handleConnectionInformation() {
-        return (Boolean) payload; // Might want to change this to be a little bit more in depth
-    }
+    public abstract void execute();
 
-    public LobbyUpdate handleLobbyUpdate() {
-        return (LobbyUpdate) payload;
-    }
-    public void handleRoomLoading(GameController gameController, List<EntityWrapper> players) {
-        RoomInformation room = (RoomInformation) payload;
-        Platform.runLater(()->gameController.initEntityList(room, players));
-
-
-    }
+    public abstract void undo();
 }
 

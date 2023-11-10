@@ -1,4 +1,6 @@
-package com.lizardwizards.lizardwizards.core.gameplay;
+package com.lizardwizards.lizardwizards.core.gameplay.enemies;
+
+import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 import java.util.Dictionary;
 public interface IEnemy {

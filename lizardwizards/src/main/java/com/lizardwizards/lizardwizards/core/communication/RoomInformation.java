@@ -1,8 +1,12 @@
 package com.lizardwizards.lizardwizards.core.communication;
 
+import com.lizardwizards.lizardwizards.client.ClientConnectionHandler;
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.GameController;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
+import javafx.application.Platform;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,19 +14,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-public class RoomInformation implements Serializable {
+public class RoomInformation extends SentServerData{
     public static double xMax = 1600;
     public static double yMax = 900;
     public int direction = 0;
-
     public HashMap<UUID, EntityWrapper> entities;
+    private HashMap<UUID, EntityWrapper> oldEntities;
 
     public RoomInformation(){
+        super(SentDataType.Room);
         entities = new HashMap<>();
     }
 
-
     public RoomInformation(HashMap<UUID, EntityWrapper> entities, int direction) {
+        super(SentDataType.Room);
         this.entities = entities;
         this.direction = direction;
     }
@@ -36,5 +41,20 @@ public class RoomInformation implements Serializable {
             default -> new Vector2(xMax / 2, yMax / 2);
         };
         return position;
+    }
+
+    @Override
+    public void execute() {
+        addToHistory();
+        var cch = ClientConnectionHandler.CurrentHandler;
+        oldEntities = ClientUtils.gameController.getCopyOfEntities();
+        Platform.runLater(()-> ClientUtils.gameController.initEntityList(this, cch.connectedplayerList));
+    }
+
+    @Override
+    public void undo() {
+        var cch = ClientConnectionHandler.CurrentHandler;
+        entities = oldEntities;
+        Platform.runLater(()-> ClientUtils.gameController.initEntityList(this, cch.connectedplayerList));
     }
 }
