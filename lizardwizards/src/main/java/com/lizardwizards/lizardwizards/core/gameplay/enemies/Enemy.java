@@ -6,7 +6,7 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
-public abstract class Enemy extends Entity implements IEnemy {
+public abstract class Enemy extends IEnemy {
     protected IEnemyImplementor implementor;
     protected int health;
     protected boolean isDestroyed;
@@ -24,7 +24,7 @@ public abstract class Enemy extends Entity implements IEnemy {
         implementor.move(delta);
     }
 
-    @Override
+
     public void Collide(CollisionLayer layer) {
         implementor.onCollision(layer);
     }

@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
@@ -11,10 +12,7 @@ public class StandardEnemy extends Enemy {
         this.position = position;
     }
 
-    @Override
-    public void setRandomDirection() {
-        implementor.setRandomDirection();
-    }
+
 
     @Override
     public void Collide(CollisionLayer layer) {
@@ -28,6 +26,9 @@ public class StandardEnemy extends Enemy {
         }
     }
 
+
+
+
     public void HandleDeath() {
         isDestroyed = true;
         System.out.println("Standard Enemy has died!");
@@ -37,7 +38,14 @@ public class StandardEnemy extends Enemy {
     @Override
     public Vector2 GetPosition(){
             return this.implementor.getPosition().Copy();
-    };
+    }
+
+    @Override
+    public void Collide(Entity collider, CollisionLayer layer) {
+
+    }
+
+    ;
 
     @Override
     public boolean IsDestroyed() {

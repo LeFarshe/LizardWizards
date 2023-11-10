@@ -26,15 +26,8 @@ public class EnemyEntity extends Entity {
         Move(moveDirection.Copy().Multiply(speed * delta));
     }
 
-
-
-    public void setRandomDirection() {
-        double randX = rand.nextDouble() * 2 - 1;
-        double randY = rand.nextDouble() * 2 - 1;
-        moveDirection = new Vector2(randX, randY).Normalize();
-    }
     @Override
-    public void Collide(CollisionLayer layer) {
+    public void Collide(Entity collider, CollisionLayer layer) {
         final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
 
         if(layer == PLAYER_PROJECTILE_LAYER) {
@@ -44,6 +37,13 @@ public class EnemyEntity extends Entity {
                 HandleDeath();
             }
         }
+    }
+
+
+    public void setRandomDirection() {
+        double randX = rand.nextDouble() * 2 - 1;
+        double randY = rand.nextDouble() * 2 - 1;
+        moveDirection = new Vector2(randX, randY).Normalize();
     }
 
     public void HandleDeath() {
