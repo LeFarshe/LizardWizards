@@ -12,7 +12,6 @@ import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
-import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 import javafx.stage.Stage;
@@ -27,7 +26,7 @@ public class ClientConnectionHandler implements Runnable {
     private GameState gameState = GameState.NotConnected;
     public Stage stage;
     public Thread currentThread;
-    private Deque<SentServerData> commandHistory = new ArrayDeque<SentServerData>();
+    private final Deque<SentServerData> commandHistory;
 
     public ClientConnectionHandler(String ip, int port) throws IOException {
         if (CurrentHandler != null){
@@ -35,6 +34,7 @@ public class ClientConnectionHandler implements Runnable {
         }
         CurrentHandler = this;
         connectedplayerList = new LinkedList<>();
+        commandHistory = new ArrayDeque<>();
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(ip, port), 3000);
         socketInput = new ObjectInputStream(clientSocket.getInputStream());

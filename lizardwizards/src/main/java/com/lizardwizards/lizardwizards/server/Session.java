@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards.server;
 
+import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.communication.LobbyUpdate;
 import com.lizardwizards.lizardwizards.core.communication.SentDataType;
 import com.lizardwizards.lizardwizards.core.communication.SentServerData;
@@ -7,6 +8,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Session {
@@ -14,6 +16,11 @@ public class Session {
     public int maxPlayers;
     final List<PlayerHandler> players;
     private GameState gameState;
+    public LinkedList<SpriteColor> sessionColors = new LinkedList<>(List.of(
+            new SpriteColor(0, 1, 0),
+            new SpriteColor(1, 0, 1),
+            new SpriteColor(0, 0.5, 1),
+            new SpriteColor(1, 0.8, 0)));
 
     public Session(int maxPlayers) {
         gameState = GameState.InLobby;

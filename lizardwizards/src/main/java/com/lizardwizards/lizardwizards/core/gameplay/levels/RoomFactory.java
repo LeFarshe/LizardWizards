@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
@@ -38,6 +39,7 @@ public class RoomFactory {
         EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
         EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);
+        newEntity.SetColor(new SpriteColor(1, 0, 0));
         return newEntity;
     }
 
@@ -76,6 +78,7 @@ public class RoomFactory {
 
     private void CreateWalls(HashMap<UUID, EntityWrapper> entities){
         EntityWrapper wallVertical = CreateObstacle(new Vector2(RoomInformation.xMax / 2, -10), new Vector2(RoomInformation.xMax, 20));
+        wallVertical.SetColor(new SpriteColor(0.2, 0.2, 0.2));
         AddEntity(wallVertical, entities);
 
         wallVertical = wallVertical.clone();
@@ -84,6 +87,7 @@ public class RoomFactory {
 
 
         EntityWrapper wallHorizontal = CreateObstacle(new Vector2(RoomInformation.xMax + 10, RoomInformation.yMax / 2), new Vector2(20, RoomInformation.yMax));
+        wallHorizontal.SetColor(new SpriteColor(0.2, 0.2, 0.2));
         AddEntity(wallHorizontal, entities);
 
         wallHorizontal = wallHorizontal.clone();

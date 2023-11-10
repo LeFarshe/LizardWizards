@@ -5,7 +5,6 @@ import java.util.*;
 import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
-import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
@@ -44,7 +43,7 @@ public class GameController {
         }
 
         entities.forEach((uuid, entity) -> {
-            entity.sprite.ResetSize(); // TODO remove
+            entity.sprite.ResetSprite(); // TODO remove
             root.getChildren().add(entity.sprite);});
     }
 
@@ -52,7 +51,7 @@ public class GameController {
         currentTimer.stop();
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
-            entity.sprite.ResetSize(); // TODO remove
+            entity.sprite.ResetSprite(); // TODO remove
             root.getChildren().add(entity.sprite);
             entities.put(entity.entity.uuid, entity);
         });

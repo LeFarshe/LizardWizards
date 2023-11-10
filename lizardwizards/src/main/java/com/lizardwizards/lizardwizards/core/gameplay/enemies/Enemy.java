@@ -7,10 +7,11 @@ import java.util.UUID;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
-public class Enemy extends Entity implements IEnemy {
+public class Enemy extends  IEnemy {
     Vector2 moveDirection = new Vector2(0,0);
-    int health = 3;
     double speed;
     double directionDelay = 1;
     double directionTimer = directionDelay;
@@ -22,6 +23,7 @@ public class Enemy extends Entity implements IEnemy {
     {
         this.position = position;
         this.speed = speed;
+        this.health = 10;
         setRandomDirection();
     }
 
@@ -42,13 +44,13 @@ public class Enemy extends Entity implements IEnemy {
     }
 
     @Override
-    public void Collide(CollisionLayer layer){
+    public void Collide(Entity collider, CollisionLayer layer){
 
         final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
 
         if(layer == PLAYER_PROJECTILE_LAYER) {
-
-            health -= 1;
+            var projectile = (IProjectile) collider;
+            health -= projectile.getDamage();
             if (health <= 0 && !isDestroyed) {
                 HandleDeath();
             }

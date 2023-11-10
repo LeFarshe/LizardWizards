@@ -4,27 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.Projectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
 public class Gun extends Weapon{
 
 
     public Gun()
     {
-        super(1,4);
+        super(2,4, new Projectile(300, 2, 2, new Vector2(6,6)));
     }
 
     @Override
-    public List<Projectile> Shoot(Vector2 direction) {
-        Projectile projectile = new Projectile(direction.Copy(), 300, 2, new Vector2(6,6));
-        List<Projectile> projectiles = new ArrayList<>();
+    public List<IProjectile> Shoot(Vector2 direction) {
+        IProjectile projectile = shotProjectile.shoot(direction);
+        List<IProjectile> projectiles = new ArrayList<>();
         projectiles.add(projectile);
         return projectiles;
     }
 
     @Override
     public Gun clone(){
-        Gun clone = (Gun)super.clone();
-        return clone;
+        return (Gun)super.clone();
     }
 }
