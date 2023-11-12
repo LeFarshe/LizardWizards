@@ -2,16 +2,11 @@ package com.lizardwizards.lizardwizards.core.communication;
 
 import com.lizardwizards.lizardwizards.client.ClientConnectionHandler;
 import com.lizardwizards.lizardwizards.client.ClientUtils;
-import com.lizardwizards.lizardwizards.client.EntitySprite;
-import com.lizardwizards.lizardwizards.client.GameController;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.application.Platform;
 
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 public class RoomInformation extends SentServerData{

@@ -1,9 +1,9 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
-import java.io.Serializable;
 import java.util.Dictionary;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
@@ -64,7 +64,7 @@ public class Projectile extends IProjectile {
 
     @Override
     public void Collide(Entity collider, CollisionLayer layer) {
-        if (layer == CollisionLayer.Obstacle){
+        if (layer == CollisionLayer.Obstacle || layer == CollisionLayer.Enemy){
             erase = true;
         }
     }
@@ -81,7 +81,7 @@ public class Projectile extends IProjectile {
 
     @Override
     public EntitySprite GetSprite() {
-        return new EntitySprite(position.Copy(), spriteSize.Copy(), spriteColor);
+        return new RectangleSprite(position.Copy(), spriteSize.Copy(), spriteColor);
     }
 
     @Override

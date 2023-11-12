@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
@@ -8,7 +8,6 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 import java.io.Serializable;
-import java.util.Dictionary;
 
 public abstract class IProjectile extends Entity implements Serializable, Cloneable {
     public abstract IProjectile shoot(Vector2 direction);

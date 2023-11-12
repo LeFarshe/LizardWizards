@@ -17,10 +17,10 @@ public class Session {
     final List<PlayerHandler> players;
     private GameState gameState;
     public LinkedList<SpriteColor> sessionColors = new LinkedList<>(List.of(
-            new SpriteColor(0, 1, 0),
-            new SpriteColor(1, 0, 1),
-            new SpriteColor(0, 0.5, 1),
-            new SpriteColor(1, 0.8, 0)));
+            new SpriteColor(0.3, 1, 0.3),
+            new SpriteColor(1, 0.3, 1),
+            new SpriteColor(0.3, 0.5, 1),
+            new SpriteColor(1, 0.8, 0.3)));
 
     public Session(int maxPlayers) {
         gameState = GameState.InLobby;

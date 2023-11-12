@@ -9,6 +9,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 
 public class ClientUtils {
     public static GameController gameController = null;
@@ -27,6 +29,10 @@ public class ClientUtils {
         window.setWidth(gameWidth);
         window.setX(0);
         window.setY(0);
+    }
+
+    public static URL loadResource(String locationInResourceFolder) {
+        return ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/" + locationInResourceFolder);
     }
 
     public static void setScalingEvents(Pane root){
@@ -57,13 +63,13 @@ public class ClientUtils {
         Scene newScene;
         switch (stageNum) {
             case 1:
-                fxmlLoader = new FXMLLoader(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/connection-view.fxml"));
+                fxmlLoader = new FXMLLoader(loadResource("connection-view.fxml"));
                 break;
             case 2:
-                fxmlLoader = new FXMLLoader(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/lobby-view.fxml"));
+                fxmlLoader = new FXMLLoader(loadResource("lobby-view.fxml"));
                 break;
             default:
-                fxmlLoader = new FXMLLoader(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/menu-view.fxml"));
+                fxmlLoader = new FXMLLoader(loadResource("menu-view.fxml"));
                 break;
         }
         try {
@@ -73,7 +79,7 @@ public class ClientUtils {
                 var canvas = new Canvas(gameWidth*2, gameHeight*2);
                 root.getChildren().add(canvas);
                 newScene = new Scene(root, gameWidth,gameHeight);
-                newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
+                newScene.getStylesheets().add(loadResource("css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
                 setScreen(window);
                 newScene.setCamera(new ParallelCamera());
@@ -88,7 +94,7 @@ public class ClientUtils {
             }
             else {
                 newScene = new Scene(fxmlLoader.load());
-                newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
+                newScene.getStylesheets().add(loadResource("css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
             }
         }

@@ -3,6 +3,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 public class StandardEnemy extends Enemy {
@@ -17,10 +18,9 @@ public class StandardEnemy extends Enemy {
     public void Collide(Entity collidingEntity, CollisionLayer layer) {
         implementor.onCollision(collidingEntity, layer);
         if (layer == CollisionLayer.PlayerProjectile) {
-            health -= 1;
+            health -= ((IProjectile)collidingEntity).getDamage();
             if (health <= 0 && !isDestroyed) {
                 // isDestroyed = implementor.isDestroyed(); // This could also call a method like `handleDestruction()`
-                isDestroyed = true;
                 HandleDeath();
             }
         }

@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.client;
 
 import java.util.*;
 
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
@@ -33,6 +34,9 @@ public class GameController {
         gc.setFont(new Font("Sans", 100));
         gc.setFill(Color.GOLDENROD);
         gc.fillText("Loading...", 500, 500);
+        var image = new ImageSprite(ClientUtils.loadResource("images/loading.png"));
+        image.setPosition(new Vector2(1100, 450));
+        image.drawSprite(gc);
     }
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);
@@ -49,18 +53,12 @@ public class GameController {
         for (EntityWrapper player : players) {
             player.SetPosition(room.getPlayerPosition());
         }
-
-        entities.forEach((uuid, entity) -> {
-            entity.sprite.ResetSprite(); // TODO remove
-        });
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
         currentTimer.stop();
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
-            entity.sprite.ResetSprite(); // TODO remove
-            gc.fillOval(entity.entity.GetPosition().x, entity.entity.GetPosition().y, entity.sprite.getHeight(), entity.sprite.getWidth());
             entities.put(entity.entity.uuid, entity);
         });
         currentTimer.syncWithServerTimer(syncPacket, syncPacket.createdEntities);
@@ -145,10 +143,7 @@ public class GameController {
     private void redraw() {
         gc.clearRect(0, 0, root.getWidth(), root.getHeight());
         entities.forEach((uuid, entity) -> {
-            var w = entity.sprite.getWidth();
-            var h = entity.sprite.getHeight();
-            gc.setFill(entity.sprite.getFill());
-            gc.fillRect(entity.entity.GetPosition().x - w / 2, entity.entity.GetPosition().y - h / 2, w, h);
+            entity.sprite.drawSprite(gc);
         });
     }
 }
