@@ -30,7 +30,7 @@ public class Session {
     }
 
     public Session() {
-        this(1);
+        this(2);
     }
 
     public void addPlayer(PlayerHandler player) {
