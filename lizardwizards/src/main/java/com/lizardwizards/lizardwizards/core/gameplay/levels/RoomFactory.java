@@ -33,6 +33,15 @@ public class RoomFactory {
             AddEntity(CreateObstacle(new Vector2(600, 300), new Vector2(50,50)), entities);
 
         }
+        else if (currentLevel.getCurrentRoom().id == RoomEnumerator.BasicRoom2){
+            if (!currentLevel.getCurrentRoom().cleared) {
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+            }
+
+            AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50,50)), entities);
+            AddEntity(CreateObstacle(new Vector2(1000, 300), new Vector2(50,50)), entities);
+        }
         return new RoomInformation(entities, currentLevel.enteredDirection);
     }
 

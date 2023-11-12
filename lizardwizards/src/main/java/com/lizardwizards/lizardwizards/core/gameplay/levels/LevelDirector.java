@@ -17,6 +17,10 @@ public class LevelDirector {
         RoomData basicRoomData = new RoomData(RoomEnumerator.BasicRoom);
         GenerationRoomData basicRoom = new GenerationRoomData(basicRoomData, 1, new boolean[] {true, true, true, true});
         basicRooms.add(basicRoom);
+
+        RoomData basicRoomData2 = new RoomData(RoomEnumerator.BasicRoom2);
+        GenerationRoomData basicRoom2 = new GenerationRoomData(basicRoomData2, 1, new boolean[] {true, true, true, true});
+        basicRooms.add(basicRoom2);
     }
     public Level testLevel(LevelBuilder builder){
         builder.reset();
