@@ -2,24 +2,20 @@ package com.lizardwizards.lizardwizards.client;
 
 import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 
-import com.lizardwizards.lizardwizards.core.Vector2;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
 public class ClientUtils {
     public static GameController gameController = null;
+    private static final int gameWidth = 1600;
+    private static final int gameHeight = 900;
 
     public static void closeProgram(Stage window){
         boolean answer = ConfirmBox.display("Are you sure you want to exit?");
@@ -29,31 +25,35 @@ public class ClientUtils {
     }
 
     public static void setScreen(Stage window){
-        window.setHeight(900);
-        window.setWidth(1600);
+        window.setHeight(gameHeight);
+        window.setWidth(gameWidth);
         window.setX(0);
         window.setY(0);
     }
 
     public static void setScalingEvents(Pane root){
-        root.widthProperty().addListener((obs, oldVal, newVal) -> {
-            double xScale = newVal.doubleValue() / 1600;
-            double yScale = root.getHeight() / 900;
-            if (xScale > yScale) { return;}
-            root.setScaleX(xScale);
-            root.setScaleY(xScale);
+        var newScene = root.getScene();
+        newScene.widthProperty().addListener((obs, oldVal, newVal) -> {
+            root.autosize();
+            double xScale = gameWidth / newVal.doubleValue();
+            double yScale = gameHeight /newScene.getHeight();
+            if (xScale < yScale) { return;}
+            var camera = newScene.getCamera();
+            camera.setScaleX(xScale);
+            camera.setScaleY(xScale);
         });
 
-        root.heightProperty().addListener((obs, oldVal, newVal) -> {
-            double xScale = root.getWidth() / 1600;
-            double yScale = newVal.doubleValue() / 900;
-            if (yScale > xScale) { return;}
-            root.setScaleX(xScale);
-            root.setScaleY(xScale);
+        newScene.heightProperty().addListener((obs, oldVal, newVal) -> {
+            root.autosize();
+            double xScale = gameWidth / newScene.getWidth();
+            double yScale = gameHeight / newVal.doubleValue();
+            if (yScale < xScale) { return;}
+            var camera = newScene.getCamera();
+            camera.setScaleX(yScale);
+            camera.setScaleY(yScale);
         });
     }
 
-    // TODO remove the flickering (resizing bug) while changing scenes somehow
     public static void changeScene(Stage window,  int stageNum){
         FXMLLoader fxmlLoader;
         Scene newScene;
@@ -71,31 +71,22 @@ public class ClientUtils {
         try {
             if (stageNum == 3)
             {
-                Pane root = new Pane();
-                //root.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-                newScene = new Scene(root, 1600,900);
+                var root = new Pane();
+                var canvas = new Canvas(gameWidth*5, gameHeight*5);
+                root.getChildren().add(canvas);
+                newScene = new Scene(root, gameWidth,gameHeight);
                 newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
                 setScreen(window);
-                gameController = new GameController(root);
+                newScene.setCamera(new ParallelCamera());
+                root.autosize();
+
+                gameController = new GameController(canvas);
                 gameController.playerControls.SetMovementEvents(newScene);
                 gameController.playerControls.SetShootingEvents(newScene);
                 gameController.playerControls.SetWeaponSwitchingEvents(newScene);
-                root.widthProperty().addListener((obs, oldVal, newVal) -> {
-                    double xScale = newVal.doubleValue() / 1600;
-                    double yScale = root.getHeight() / 900;
-                    if (xScale > yScale) { return;}
-                    root.setScaleX(xScale);
-                    root.setScaleY(xScale);
-                });
 
-                root.heightProperty().addListener((obs, oldVal, newVal) -> {
-                    double xScale = root.getWidth() / 1600;
-                    double yScale = newVal.doubleValue() / 900;
-                    if (yScale > xScale) { return;}
-                    root.setScaleX(xScale);
-                    root.setScaleY(xScale);
-                });
+                setScalingEvents(root);
             }
             else {
                 newScene = new Scene(fxmlLoader.load());

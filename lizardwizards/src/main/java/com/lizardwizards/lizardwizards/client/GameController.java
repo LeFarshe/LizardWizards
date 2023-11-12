@@ -8,21 +8,28 @@ import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 public class GameController {
     HashMap<UUID, EntityWrapper> entities = new HashMap<>();
     EntityWrapper currentPlayer;
     PlayerControls playerControls = new PlayerControls();
-    Pane root;
+    Canvas root;
+    GraphicsContext gc;
     GameTimer currentTimer;
 
-    GameController(Pane root)
+    GameController(Canvas root)
     {
         new GameHUD();
         this.root = root;
-        root.getChildren().addAll(GameHUD.getInstance().getHudElements());
+        gc = root.getGraphicsContext2D();
+        // TODO: not this preferably
+        ((Pane)root.getParent()).getChildren().addAll(GameHUD.getInstance().getHudElements());
     }
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);
@@ -31,7 +38,6 @@ public class GameController {
     }
 
     public void initEntityList(RoomInformation room, List<EntityWrapper> players) {
-        entities.forEach((uuid, entity) -> root.getChildren().remove(entity.sprite));
         entities.clear();
         players.forEach(player -> entities.put(player.entity.uuid, player));
         entities.putAll(room.entities);
@@ -43,7 +49,9 @@ public class GameController {
 
         entities.forEach((uuid, entity) -> {
             entity.sprite.ResetSprite(); // TODO remove
-            root.getChildren().add(entity.sprite);});
+        });
+
+        redraw();
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
@@ -51,13 +59,14 @@ public class GameController {
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
             entity.sprite.ResetSprite(); // TODO remove
-            root.getChildren().add(entity.sprite);
+            //root.getChildren().add(entity.sprite);
+            gc.fillOval(entity.entity.GetPosition().x, entity.entity.GetPosition().y, entity.sprite.getHeight(), entity.sprite.getWidth());
             entities.put(entity.entity.uuid, entity);
         });
         currentTimer.syncWithServerTimer(syncPacket, syncPacket.createdEntities);
         syncPacket.destroyedEntities.forEach((entity) -> {
             EntityWrapper canonEntity = entities.get(entity.entity.uuid);
-            root.getChildren().remove(canonEntity.sprite);
+            //root.getChildren().remove(canonEntity.sprite);
             entities.remove(canonEntity.entity.uuid);
         });
 
@@ -118,6 +127,8 @@ public class GameController {
                 serverClientDiff -= now/1000000.0;
             }
             prevTime = now;
+
+            redraw();
         }
     }
 
@@ -130,6 +141,15 @@ public class GameController {
         currentPlayer = player;
         currentPlayer.addObserver(GameHUD.getInstance());
         entities.put(player.entity.uuid, currentPlayer);
-        root.getChildren().add(player.sprite);
+    }
+
+    private void redraw() {
+        gc.clearRect(0, 0, root.getWidth(), root.getHeight());
+        entities.forEach((uuid, entity) -> {
+            var w = entity.sprite.getWidth();
+            var h = entity.sprite.getHeight();
+            gc.setFill(entity.sprite.getFill());
+            gc.fillRect(entity.entity.GetPosition().x - w / 2, entity.entity.GetPosition().y - h / 2, w, h);
+        });
     }
 }
