@@ -22,7 +22,6 @@ public class GameController {
     {
         new GameHUD();
         this.root = root;
-        root.setPrefSize(800,600);
         root.getChildren().addAll(GameHUD.getInstance().getHudElements());
     }
     public void start(SyncPacket syncPacket) {

@@ -3,9 +3,17 @@ package com.lizardwizards.lizardwizards.client;
 import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -18,6 +26,31 @@ public class ClientUtils {
         if (answer) {
             window.close();
         }
+    }
+
+    public static void setScreen(Stage window){
+        window.setHeight(900);
+        window.setWidth(1600);
+        window.setX(0);
+        window.setY(0);
+    }
+
+    public static void setScalingEvents(Pane root){
+        root.widthProperty().addListener((obs, oldVal, newVal) -> {
+            double xScale = newVal.doubleValue() / 1600;
+            double yScale = root.getHeight() / 900;
+            if (xScale > yScale) { return;}
+            root.setScaleX(xScale);
+            root.setScaleY(xScale);
+        });
+
+        root.heightProperty().addListener((obs, oldVal, newVal) -> {
+            double xScale = root.getWidth() / 1600;
+            double yScale = newVal.doubleValue() / 900;
+            if (yScale > xScale) { return;}
+            root.setScaleX(xScale);
+            root.setScaleY(xScale);
+        });
     }
 
     // TODO remove the flickering (resizing bug) while changing scenes somehow
@@ -39,13 +72,30 @@ public class ClientUtils {
             if (stageNum == 3)
             {
                 Pane root = new Pane();
-                newScene = new Scene(root);
+                //root.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                newScene = new Scene(root, 1600,900);
                 newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());
                 window.setScene(newScene);
+                setScreen(window);
                 gameController = new GameController(root);
                 gameController.playerControls.SetMovementEvents(newScene);
                 gameController.playerControls.SetShootingEvents(newScene);
                 gameController.playerControls.SetWeaponSwitchingEvents(newScene);
+                root.widthProperty().addListener((obs, oldVal, newVal) -> {
+                    double xScale = newVal.doubleValue() / 1600;
+                    double yScale = root.getHeight() / 900;
+                    if (xScale > yScale) { return;}
+                    root.setScaleX(xScale);
+                    root.setScaleY(xScale);
+                });
+
+                root.heightProperty().addListener((obs, oldVal, newVal) -> {
+                    double xScale = root.getWidth() / 1600;
+                    double yScale = newVal.doubleValue() / 900;
+                    if (yScale > xScale) { return;}
+                    root.setScaleX(xScale);
+                    root.setScaleY(xScale);
+                });
             }
             else {
                 newScene = new Scene(fxmlLoader.load());
