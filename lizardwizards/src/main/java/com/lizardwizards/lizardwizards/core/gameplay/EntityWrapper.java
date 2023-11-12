@@ -73,7 +73,7 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
                     }
                     if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
                         if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(currentEntity.entity, CollisionLayer.Obstacle);
+                            entity.Collide(currentEntity.entity, CollisionLayer.Enemy);
                             currentEntity.entity.Collide(entity, CollisionLayer.PlayerProjectile);
                         }
                     }

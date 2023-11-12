@@ -64,7 +64,7 @@ public class Projectile extends IProjectile {
 
     @Override
     public void Collide(Entity collider, CollisionLayer layer) {
-        if (layer == CollisionLayer.Obstacle){
+        if (layer == CollisionLayer.Obstacle || layer == CollisionLayer.Enemy){
             erase = true;
         }
     }
