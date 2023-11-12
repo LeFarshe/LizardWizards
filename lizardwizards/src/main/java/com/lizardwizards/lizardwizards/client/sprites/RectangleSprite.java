@@ -1,5 +1,6 @@
-package com.lizardwizards.lizardwizards.client;
+package com.lizardwizards.lizardwizards.client.sprites;
 
+import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 

@@ -8,7 +8,7 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.UUID;
 
-import com.lizardwizards.lizardwizards.client.RectangleSprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;

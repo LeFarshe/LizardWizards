@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.client;
 
 import java.util.*;
 
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
@@ -33,6 +34,9 @@ public class GameController {
         gc.setFont(new Font("Sans", 100));
         gc.setFill(Color.GOLDENROD);
         gc.fillText("Loading...", 500, 500);
+        var image = new ImageSprite(ClientUtils.loadResource("images/loading.png"));
+        image.setPosition(new Vector2(1100, 450));
+        image.drawSprite(gc);
     }
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);

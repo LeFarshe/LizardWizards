@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class ItmDoubleCaliber extends ProjectileDecorator {

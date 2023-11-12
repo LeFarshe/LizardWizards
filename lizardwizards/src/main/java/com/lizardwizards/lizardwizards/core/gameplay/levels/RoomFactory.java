@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
-import com.lizardwizards.lizardwizards.client.RectangleSprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
