@@ -101,6 +101,7 @@ public class Player extends Entity {
         List<IProjectile> newProjectiles;
         if (isShooting)
         {
+            if (currentWeapon < 0 || currentWeapon >= weapons.size()) { return null;}
             newProjectiles = weapons.get(currentWeapon).ContinueShooting(delta, shootDirection);
             if (newProjectiles != null) {
                 for (IProjectile projectile: newProjectiles)
