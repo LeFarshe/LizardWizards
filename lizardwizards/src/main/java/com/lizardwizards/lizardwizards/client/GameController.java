@@ -49,18 +49,12 @@ public class GameController {
         for (EntityWrapper player : players) {
             player.SetPosition(room.getPlayerPosition());
         }
-
-        entities.forEach((uuid, entity) -> {
-            entity.sprite.ResetSprite(); // TODO remove
-        });
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
         currentTimer.stop();
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
-            entity.sprite.ResetSprite(); // TODO remove
-            gc.fillOval(entity.entity.GetPosition().x, entity.entity.GetPosition().y, entity.sprite.getHeight(), entity.sprite.getWidth());
             entities.put(entity.entity.uuid, entity);
         });
         currentTimer.syncWithServerTimer(syncPacket, syncPacket.createdEntities);
@@ -145,10 +139,7 @@ public class GameController {
     private void redraw() {
         gc.clearRect(0, 0, root.getWidth(), root.getHeight());
         entities.forEach((uuid, entity) -> {
-            var w = entity.sprite.getWidth();
-            var h = entity.sprite.getHeight();
-            gc.setFill(entity.sprite.getFill());
-            gc.fillRect(entity.entity.GetPosition().x - w / 2, entity.entity.GetPosition().y - h / 2, w, h);
+            entity.sprite.drawSprite(gc);
         });
     }
 }

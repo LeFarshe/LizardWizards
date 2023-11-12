@@ -1,12 +1,11 @@
 package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyImplementor;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.StandardEnemy;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
 
     public void Move(Vector2 amount){
         entity.Move(amount);
-        sprite.Move(amount);
+        sprite.move(amount);
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
@@ -81,7 +80,7 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
             }
         }
 
-            sprite.SetPosition(entity.GetPosition());
+            sprite.setPosition(entity.GetPosition());
             position = entity.GetPosition();
         
         
@@ -89,7 +88,7 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
 
     public synchronized void SetPosition(Vector2 position){
         entity.SetPosition(position);
-        sprite.SetPosition(position);
+        sprite.setPosition(position);
         if (collider != null) {
             collider.position = entity.GetPosition();
         }
@@ -97,13 +96,13 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
     }
 
     public synchronized void SetColor(SpriteColor color) {
-        sprite.SetPaint(color);
+        sprite.setPaint(color);
     }
 
     public synchronized void update(EntityWrapper entityWrapper) {
        var pos = entityWrapper.position;
        entity.SetPosition(pos);
-       sprite.SetPosition(pos);
+       sprite.setPosition(pos);
        collider.position = entityWrapper.collider.position.Copy();
        position = entity.GetPosition();
        if (entity instanceof Player){

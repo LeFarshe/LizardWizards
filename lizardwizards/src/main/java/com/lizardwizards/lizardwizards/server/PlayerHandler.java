@@ -8,14 +8,13 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.UUID;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponTypes;
 
@@ -43,7 +42,7 @@ public class PlayerHandler {
             player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Shotgun));
             player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Chaingun));
             var playerColor = session.sessionColors.get(session.playersConnected%session.sessionColors.size());
-            EntitySprite playerSprite = new EntitySprite(new Vector2(0,0), new Vector2(20,20), playerColor);
+            RectangleSprite playerSprite = new RectangleSprite(new Vector2(0,0), new Vector2(20,20), playerColor);
             this.player = new EntityWrapper(player, playerSprite, collider);
 
             session.addPlayer(this);

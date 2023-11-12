@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
@@ -11,7 +11,6 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -49,7 +48,7 @@ public class RoomFactory {
 
     private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
         IEnemy enemy = enemyFactory.createEnemy(position, 5);
-        EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
+        RectangleSprite sprite = new RectangleSprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
         EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);
         newEntity.SetColor(new SpriteColor(1, 0, 0));
@@ -58,10 +57,9 @@ public class RoomFactory {
 
     private EntityWrapper CreateObstacle(Vector2 position, Vector2 size){
         Obstacle obstacle  = new Obstacle(position);
-        EntitySprite sprite = new EntitySprite(position, new Vector2(size.x, size.y));
+        RectangleSprite sprite = new RectangleSprite(position, new Vector2(size.x, size.y));
         Collider collider = Collider.NewRectangle(position, size.x, size.y, CollisionLayer.Obstacle);
-        EntityWrapper newObstacle = new EntityWrapper(obstacle, sprite, collider);
-        return newObstacle;
+        return new EntityWrapper(obstacle, sprite, collider);
     }
 
     private void AddEntity(EntityWrapper entity, HashMap<UUID, EntityWrapper> entities){
