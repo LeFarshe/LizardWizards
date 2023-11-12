@@ -3,12 +3,10 @@ package com.lizardwizards.lizardwizards.client;
 import com.lizardwizards.lizardwizards.client.ui.modals.ConfirmBox;
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.ParallelCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -72,7 +70,7 @@ public class ClientUtils {
             if (stageNum == 3)
             {
                 var root = new Pane();
-                var canvas = new Canvas(gameWidth*5, gameHeight*5);
+                var canvas = new Canvas(gameWidth*2, gameHeight*2);
                 root.getChildren().add(canvas);
                 newScene = new Scene(root, gameWidth,gameHeight);
                 newScene.getStylesheets().add(ClientUtils.class.getResource("/com/lizardwizards/lizardwizards/css/fontstyle.css").toExternalForm());

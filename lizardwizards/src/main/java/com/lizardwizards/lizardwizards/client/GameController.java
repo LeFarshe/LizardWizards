@@ -10,9 +10,9 @@ import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 public class GameController {
@@ -30,6 +30,9 @@ public class GameController {
         gc = root.getGraphicsContext2D();
         // TODO: not this preferably
         ((Pane)root.getParent()).getChildren().addAll(GameHUD.getInstance().getHudElements());
+        gc.setFont(new Font("Sans", 100));
+        gc.setFill(Color.GOLDENROD);
+        gc.fillText("Loading...", 500, 500);
     }
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);
@@ -50,8 +53,6 @@ public class GameController {
         entities.forEach((uuid, entity) -> {
             entity.sprite.ResetSprite(); // TODO remove
         });
-
-        redraw();
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
@@ -59,14 +60,12 @@ public class GameController {
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
             entity.sprite.ResetSprite(); // TODO remove
-            //root.getChildren().add(entity.sprite);
             gc.fillOval(entity.entity.GetPosition().x, entity.entity.GetPosition().y, entity.sprite.getHeight(), entity.sprite.getWidth());
             entities.put(entity.entity.uuid, entity);
         });
         currentTimer.syncWithServerTimer(syncPacket, syncPacket.createdEntities);
         syncPacket.destroyedEntities.forEach((entity) -> {
             EntityWrapper canonEntity = entities.get(entity.entity.uuid);
-            //root.getChildren().remove(canonEntity.sprite);
             entities.remove(canonEntity.entity.uuid);
         });
 
