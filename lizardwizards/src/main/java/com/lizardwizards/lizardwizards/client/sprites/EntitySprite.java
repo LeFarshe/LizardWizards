@@ -60,8 +60,7 @@ public abstract class EntitySprite implements Serializable, Cloneable {
         try {
             EntitySprite clone = (EntitySprite) super.clone();
 
-            clone.setTranslateX(getTranslateX());
-            clone.setTranslateY(getTranslateY());
+            if (position != null) { clone.position = position.Copy(); }
             clone.setPaint(new SpriteColor(paint.red, paint.green, paint.blue, paint.opacity));
 
 
