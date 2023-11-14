@@ -5,7 +5,7 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Line {
+public class Line implements Cloneable {
     Vector2 start;
     Vector2 end;
 
@@ -79,6 +79,18 @@ public class Line {
             }
 
             return point.y >= yMin && point.y <= yMax;
+        }
+    }
+
+    @Override
+    public Line clone() {
+        try {
+            Line clone = (Line) super.clone();
+            clone.start = start.Copy();
+            clone.end = end.Copy();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
         }
     }
 }
