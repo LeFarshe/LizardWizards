@@ -39,23 +39,23 @@ public class Collider implements Serializable, Cloneable {
 
     public boolean Collide(Collider collider){
         if (shape == CollisionShape.Circle){
-            if (collider.shape == CollisionShape.Circle) { return CollideCircles(this, collider); }
+            if (collider.shape == CollisionShape.Circle) { return CollideCircles(collider); }
             else { return CollideCircleRectangle(this, collider); }
         }
         else {
             if (collider.shape == CollisionShape.Circle) { return CollideCircleRectangle(collider, this); }
-            else { return CollideRectangles(this, collider); }
+            else { return CollideRectangles(collider); }
         }
     }
-    private static boolean CollideCircles(Collider circle1, Collider circle2){
-        double radiusSum = circle1.shapeDetails.get(0) + circle2.shapeDetails.get(0);
-        return circle1.position.DistanceTo(circle2.position) <= radiusSum;
+    private boolean CollideCircles(Collider circle){
+        double radiusSum = shapeDetails.get(0) + circle.shapeDetails.get(0);
+        return position.DistanceTo(circle.position) <= radiusSum;
     }
-    private static boolean CollideRectangles(Collider rect1, Collider rect2){
-        return !(rect1.position.x + rect1.shapeDetails.get(0) / 2 < rect2.position.x - rect2.shapeDetails.get(0) / 2 ||
-                rect1.position.x - rect1.shapeDetails.get(0) / 2 > rect2.position.x + rect2.shapeDetails.get(0) / 2 ||
-                rect1.position.y + rect1.shapeDetails.get(1) / 2 < rect2.position.y - rect2.shapeDetails.get(1) / 2 ||
-                rect1.position.y - rect1.shapeDetails.get(1) / 2 > rect2.position.y + rect2.shapeDetails.get(1) / 2);
+    private boolean CollideRectangles(Collider rect){
+        return !(position.x + shapeDetails.get(0) / 2 < rect.position.x - rect.shapeDetails.get(0) / 2 ||
+                position.x - shapeDetails.get(0) / 2 > rect.position.x + rect.shapeDetails.get(0) / 2 ||
+                position.y + shapeDetails.get(1) / 2 < rect.position.y - rect.shapeDetails.get(1) / 2 ||
+                position.y - shapeDetails.get(1) / 2 > rect.position.y + rect.shapeDetails.get(1) / 2);
     }
     private static boolean CollideCircleRectangle(Collider circle, Collider rectangle){
         double x = rectangle.position.x - rectangle.shapeDetails.get(0) / 2;
@@ -68,18 +68,18 @@ public class Collider implements Serializable, Cloneable {
 
     public List<Vector2> IntersectLine(Line line){
         if (shape == CollisionShape.Rectangle) {
-            return IntersectInSquare(this, line);
+            return IntersectInSquare(line);
         }
         return null;
     }
 
-    private static List<Vector2> IntersectInSquare(Collider square, Line line){
+    private List<Vector2> IntersectInSquare(Line line){
         ArrayList<Vector2> allIntersections = new ArrayList<>();
 
-        Vector2 topLeft = square.position.Copy().AddVector(new Vector2(-square.shapeDetails.get(0) / 2, -square.shapeDetails.get(1) / 2));
-        Vector2 bottomLeft = topLeft.Copy().AddVector(new Vector2(0,square.shapeDetails.get(1)));
-        Vector2 bottomRight = bottomLeft.Copy().AddVector(new Vector2(square.shapeDetails.get(0), 0));
-        Vector2 topRight = topLeft.Copy().AddVector(new Vector2(square.shapeDetails.get(0), 0));
+        Vector2 topLeft = position.Copy().AddVector(new Vector2(-shapeDetails.get(0) / 2, -shapeDetails.get(1) / 2));
+        Vector2 bottomLeft = topLeft.Copy().AddVector(new Vector2(0,shapeDetails.get(1)));
+        Vector2 bottomRight = bottomLeft.Copy().AddVector(new Vector2(shapeDetails.get(0), 0));
+        Vector2 topRight = topLeft.Copy().AddVector(new Vector2(shapeDetails.get(0), 0));
 
 
         Line newLine = new Line(topLeft, bottomLeft);
