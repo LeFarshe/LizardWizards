@@ -199,9 +199,10 @@ public class Collider implements Serializable, Cloneable {
 
         if (discriminant == 0) {
             Vector2 tangent = new Vector2(determinant * dy / distanceSq + position.x, -1 * determinant * dx / distanceSq + position.y);
-            ans.add(tangent);
-            if (line.pointIsInFiniteLine(tangent)) { return ans; }
-            else { return null; }
+            if (line.pointIsInFiniteLine(tangent)) {
+                ans.add(tangent);
+            }
+            return ans;
         }
 
         int ySign;
