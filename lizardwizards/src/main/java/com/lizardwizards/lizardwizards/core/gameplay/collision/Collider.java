@@ -70,7 +70,7 @@ public class Collider implements Serializable, Cloneable {
         if (shape == CollisionShape.Rectangle) {
             return IntersectInSquare(line);
         }
-        return null;
+        else { return IntersectInCircle(line); }
     }
 
     private List<Vector2> IntersectInSquare(Line line){
@@ -131,6 +131,7 @@ public class Collider implements Serializable, Cloneable {
     }
 
     private static Vector2 IntersectLines(Line line1, Line line2){
+        // Just solves a1x1 + b1 = a2x2 + b2
         List<Double> line1SI = line1.getSlopeAndIntercept();
         List<Double> line2SI = line2.getSlopeAndIntercept();
 
@@ -183,6 +184,50 @@ public class Collider implements Serializable, Cloneable {
             }
         }
 
+    }
+
+    private List<Vector2> IntersectInCircle(Line line) {
+        // https://mathworld.wolfram.com/Circle-LineIntersection.html
+        List<Vector2> ans = new ArrayList<>();
+        double distanceSq = Math.pow(line.getLength(),2);
+        double determinant = (line.start.x - position.x) * (line.end.y - position.y) - (line.end.x - position.x) * (line.start.y - position.y);
+        double discriminant = Math.pow(shapeDetails.get(0), 2) * distanceSq - Math.pow(determinant, 2);
+        if (discriminant < 0) { return ans; }
+
+        double dx = line.end.x - line.start.x;
+        double dy = line.end.y - line.start.y;
+
+        if (discriminant == 0) {
+            Vector2 tangent = new Vector2(determinant * dy / distanceSq + position.x, -1 * determinant * dx / distanceSq + position.y);
+            ans.add(tangent);
+            if (line.pointIsInFiniteLine(tangent)) { return ans; }
+            else { return null; }
+        }
+
+        int ySign;
+        if (dy < 0) { ySign = -1; }
+        else { ySign = 1; }
+
+        discriminant = Math.sqrt(discriminant);
+        double xPart1 = determinant * dy / distanceSq;
+        double yPart1 = -1 * determinant * dx / distanceSq;
+        double xPart2 = ySign * dx * discriminant / distanceSq;
+        double yPart2 = Math.abs(dy)* discriminant / distanceSq;
+
+        Vector2 intersection = new Vector2(xPart1 + xPart2 + position.x, yPart1 + yPart2 + position.y);
+        if (line.pointIsInFiniteLine(intersection)) { ans.add(intersection); }
+
+        intersection = new Vector2(xPart1 - xPart2 + position.x, yPart1 - yPart2 + position.y);
+        if (line.pointIsInFiniteLine(intersection)) {
+            if (ans.isEmpty()) { ans.add(intersection); }
+            else {
+                if (line.start.DistanceTo(intersection) < line.start.DistanceTo(ans.get(0))) {
+                    ans.add(0, intersection);
+                }
+            }
+        }
+
+        return ans;
     }
 
     public static double Clamp(double value, double min, double max){
