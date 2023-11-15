@@ -7,4 +7,5 @@ public class RoomData {
     public RoomData(RoomEnumerator id){
         this.id = id;
     }
+    public void setCleared() { cleared = true;}
 }
