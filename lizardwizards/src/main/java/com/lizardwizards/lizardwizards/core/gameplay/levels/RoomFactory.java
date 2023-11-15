@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RoomFactory {
+    int enemyCount = 0;
     public RoomInformation getRoom(Level currentLevel, DefaultEnemyFactory enemyFactory){
+        enemyCount = 0;
         HashMap<UUID, EntityWrapper> entities = new HashMap<>();
         CreateWalls(entities);
         CreateDoors(entities, currentLevel.getDoors());
@@ -41,12 +43,13 @@ public class RoomFactory {
             AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50,50)), entities);
             AddEntity(CreateObstacle(new Vector2(1000, 300), new Vector2(50,50)), entities);
         }
-        return new RoomInformation(entities, currentLevel.enteredDirection);
+        return new RoomInformation(entities, currentLevel.enteredDirection, enemyCount);
     }
 
 
 
     private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
+        enemyCount++;
         IEnemy enemy = enemyFactory.createEnemy(position, 5);
         RectangleSprite sprite = new RectangleSprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
