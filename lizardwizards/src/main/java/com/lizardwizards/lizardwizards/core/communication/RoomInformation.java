@@ -13,6 +13,7 @@ public class RoomInformation extends SentServerData{
     public static double xMax = 1600;
     public static double yMax = 900;
     public int direction = 0;
+    public int enemyCount;
     public HashMap<UUID, EntityWrapper> entities;
     private HashMap<UUID, EntityWrapper> oldEntities;
 
@@ -21,10 +22,11 @@ public class RoomInformation extends SentServerData{
         entities = new HashMap<>();
     }
 
-    public RoomInformation(HashMap<UUID, EntityWrapper> entities, int direction) {
+    public RoomInformation(HashMap<UUID, EntityWrapper> entities, int direction, int enemyCount) {
         super(SentDataType.Room);
         this.entities = entities;
         this.direction = direction;
+        this.enemyCount = enemyCount;
     }
 
     public Vector2 getPlayerPosition(){
