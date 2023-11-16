@@ -15,6 +15,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.UpgradedWeaponFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponTypes;
 
@@ -27,7 +28,7 @@ public class PlayerHandler {
     private final ObjectInputStream objectInput;
     private final ObjectOutputStream objectOutput;
 
-    private final WeaponFactory weaponFactory = new WeaponFactory();
+    private final WeaponFactory weaponFactory = new UpgradedWeaponFactory(1);
 
     PlayerHandler (Socket playerSocket, Session currentSession) throws RuntimeException {
         session = currentSession;
