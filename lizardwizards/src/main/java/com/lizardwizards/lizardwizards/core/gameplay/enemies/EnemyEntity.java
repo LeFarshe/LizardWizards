@@ -3,6 +3,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 import java.util.Dictionary;
@@ -11,7 +12,7 @@ import java.util.Random;
 public class EnemyEntity extends Entity {
 
     EnemyMovementStrategy strategy;
-    int health = 3;
+    double health = 3;
     double speed;
     double directionDelay = 1;
     double directionTimer = directionDelay;
@@ -33,7 +34,7 @@ public class EnemyEntity extends Entity {
 
         if(layer == PLAYER_PROJECTILE_LAYER) {
 
-            health -= 1;
+            health -= ((IProjectile)collider).getDamage();
             if (health <= 0 && !isDestroyed) {
                 HandleDeath();
             }
@@ -57,6 +58,6 @@ public class EnemyEntity extends Entity {
     @Override
     public boolean IsDestroyed() {
         // Logic to determine if this enemy is destroyed
-        return false;
+        return isDestroyed;
     }
 }
