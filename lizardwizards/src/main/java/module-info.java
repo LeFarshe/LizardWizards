@@ -28,4 +28,6 @@ module com.lizardwizards.lizardwizards {
     opens com.lizardwizards.lizardwizards.core.gameplay.enemies to javafx.fxml;
     exports com.lizardwizards.lizardwizards.core.gameplay.projectiles;
     opens com.lizardwizards.lizardwizards.core.gameplay.projectiles to javafx.fxml;
+    exports com.lizardwizards.lizardwizards.client.sprites;
+    opens com.lizardwizards.lizardwizards.client.sprites to javafx.fxml;
 }

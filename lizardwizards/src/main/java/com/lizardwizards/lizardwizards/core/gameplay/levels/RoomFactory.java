@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
@@ -11,13 +11,14 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class RoomFactory {
+    int enemyCount = 0;
     public RoomInformation getRoom(Level currentLevel, DefaultEnemyFactory enemyFactory){
+        enemyCount = 0;
         HashMap<UUID, EntityWrapper> entities = new HashMap<>();
         CreateWalls(entities);
         CreateDoors(entities, currentLevel.getDoors());
@@ -33,14 +34,24 @@ public class RoomFactory {
             AddEntity(CreateObstacle(new Vector2(600, 300), new Vector2(50,50)), entities);
 
         }
-        return new RoomInformation(entities, currentLevel.enteredDirection);
+        else if (currentLevel.getCurrentRoom().id == RoomEnumerator.BasicRoom2){
+            if (!currentLevel.getCurrentRoom().cleared) {
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+            }
+
+            AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50,50)), entities);
+            AddEntity(CreateObstacle(new Vector2(1000, 300), new Vector2(50,50)), entities);
+        }
+        return new RoomInformation(entities, currentLevel.enteredDirection, enemyCount);
     }
 
 
 
     private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
+        enemyCount++;
         IEnemy enemy = enemyFactory.createEnemy(position, 5);
-        EntitySprite sprite = new EntitySprite(position, new Vector2(15, 15));
+        RectangleSprite sprite = new RectangleSprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
         EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);
         newEntity.SetColor(new SpriteColor(1, 0, 0));
@@ -49,10 +60,9 @@ public class RoomFactory {
 
     private EntityWrapper CreateObstacle(Vector2 position, Vector2 size){
         Obstacle obstacle  = new Obstacle(position);
-        EntitySprite sprite = new EntitySprite(position, new Vector2(size.x, size.y));
+        RectangleSprite sprite = new RectangleSprite(position, new Vector2(size.x, size.y));
         Collider collider = Collider.NewRectangle(position, size.x, size.y, CollisionLayer.Obstacle);
-        EntityWrapper newObstacle = new EntityWrapper(obstacle, sprite, collider);
-        return newObstacle;
+        return new EntityWrapper(obstacle, sprite, collider);
     }
 
     private void AddEntity(EntityWrapper entity, HashMap<UUID, EntityWrapper> entities){

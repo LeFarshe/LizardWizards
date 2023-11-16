@@ -2,22 +2,18 @@ package com.lizardwizards.lizardwizards.core.communication;
 
 import com.lizardwizards.lizardwizards.client.ClientConnectionHandler;
 import com.lizardwizards.lizardwizards.client.ClientUtils;
-import com.lizardwizards.lizardwizards.client.EntitySprite;
-import com.lizardwizards.lizardwizards.client.GameController;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.application.Platform;
 
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 public class RoomInformation extends SentServerData{
     public static double xMax = 1600;
     public static double yMax = 900;
     public int direction = 0;
+    public int enemyCount;
     public HashMap<UUID, EntityWrapper> entities;
     private HashMap<UUID, EntityWrapper> oldEntities;
 
@@ -26,10 +22,11 @@ public class RoomInformation extends SentServerData{
         entities = new HashMap<>();
     }
 
-    public RoomInformation(HashMap<UUID, EntityWrapper> entities, int direction) {
+    public RoomInformation(HashMap<UUID, EntityWrapper> entities, int direction, int enemyCount) {
         super(SentDataType.Room);
         this.entities = entities;
         this.direction = direction;
+        this.enemyCount = enemyCount;
     }
 
     public Vector2 getPlayerPosition(){

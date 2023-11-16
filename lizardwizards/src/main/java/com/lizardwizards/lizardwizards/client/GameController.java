@@ -2,28 +2,41 @@ package com.lizardwizards.lizardwizards.client;
 
 import java.util.*;
 
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
 import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 public class GameController {
     HashMap<UUID, EntityWrapper> entities = new HashMap<>();
     EntityWrapper currentPlayer;
     PlayerControls playerControls = new PlayerControls();
-    Pane root;
+    Canvas root;
+    GraphicsContext gc;
     GameTimer currentTimer;
 
-    GameController(Pane root)
+    GameController(Canvas root)
     {
         new GameHUD();
         this.root = root;
-        root.setPrefSize(800,600);
-        root.getChildren().addAll(GameHUD.getInstance().getHudElements());
+        gc = root.getGraphicsContext2D();
+        // TODO: not this preferably
+        ((Pane)root.getParent()).getChildren().addAll(GameHUD.getInstance().getHudElements());
+        gc.setFont(new Font("Sans", 100));
+        gc.setFill(Color.GOLDENROD);
+        gc.fillText("Loading...", 500, 500);
+        var image = new ImageSprite(ClientUtils.loadResource("images/loading.png"));
+        image.setPosition(new Vector2(1100, 450));
+        image.drawSprite(gc);
     }
     public void start(SyncPacket syncPacket) {
         System.out.println(currentPlayer.entity.uuid);
@@ -32,7 +45,6 @@ public class GameController {
     }
 
     public void initEntityList(RoomInformation room, List<EntityWrapper> players) {
-        entities.forEach((uuid, entity) -> root.getChildren().remove(entity.sprite));
         entities.clear();
         players.forEach(player -> entities.put(player.entity.uuid, player));
         entities.putAll(room.entities);
@@ -41,24 +53,17 @@ public class GameController {
         for (EntityWrapper player : players) {
             player.SetPosition(room.getPlayerPosition());
         }
-
-        entities.forEach((uuid, entity) -> {
-            entity.sprite.ResetSprite(); // TODO remove
-            root.getChildren().add(entity.sprite);});
     }
 
     public void updateEntityList(SyncPacket syncPacket) {
         currentTimer.stop();
         syncPacket.createdEntities.forEach(pair -> {
             var entity = pair.getValue();
-            entity.sprite.ResetSprite(); // TODO remove
-            root.getChildren().add(entity.sprite);
             entities.put(entity.entity.uuid, entity);
         });
         currentTimer.syncWithServerTimer(syncPacket, syncPacket.createdEntities);
         syncPacket.destroyedEntities.forEach((entity) -> {
             EntityWrapper canonEntity = entities.get(entity.entity.uuid);
-            root.getChildren().remove(canonEntity.sprite);
             entities.remove(canonEntity.entity.uuid);
         });
 
@@ -119,6 +124,8 @@ public class GameController {
                 serverClientDiff -= now/1000000.0;
             }
             prevTime = now;
+
+            redraw();
         }
     }
 
@@ -131,6 +138,12 @@ public class GameController {
         currentPlayer = player;
         currentPlayer.addObserver(GameHUD.getInstance());
         entities.put(player.entity.uuid, currentPlayer);
-        root.getChildren().add(player.sprite);
+    }
+
+    private void redraw() {
+        gc.clearRect(0, 0, root.getWidth(), root.getHeight());
+        entities.forEach((uuid, entity) -> {
+            entity.sprite.drawSprite(gc);
+        });
     }
 }

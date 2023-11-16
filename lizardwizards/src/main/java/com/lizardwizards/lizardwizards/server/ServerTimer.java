@@ -6,6 +6,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.Level;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.LevelFacade;
 import javafx.util.Pair;
@@ -25,6 +26,7 @@ public class ServerTimer extends TimerTask {
 
     private final List<Collider> doors = new ArrayList<>();
     private boolean[] existingDoors;
+    private int enemyCount;
 
     public ServerTimer(Session session) {
         levelFacade = new LevelFacade();
@@ -56,6 +58,12 @@ public class ServerTimer extends TimerTask {
         entities.forEach((entityUUID, entity) -> {
             entity.MoveByDelta(elapsedTime, entities);
             if (entity.entity.IsDestroyed()) {
+                if (entity.entity instanceof IEnemy){
+                    enemyCount --;
+                    if (enemyCount == 0){
+                        currentLevel.getCurrentRoom().setCleared();
+                    }
+                }
                 destroyedEntities.add(entity);
                 toBeRemoved.add(entityUUID);
             }
@@ -77,7 +85,7 @@ public class ServerTimer extends TimerTask {
         time = now;
         for(PlayerHandler player: players) {
             for (int i = 0; i < 4; i++){
-                if (doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
+                if (enemyCount == 0 && doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
                     currentLevel.moveDirectionally(i + 1);
                     loadRoom();
                     break;
@@ -89,6 +97,7 @@ public class ServerTimer extends TimerTask {
     public synchronized void loadRoom() {
         createdEntities.clear();
         RoomInformation room = levelFacade.getRoom(currentLevel);
+        enemyCount = room.enemyCount;
         existingDoors = currentLevel.getDoors();
         entities.clear();
         for (PlayerHandler player: players){

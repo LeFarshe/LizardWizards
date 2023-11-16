@@ -1,6 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
-import com.lizardwizards.lizardwizards.client.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class ItmDoubleCaliber extends ProjectileDecorator {
@@ -25,7 +25,7 @@ public class ItmDoubleCaliber extends ProjectileDecorator {
     @Override
     public EntitySprite GetSprite() {
         var sprite = wrappedProjectile.GetSprite();
-        sprite.Resize(sizeMultiplier);
+        sprite.scale(sizeMultiplier);
         return sprite;
     }
 

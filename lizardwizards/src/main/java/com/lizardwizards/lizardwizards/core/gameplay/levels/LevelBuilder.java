@@ -78,7 +78,7 @@ public class LevelBuilder {
     }
 
     public void setRoom(Vector2 position, RoomData room){
-        rooms[(int)position.x][(int)position.y] = room;
+        rooms[(int)position.x][(int)position.y] = room.clone();
     }
 
     private boolean roomFits(GenerationRoomData room, Vector2 position){
