@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class LizardWizardsServer {
+    public static boolean isRunning = false;
 
     public static void main(String[] args) {
+        isRunning = true;
         Thread thread = null;
         for (int i = 6123; i < 6200; i ++){
             try (ServerSocket serverSocket = new ServerSocket(i)) {

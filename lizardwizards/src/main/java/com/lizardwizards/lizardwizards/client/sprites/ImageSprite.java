@@ -1,6 +1,8 @@
 package com.lizardwizards.lizardwizards.client.sprites;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.server.LizardWizardsServer;
+import com.lizardwizards.lizardwizards.server.Session;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -16,9 +18,15 @@ public class ImageSprite extends EntitySprite {
     public ImageSprite(String imageFilename) {
         this.imageFilename = imageFilename;
         this.imageScale = 1;
-        loadImage();
-        width = spriteImage.getWidth();
-        height = spriteImage.getHeight();
+        if (!LizardWizardsServer.isRunning) {
+            loadImage();
+            width = spriteImage.getWidth();
+            height = spriteImage.getHeight();
+        }
+        else {
+            width = 0;
+            height = 0;
+        }
     }
 
     public ImageSprite(URL imageURL) {
@@ -27,6 +35,13 @@ public class ImageSprite extends EntitySprite {
 
    private void loadImage() {
         spriteImage = new Image(imageFilename);
+   }
+
+   public Image getImage() {
+        if (spriteImage == null) {
+            loadImage();
+        }
+        return spriteImage;
    }
 
     @Override

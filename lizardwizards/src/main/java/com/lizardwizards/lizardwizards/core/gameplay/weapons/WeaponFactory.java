@@ -10,16 +10,13 @@ public class WeaponFactory {
     public Weapon getWeapon(WeaponTypes weapon) {
         switch (weapon) {
             case Pistol -> {
-                var gun = new Gun();
-                return gun;
+                return new Gun();
             }
             case Shotgun -> {
-                var gun = new Shotgun();
-                return gun;
+                return new Shotgun();
             }
             case Chaingun -> {
-                var gun = new Chaingun();
-                return gun;
+                return new Chaingun();
             }
             default -> {
                 return null;

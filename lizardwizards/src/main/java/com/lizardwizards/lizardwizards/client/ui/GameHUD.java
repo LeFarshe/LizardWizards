@@ -1,8 +1,14 @@
 package com.lizardwizards.lizardwizards.client.ui;
 
 import java.util.Observable;
+
+import com.lizardwizards.lizardwizards.client.ClientUtils;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.Weapon;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -15,7 +21,10 @@ public class GameHUD implements Observer {
     Label scoreLabel;
     Label hitPoints;
 
+    ImageView currentWeapon;
+
     HBox hbox = new HBox();
+    BorderPane borderPane = new BorderPane();
     List<Node> hudElements;
     int score;
     int health;
@@ -32,6 +41,15 @@ public class GameHUD implements Observer {
         hbox.getChildren().addAll(scoreLabel, hitPoints);
         hbox.setSpacing(50);
         hudElements.add(hbox);
+
+        currentWeapon = new ImageView(ClientUtils.loadResource("images/loading.png").toExternalForm());
+        var bottomPane = new BorderPane();
+        bottomPane.setBottom(currentWeapon);
+        borderPane.setRight(bottomPane);
+        borderPane.setMinWidth(ClientUtils.gameWidth);
+        borderPane.setMinHeight(ClientUtils.gameHeight);
+
+        hudElements.add(borderPane);
     }
 
     public static GameHUD getInstance() { return hud;}
@@ -45,6 +63,10 @@ public class GameHUD implements Observer {
 
     public int getScore() {
         return score;
+    }
+
+    public void switchWeapon(Weapon weapon) {
+        currentWeapon.setImage(weapon.getHudIcon().getImage());
     }
 
     @Override

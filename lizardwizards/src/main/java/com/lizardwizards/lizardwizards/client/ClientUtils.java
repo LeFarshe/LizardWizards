@@ -14,8 +14,8 @@ import java.net.URL;
 
 public class ClientUtils {
     public static GameController gameController = null;
-    private static final int gameWidth = 1600;
-    private static final int gameHeight = 900;
+    public static final int gameWidth = 1600;
+    public static final int gameHeight = 900;
 
     public static void closeProgram(Stage window){
         boolean answer = ConfirmBox.display("Are you sure you want to exit?");
