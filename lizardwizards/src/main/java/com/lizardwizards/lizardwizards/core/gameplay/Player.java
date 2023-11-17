@@ -96,13 +96,21 @@ public class Player extends Entity {
         isMoving = false;
     }
 
+    public Weapon getCurrentWeapon() {
+        if (currentWeapon < 0) {
+            return weapons.get(weapons.size()-1);
+        }
+        if (currentWeapon >= weapons.size()) { return weapons.get(0);}
+
+        return weapons.get(currentWeapon);
+    }
+
     public List<IProjectile> Shoot(double delta)
     {
         List<IProjectile> newProjectiles;
         if (isShooting)
         {
-            if (currentWeapon < 0 || currentWeapon >= weapons.size()) { return null;}
-            newProjectiles = weapons.get(currentWeapon).ContinueShooting(delta, shootDirection);
+            newProjectiles = getCurrentWeapon().ContinueShooting(delta, shootDirection);
             if (newProjectiles != null) {
                 for (IProjectile projectile: newProjectiles)
                 {
