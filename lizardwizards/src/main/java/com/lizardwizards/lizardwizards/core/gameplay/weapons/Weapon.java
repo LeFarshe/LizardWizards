@@ -1,9 +1,9 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.*;
 
@@ -13,11 +13,17 @@ public abstract class Weapon implements Serializable, Cloneable {
     double fireTimer = 0;
     IProjectile shotProjectile;
 
-    Weapon(double damage, double fireRate, IProjectile shotProjectile)
+    final ImageSprite hudIcon;
+
+    Weapon(double damage, double fireRate, IProjectile shotProjectile, ImageSprite hudIcon)
     {
         this.damage = damage;
         this.fireRate = fireRate;
         this.shotProjectile = shotProjectile;
+        this.hudIcon = hudIcon;
+    }
+    public ImageSprite getHudIcon() {
+        return hudIcon; // TODO: fix clone for imageSprite
     }
     public abstract List<IProjectile> Shoot(Vector2 direction);
     public List<IProjectile> ContinueShooting(double delta, Vector2 direction)

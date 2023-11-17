@@ -26,11 +26,12 @@ public class GameController {
 
     GameController(Canvas root)
     {
-        new GameHUD();
+        var hud = new GameHUD();
         this.root = root;
         gc = root.getGraphicsContext2D();
         // TODO: not this preferably
         ((Pane)root.getParent()).getChildren().addAll(GameHUD.getInstance().getHudElements());
+
         gc.setFont(new Font("Sans", 100));
         gc.setFill(Color.GOLDENROD);
         gc.fillText("Loading...", 500, 500);
@@ -109,7 +110,9 @@ public class GameController {
                 }
                 int weaponSwitch = playerControls.HandleWeaponSwitching();
                 if (weaponSwitch != 0){
-                    ((Player)currentPlayer.entity).ChangeWeapon(weaponSwitch);
+                    var player = (Player)currentPlayer.entity;
+                    player.ChangeWeapon(weaponSwitch);
+                    GameHUD.getInstance().switchWeapon(player.getCurrentWeapon());
                 }
 
                 ClientConnectionHandler.CurrentHandler.sendUpdate(currentPlayer.entity.GetPosition() ,newMovement, newShooting, weaponSwitch);
@@ -138,6 +141,9 @@ public class GameController {
         currentPlayer = player;
         currentPlayer.addObserver(GameHUD.getInstance());
         entities.put(player.entity.uuid, currentPlayer);
+
+        var playerEntity = (Player)currentPlayer.entity;
+        GameHUD.getInstance().switchWeapon(playerEntity.getCurrentWeapon());
     }
 
     private void redraw() {

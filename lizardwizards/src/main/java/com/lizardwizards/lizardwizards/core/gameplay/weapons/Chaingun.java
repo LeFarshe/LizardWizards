@@ -1,5 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
+import com.lizardwizards.lizardwizards.client.ClientUtils;
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
@@ -12,7 +14,8 @@ public class Chaingun extends Weapon{
     double spread = 0.5;
     int projectilesShot  = 0;
     Chaingun() {
-        super(1, 10, new Projectile(300, 2, 1, new Vector2(4,4)));
+        super(1, 10, new Projectile(300, 2, 1, new Vector2(4,4)),
+        new ImageSprite(ClientUtils.loadResource("images/weapons/Chaingun.png")));
     }
 
     @Override
