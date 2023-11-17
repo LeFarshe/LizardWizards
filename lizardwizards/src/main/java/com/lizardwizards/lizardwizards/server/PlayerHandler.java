@@ -28,8 +28,6 @@ public class PlayerHandler {
     private final ObjectInputStream objectInput;
     private final ObjectOutputStream objectOutput;
 
-    private final WeaponFactory weaponFactory = new UpgradedWeaponFactory(1);
-
     PlayerHandler (Socket playerSocket, Session currentSession) throws RuntimeException {
         session = currentSession;
         this.playerSocket = playerSocket;
@@ -37,14 +35,7 @@ public class PlayerHandler {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
             sendToPlayer(new ConnectionInformation(GameState.InLobby));
 
-            Player player = new Player(new Vector2(0,0), 250);
-            Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
-            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Pistol));
-            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Shotgun));
-            player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Chaingun));
-            var playerColor = session.sessionColors.get(session.playersConnected%session.sessionColors.size());
-            RectangleSprite playerSprite = new RectangleSprite(new Vector2(0,0), new Vector2(20,20), playerColor);
-            this.player = new EntityWrapper(player, playerSprite, collider);
+            this.player = PlayerFactory.getPlayer(PlayerClass.Richard);
 
             session.addPlayer(this);
             objectOutput.writeObject(this.player);
