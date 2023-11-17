@@ -27,6 +27,7 @@ public class StandardEnemyImplementor implements IEnemyImplementor, Serializable
     public void move(double delta) {
         directionTimer -= delta;
         if (directionTimer <= 0){
+            setDirection();
             directionTimer = directionDelay;
         }
         enemyEntity.Move(moveDirection.Copy().Multiply(speed * delta));
