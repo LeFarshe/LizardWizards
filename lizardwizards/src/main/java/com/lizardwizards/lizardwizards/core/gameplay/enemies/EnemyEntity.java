@@ -1,33 +1,21 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
-import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 import java.util.Dictionary;
-import java.util.Random;
 
 public class EnemyEntity extends Entity {
 
-    EnemyMovementStrategy strategy;
     double health = 3;
-    double speed;
-    double directionDelay = 1;
-    double directionTimer = directionDelay;
     boolean isDestroyed = false;
-    @Override
+
     public void MoveByDelta(double delta) {
-        directionTimer -= delta;
-        if (directionTimer <= 0){
-            directionTimer = directionDelay;
-        }
-        Move(strategy.getDirection().Copy().Multiply(speed * delta));
+
     }
-    void setMovementStrategy(EnemyMovementStrategy strategy) {
-        this.strategy = strategy;
-    }
+
     @Override
     public void Collide(Entity collider, CollisionLayer layer) {
         final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
@@ -40,9 +28,6 @@ public class EnemyEntity extends Entity {
             }
         }
     }
-
-
-
 
     public void HandleDeath() {
         isDestroyed = true;
@@ -57,7 +42,6 @@ public class EnemyEntity extends Entity {
 
     @Override
     public boolean IsDestroyed() {
-        // Logic to determine if this enemy is destroyed
         return isDestroyed;
     }
 }
