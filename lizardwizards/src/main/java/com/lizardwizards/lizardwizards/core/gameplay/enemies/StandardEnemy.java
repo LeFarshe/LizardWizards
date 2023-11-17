@@ -16,11 +16,9 @@ public class StandardEnemy extends Enemy {
 
     @Override
     public void Collide(Entity collidingEntity, CollisionLayer layer) {
-        implementor.onCollision(collidingEntity, layer);
         if (layer == CollisionLayer.PlayerProjectile) {
             health -= ((IProjectile)collidingEntity).getDamage();
             if (health <= 0 && !isDestroyed) {
-                // isDestroyed = implementor.isDestroyed(); // This could also call a method like `handleDestruction()`
                 HandleDeath();
             }
         }
