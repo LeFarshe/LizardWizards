@@ -49,9 +49,10 @@ public class Projectile extends IProjectile {
     }
 
     @Override
-    public Projectile shoot(Vector2 direction){
+    public Projectile shoot(Vector2 direction, Vector2 position){
         var newProjectile = new Projectile(this);
         newProjectile.direction = direction.Copy();
+        newProjectile.SetPosition(position);
         return newProjectile;
     }
 

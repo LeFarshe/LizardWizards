@@ -77,7 +77,7 @@ public abstract class ProjectileDecorator extends IProjectile {
     }
 
     @Override
-    public abstract IProjectile shoot(Vector2 direction);
+    public abstract IProjectile shoot(Vector2 direction, Vector2 position);
 
     @Override
     public void SetPosition(Vector2 position) {

@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PlayerFactory {
-    private static final WeaponFactory weaponFactory = new UpgradedWeaponFactory(1);
+    private static final WeaponFactory weaponFactory = new UpgradedWeaponFactory(0);
     private static final LinkedList<SpriteColor> playerColors = new LinkedList<>(List.of(
             new SpriteColor(0.3, 1, 0.3),
             new SpriteColor(1, 0.3, 1),
@@ -30,7 +30,9 @@ public class PlayerFactory {
         switch (playerClass) {
             case Blizzard -> {
                 playersCreated ++;
-                return null;
+                player.weapons.add(weaponFactory.getWeapon(WeaponTypes.ViolentWand));
+                player.weapons.add(weaponFactory.getWeapon(WeaponTypes.Shotgun));
+                return new EntityWrapper(player, playerSprite, collider);
             }
             case Richard -> {
                 playersCreated ++;

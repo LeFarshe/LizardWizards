@@ -18,6 +18,9 @@ public class WeaponFactory {
             case Chaingun -> {
                 return new Chaingun();
             }
+            case ViolentWand -> {
+                return new ViolentWand();
+            }
             default -> {
                 return null;
             }

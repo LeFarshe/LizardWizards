@@ -11,24 +11,14 @@ public class ItmTimeBullets extends ProjectileDecorator {
     }
 
     @Override
-    public IProjectile shoot(Vector2 direction) {
+    public IProjectile shoot(Vector2 direction, Vector2 position) {
         var dir = direction.Copy();
-        var projectile = wrappedProjectile.shoot(dir.Multiply(-1));
+        position.AddVector(initialRelativePosition);
+        var projectile = wrappedProjectile.shoot(dir.Multiply(-1), position);
         initialRelativePosition = dir.Multiply(projectile.getDuration()*-projectile.getSpeed());
         var shotProjectile = new ItmTimeBullets(projectile);
         shotProjectile.initialRelativePosition = initialRelativePosition;
         return shotProjectile;
-    }
-
-    @Override
-    public void SetPosition(Vector2 position) {
-        if (!warped) {
-            wrappedProjectile.SetPosition(position.AddVector(initialRelativePosition));
-            warped = true;
-        }
-        else {
-            wrappedProjectile.SetPosition(position);
-        }
     }
 
     @Override

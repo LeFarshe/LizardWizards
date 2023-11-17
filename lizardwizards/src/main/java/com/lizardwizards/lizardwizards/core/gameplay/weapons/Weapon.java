@@ -15,9 +15,8 @@ public abstract class Weapon implements Serializable, Cloneable {
 
     final ImageSprite hudIcon;
 
-    Weapon(double damage, double fireRate, IProjectile shotProjectile, ImageSprite hudIcon)
+    Weapon(double fireRate, IProjectile shotProjectile, ImageSprite hudIcon)
     {
-        this.damage = damage;
         this.fireRate = fireRate;
         this.shotProjectile = shotProjectile;
         this.hudIcon = hudIcon;
@@ -25,14 +24,15 @@ public abstract class Weapon implements Serializable, Cloneable {
     public ImageSprite getHudIcon() {
         return hudIcon; // TODO: fix clone for imageSprite
     }
-    public abstract List<IProjectile> Shoot(Vector2 direction);
-    public List<IProjectile> ContinueShooting(double delta, Vector2 direction)
+    public abstract List<IProjectile> Shoot(Vector2 direction, Vector2 position);
+    public List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position)
     {
         fireTimer += delta;
         if (fireTimer >= 1.0/fireRate)
         {
             fireTimer -= (1.0/fireRate);
-            return Shoot(direction.Copy());
+            // position has to be cloned within the overloaded function
+            return Shoot(direction.Copy(), position);
         }
         return null;
     }

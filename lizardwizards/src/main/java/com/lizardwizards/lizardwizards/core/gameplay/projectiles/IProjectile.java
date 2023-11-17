@@ -10,7 +10,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import java.io.Serializable;
 
 public abstract class IProjectile extends Entity implements Serializable, Cloneable {
-    public abstract IProjectile shoot(Vector2 direction);
+    public abstract IProjectile shoot(Vector2 direction, Vector2 position);
 
     public abstract EntitySprite GetSprite();
 

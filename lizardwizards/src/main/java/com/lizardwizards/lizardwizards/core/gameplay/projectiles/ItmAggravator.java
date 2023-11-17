@@ -8,8 +8,8 @@ public class ItmAggravator extends ProjectileDecorator {
     }
 
     @Override
-    public IProjectile shoot(Vector2 direction) {
-        var projectile = wrappedProjectile.shoot(direction);
+    public IProjectile shoot(Vector2 direction, Vector2 position) {
+        var projectile = wrappedProjectile.shoot(direction, position);
         projectile.setSpeed(projectile.getSpeed()*2);
         projectile.setDuration(projectile.getDuration()*0.3);
         return new ItmAggravator(projectile);

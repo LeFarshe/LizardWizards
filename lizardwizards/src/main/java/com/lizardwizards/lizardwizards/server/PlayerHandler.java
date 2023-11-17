@@ -35,7 +35,7 @@ public class PlayerHandler {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
             sendToPlayer(new ConnectionInformation(GameState.InLobby));
 
-            this.player = PlayerFactory.getPlayer(PlayerClass.Richard);
+            this.player = PlayerFactory.getPlayer(PlayerClass.Blizzard);
 
             session.addPlayer(this);
             objectOutput.writeObject(this.player);
