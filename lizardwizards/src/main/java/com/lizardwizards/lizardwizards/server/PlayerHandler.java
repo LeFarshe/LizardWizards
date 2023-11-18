@@ -21,7 +21,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponTypes;
 
 public class PlayerHandler {
     private final Session session;
-    private final EntityWrapper player;
+    private EntityWrapper player;
     private PlayerClass currentClass;
     private boolean ready = false;
     private Thread currentRunningThread = null;
@@ -77,7 +77,8 @@ public class PlayerHandler {
         var newPlayer = PlayerFactory.getPlayer(newClass);
         if (newPlayer == null)
             return;
-        this.player.entity = newPlayer.entity;
+        newPlayer.entity.uuid = this.player.entity.uuid;
+        this.player = newPlayer.clone();
 
         try {
             sendToPlayer(new PlayerUpdate(player));

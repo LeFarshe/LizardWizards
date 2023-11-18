@@ -22,7 +22,7 @@ public abstract class Weapon implements Serializable, Cloneable {
         this.hudIcon = hudIcon;
     }
     public ImageSprite getHudIcon() {
-        return hudIcon; // TODO: fix clone for imageSprite
+        return hudIcon.clone();
     }
     public abstract List<IProjectile> Shoot(Vector2 direction, Vector2 position);
     public List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position)

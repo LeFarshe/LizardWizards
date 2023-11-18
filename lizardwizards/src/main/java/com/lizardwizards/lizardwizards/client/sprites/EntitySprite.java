@@ -9,7 +9,7 @@ import javafx.scene.paint.Paint;
 import java.io.Serializable;
 
 public abstract class EntitySprite implements Serializable, Cloneable {
-    private SpriteColor paint;
+    private SpriteColor paint = new SpriteColor(0, 0, 0);
     protected Vector2 position = new Vector2(0, 0);
 
     public Paint getFill() {

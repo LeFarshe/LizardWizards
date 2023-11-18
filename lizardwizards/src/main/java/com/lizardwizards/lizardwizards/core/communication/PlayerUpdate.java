@@ -4,6 +4,7 @@ import com.lizardwizards.lizardwizards.client.ClientConnectionHandler;
 import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.GameState;
+import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -21,5 +22,6 @@ public class PlayerUpdate extends SentServerData{
     public void execute() {
         var cch = ClientConnectionHandler.CurrentHandler;
         cch.player = player;
+        System.out.println(((Player)player.entity).weapons.size());
     }
 }
