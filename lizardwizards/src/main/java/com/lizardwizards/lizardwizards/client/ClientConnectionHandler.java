@@ -8,12 +8,10 @@ import java.net.Socket;
 import java.util.*;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.communication.SentDataType;
-import com.lizardwizards.lizardwizards.core.communication.SentPlayerData;
-import com.lizardwizards.lizardwizards.core.communication.SentServerData;
-import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
+import com.lizardwizards.lizardwizards.core.communication.*;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.GameState;
+import com.lizardwizards.lizardwizards.core.gameplay.PlayerClass;
 import javafx.stage.Stage;
 
 public class ClientConnectionHandler implements Runnable {
@@ -21,12 +19,13 @@ public class ClientConnectionHandler implements Runnable {
     private final Socket clientSocket;
     private final ObjectOutputStream socketOutput;
     private final ObjectInputStream socketInput;
-    public final EntityWrapper player;
+    public EntityWrapper player;
     public final List<EntityWrapper> connectedplayerList;
     private GameState gameState = GameState.NotConnected;
     public Stage stage;
     public Thread currentThread;
-    private final Deque<SentServerData> commandHistory;
+    private boolean ready = false;
+    private PlayerClass currentClass = PlayerClass.Blizzard;
 
     public ClientConnectionHandler(String ip, int port) throws IOException {
         if (CurrentHandler != null){
@@ -34,7 +33,6 @@ public class ClientConnectionHandler implements Runnable {
         }
         CurrentHandler = this;
         connectedplayerList = new LinkedList<>();
-        commandHistory = new ArrayDeque<>();
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(ip, port), 3000);
         socketInput = new ObjectInputStream(clientSocket.getInputStream());
@@ -92,7 +90,18 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     public void sendReady(Boolean ready) {
-        send(ready);
+        this.ready = ready;
+        send(new PlayerLobbyInformation(ready, currentClass));
+    }
+
+    public void changeClass() {
+        if (currentClass == PlayerClass.Blizzard) {
+            currentClass = PlayerClass.Richard;
+        }
+        else {
+            currentClass = PlayerClass.Blizzard;
+        }
+        send(new PlayerLobbyInformation(ready, currentClass));
     }
 
     public void closeConnection() {
@@ -111,7 +120,7 @@ public class ClientConnectionHandler implements Runnable {
         while (gameState == GameState.InLobby){
             var data = listen();
             switch (data.dataType){
-                case LobbyUpdate, ConnectionInformation -> data.execute();
+                case LobbyUpdate, ConnectionInformation, PlayerUpdate -> data.execute();
                 default -> {
                     throw new RuntimeException("Unexpected datatype received from server while in lobby");
                 }
@@ -146,33 +155,11 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public GameState setGameState(GameState gameState) {
-        var oldGameState = this.gameState;
+    public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        return oldGameState;
     }
 
     public GameState getGameState() {
         return gameState;
-    }
-
-    public void addToCommandHistory(SentServerData sentServerData) {
-        commandHistory.add(sentServerData);
-        if (commandHistory.size() > 5) {
-            commandHistory.removeLast();
-        }
-    }
-
-    public SentServerData tryUndo(boolean redo) {
-        if (commandHistory.isEmpty())
-            return null;
-        var command = commandHistory.removeFirst();
-        if (!redo || (command.dataType == SentDataType.Undo)) {
-            command.undo();
-            return command;
-        }
-        var nextCommand = tryUndo(true);
-        commandHistory.addFirst(command);
-        return nextCommand;
     }
 }

@@ -14,12 +14,12 @@ public class Chaingun extends Weapon{
     double spread = 0.5;
     int projectilesShot  = 0;
     Chaingun() {
-        super(1, 10, new Projectile(300, 2, 1, new Vector2(4,4)),
+        super(10, new Projectile(300, 2, 1, new Vector2(4,4)),
         new ImageSprite(ClientUtils.loadResource("images/weapons/Chaingun.png")));
     }
 
     @Override
-    public List<IProjectile> Shoot(Vector2 direction) {
+    public List<IProjectile> Shoot(Vector2 direction, Vector2 position) {
         List<IProjectile> projectileList = new ArrayList<>();
 
         double startSpread = spread / 2;
@@ -33,7 +33,7 @@ public class Chaingun extends Weapon{
             direction.Rotate(spread);
             direction.Rotate(-spreadPerIteration * (projectilesShot % projectiles));
         }
-        projectileList.add(shotProjectile.shoot(direction));
+        projectileList.add(shotProjectile.shoot(direction, position.Copy()));
 
         projectilesShot = (projectilesShot + 1) % (projectiles * 2);
         return projectileList;

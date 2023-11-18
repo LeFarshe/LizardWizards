@@ -10,10 +10,10 @@ import java.net.URL;
 
 public class ImageSprite extends EntitySprite {
     private transient Image spriteImage;
-    private final String imageFilename;
+    private String imageFilename;
     private double imageScale;
-    private final double width;
-    private final double height;
+    private double width;
+    private double height;
 
     public ImageSprite(String imageFilename) {
         this.imageFilename = imageFilename;
@@ -63,5 +63,17 @@ public class ImageSprite extends EntitySprite {
         }
 
         gc.drawImage(spriteImage, position.x, position.y, width*imageScale, height*imageScale);
+    }
+
+    @Override
+    public ImageSprite clone() {
+        ImageSprite sprite = (ImageSprite) super.clone();
+        sprite.spriteImage = null;
+        sprite.imageFilename = imageFilename;
+        sprite.imageScale = imageScale;
+        sprite.width = width;
+        sprite.height = height;
+
+        return sprite;
     }
 }

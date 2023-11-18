@@ -18,12 +18,6 @@ public abstract class SentServerData implements Serializable {
         this.dataType = dataType;
     }
 
-    protected void addToHistory() {
-        ClientConnectionHandler.CurrentHandler.addToCommandHistory(this);
-    }
-
     public abstract void execute();
-
-    public abstract void undo();
 }
 

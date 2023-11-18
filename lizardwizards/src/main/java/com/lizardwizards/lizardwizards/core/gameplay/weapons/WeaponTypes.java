@@ -1,7 +1,12 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 public enum WeaponTypes {
+    // Guns
     Pistol,
     Shotgun,
-    Chaingun
+    Chaingun,
+
+    // Wands
+    ViolentWand,
+    WardWand
 }

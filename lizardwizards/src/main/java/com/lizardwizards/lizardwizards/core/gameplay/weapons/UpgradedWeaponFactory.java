@@ -19,10 +19,12 @@ public class UpgradedWeaponFactory extends WeaponFactory {
 
     private Weapon randomlyDecorate(Weapon weapon) {
         Random rand = new Random();
-        LinkedList<ProjectileDecorators> projectileDecorators = new LinkedList<>(List.of(ProjectileDecorators.Spectral,
+        LinkedList<ProjectileDecorators> projectileDecorators = new LinkedList<>(List.of(
+                ProjectileDecorators.Spectral,
                 ProjectileDecorators.Aggrevator,
                 ProjectileDecorators.DoubleCaliber,
-                ProjectileDecorators.TimeBullets));
+                ProjectileDecorators.TimeBullets
+        ));
         for (int i =0; i< upgradeAmount; i++){
             weapon.DecorateProjectile(projectileDecorators.get(rand.nextInt(projectileDecorators.size())));
         }

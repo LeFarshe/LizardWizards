@@ -110,13 +110,7 @@ public class Player extends Entity {
         List<IProjectile> newProjectiles;
         if (isShooting)
         {
-            newProjectiles = getCurrentWeapon().ContinueShooting(delta, shootDirection);
-            if (newProjectiles != null) {
-                for (IProjectile projectile: newProjectiles)
-                {
-                    projectile.SetPosition(position.Copy());
-                }
-            }
+            newProjectiles = getCurrentWeapon().ContinueShooting(delta, shootDirection, position);
             return newProjectiles;
         }
         else { weapons.get(currentWeapon).AddTimeWithoutShoot(delta); };

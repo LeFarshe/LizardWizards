@@ -12,8 +12,8 @@ public class ItmDoubleCaliber extends ProjectileDecorator {
     }
 
     @Override
-    public IProjectile shoot(Vector2 direction) {
-        var projectile = wrappedProjectile.shoot(direction);
+    public IProjectile shoot(Vector2 direction, Vector2 position) {
+        var projectile = wrappedProjectile.shoot(direction, position);
         return new ItmDoubleCaliber(projectile);
     }
 

@@ -5,5 +5,5 @@ public enum SentDataType {
     ConnectionInformation,
     Room,
     LobbyUpdate,
-    Undo
+    PlayerUpdate
 }

@@ -26,7 +26,7 @@ public class GameController {
 
     GameController(Canvas root)
     {
-        var hud = new GameHUD();
+        new GameHUD();
         this.root = root;
         gc = root.getGraphicsContext2D();
         // TODO: not this preferably
@@ -40,7 +40,6 @@ public class GameController {
         image.drawSprite(gc);
     }
     public void start(SyncPacket syncPacket) {
-        System.out.println(currentPlayer.entity.uuid);
         currentTimer = new GameTimer(syncPacket.serverTime);
         currentTimer.start();
     }

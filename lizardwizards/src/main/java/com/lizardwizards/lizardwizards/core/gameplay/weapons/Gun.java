@@ -14,13 +14,13 @@ public class Gun extends Weapon{
 
     public Gun()
     {
-        super(2,4, new Projectile(300, 2, 2, new Vector2(6,6)),
+        super(4, new Projectile(300, 2, 2, new Vector2(6,6)),
         new ImageSprite(ClientUtils.loadResource("images/weapons/Gun.png")));
     }
 
     @Override
-    public List<IProjectile> Shoot(Vector2 direction) {
-        IProjectile projectile = shotProjectile.shoot(direction);
+    public List<IProjectile> Shoot(Vector2 direction, Vector2 position) {
+        IProjectile projectile = shotProjectile.shoot(direction, position.Copy());
         List<IProjectile> projectiles = new ArrayList<>();
         projectiles.add(projectile);
         return projectiles;
