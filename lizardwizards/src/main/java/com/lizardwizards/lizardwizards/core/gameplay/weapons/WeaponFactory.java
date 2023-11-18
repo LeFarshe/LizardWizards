@@ -21,6 +21,9 @@ public class WeaponFactory {
             case ViolentWand -> {
                 return new ViolentWand();
             }
+            case WardWand -> {
+                return new WardWand();
+            }
             default -> {
                 return null;
             }

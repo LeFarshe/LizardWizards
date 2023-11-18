@@ -7,5 +7,6 @@ public enum WeaponTypes {
     Chaingun,
 
     // Wands
-    ViolentWand
+    ViolentWand,
+    WardWand
 }

@@ -10,29 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ViolentWand extends Weapon{
-    double spread = 1.5;
+public class WardWand extends Weapon{
+    int projectiles = 9;
     Random random = new Random();
-    public ViolentWand() {
-        super(10, new Projectile(500,0.5, 1, new Vector2(5,5)),
-                new ImageSprite(ClientUtils.loadResource("images/weapons/ViolentWand.png")));
+    public WardWand() {
+        super(1, new Projectile(100,2, 2, new Vector2(4,4)),
+                new ImageSprite(ClientUtils.loadResource("images/weapons/WardWand.png")));
     }
 
     @Override
     public List<IProjectile> Shoot(Vector2 direction, Vector2 position) {
         List<IProjectile> projectileList = new ArrayList<>();
-        var rotation = spread*random.nextDouble() - spread / 2.0;
-        var dir = direction.Copy().Rotate(rotation);
-        var otherDirection = dir.Copy().Multiply(-200);
-        var pos = position.Copy().AddVector(otherDirection).AddVector(direction.Multiply(200));
-        projectileList.add(shotProjectile.shoot(dir, pos));
+        var rotation = Math.PI*2 / projectiles;
+        for (int i = 0; i < projectiles; i++) {
+            projectileList.add(shotProjectile.shoot(direction.Copy(), position.Copy()));
+            direction.Rotate(rotation);
+        }
         return projectileList;
     }
 
     @Override
-    public ViolentWand clone(){
-        ViolentWand clone = (ViolentWand)super.clone();
-        clone.spread = spread;
+    public WardWand clone(){
+        WardWand clone = (WardWand)super.clone();
+        clone.projectiles = projectiles;
         return clone;
     }
 }
