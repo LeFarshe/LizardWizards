@@ -5,7 +5,6 @@ import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 
 public class ConnectionInformation extends SentServerData {
     public final GameState gameState;
-    private GameState oldGameState;
 
     public ConnectionInformation(GameState gameState) {
         super(SentDataType.ConnectionInformation);
@@ -14,15 +13,10 @@ public class ConnectionInformation extends SentServerData {
 
     @Override
     public void execute() {
-        addToHistory();
-        oldGameState = ClientConnectionHandler.CurrentHandler.setGameState(gameState);
+        ClientConnectionHandler.CurrentHandler.setGameState(gameState);
         if (gameState == GameState.NotConnected) {
             ClientConnectionHandler.CurrentHandler.closeConnection();
         }
     }
 
-    @Override
-    public void undo() {
-        ClientConnectionHandler.CurrentHandler.setGameState(oldGameState);
-    }
 }

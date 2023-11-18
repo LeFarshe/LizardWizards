@@ -22,6 +22,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponTypes;
 public class PlayerHandler {
     private final Session session;
     private final EntityWrapper player;
+    private PlayerClass currentClass;
     private boolean ready = false;
     private Thread currentRunningThread = null;
     private final Socket playerSocket;
@@ -35,7 +36,9 @@ public class PlayerHandler {
             objectOutput = new ObjectOutputStream(playerSocket.getOutputStream());
             sendToPlayer(new ConnectionInformation(GameState.InLobby));
 
+            // Default class is Blizzard
             this.player = PlayerFactory.getPlayer(PlayerClass.Blizzard);
+            currentClass = PlayerClass.Blizzard;
 
             session.addPlayer(this);
             objectOutput.writeObject(this.player);
@@ -69,6 +72,19 @@ public class PlayerHandler {
         ((Player)player.entity).StartMoving(direction);
     }
 
+    public void updateCharacter(PlayerClass newClass) {
+        currentClass = newClass;
+        var newPlayer = PlayerFactory.getPlayer(newClass);
+        if (newPlayer == null)
+            return;
+        this.player.entity = newPlayer.entity;
+
+        try {
+            sendToPlayer(new PlayerUpdate(player));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void updateWeapon(int weaponSwitch){
         ((Player)player.entity).ChangeWeapon(weaponSwitch);
     }
@@ -132,8 +148,14 @@ public class PlayerHandler {
         System.out.println(player.entity.uuid);
         while (session.getGameState() == GameState.InLobby) {
             try {
-                ready = (Boolean) objectInput.readObject();
-                session.updateLobby();
+                var lobbyInfo = (PlayerLobbyInformation) objectInput.readObject();
+                if (lobbyInfo.chosenClass != currentClass) {
+                    updateCharacter(lobbyInfo.chosenClass);
+                }
+                if (ready != lobbyInfo.isReady) {
+                    ready = lobbyInfo.isReady;
+                    session.updateLobby();
+                }
             } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
