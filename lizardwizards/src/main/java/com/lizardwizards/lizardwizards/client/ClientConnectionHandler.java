@@ -24,6 +24,7 @@ public class ClientConnectionHandler implements Runnable {
     private GameState gameState = GameState.NotConnected;
     public Stage stage;
     public Thread currentThread;
+    private boolean ready = false;
     private PlayerClass currentClass = PlayerClass.Blizzard;
 
     public ClientConnectionHandler(String ip, int port) throws IOException {
@@ -89,6 +90,17 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     public void sendReady(Boolean ready) {
+        this.ready = ready;
+        send(new PlayerLobbyInformation(ready, currentClass));
+    }
+
+    public void changeClass() {
+        if (currentClass == PlayerClass.Blizzard) {
+            currentClass = PlayerClass.Richard;
+        }
+        else {
+            currentClass = PlayerClass.Blizzard;
+        }
         send(new PlayerLobbyInformation(ready, currentClass));
     }
 
@@ -108,7 +120,7 @@ public class ClientConnectionHandler implements Runnable {
         while (gameState == GameState.InLobby){
             var data = listen();
             switch (data.dataType){
-                case LobbyUpdate, ConnectionInformation -> data.execute();
+                case LobbyUpdate, ConnectionInformation, PlayerUpdate -> data.execute();
                 default -> {
                     throw new RuntimeException("Unexpected datatype received from server while in lobby");
                 }
@@ -143,10 +155,8 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public GameState setGameState(GameState gameState) {
-        var oldGameState = this.gameState;
+    public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        return oldGameState;
     }
 
     public GameState getGameState() {

@@ -16,7 +16,11 @@ public class LobbyController {
     public Button p1Button;
     @FXML
     public Button leaveButton;
+    @FXML
+    public Button classButton;
+    public Label p2;
     private boolean ready = false;
+    private boolean isBlizzard = true;
 
 
     @FXML
@@ -26,10 +30,27 @@ public class LobbyController {
 
     public void toggleReady(ActionEvent actionEvent) {
         ready = !ready;
-        ClientConnectionHandler.CurrentHandler.sendReady(ready);
-        if (ClientConnectionHandler.CurrentHandler.stage == null) {
-            ClientConnectionHandler.CurrentHandler.start();
-            ClientConnectionHandler.CurrentHandler.stage = (Stage) leaveButton.getScene().getWindow();
+        if (ready)
+            p1Button.setText("Ready");
+        else
+            p1Button.setText("Not Ready");
+        var cch = ClientConnectionHandler.CurrentHandler;
+        cch.sendReady(ready);
+        if (cch.stage == null) {
+            cch.start();
+            cch.stage = (Stage) leaveButton.getScene().getWindow();
         }
+    }
+
+    public void toggleClass() {
+        isBlizzard = !isBlizzard;
+        ClientConnectionHandler.CurrentHandler.changeClass();
+        if (isBlizzard) {
+            classButton.setText("Blizzard");
+        }
+        else {
+            classButton.setText("Richard");
+        }
+
     }
 }

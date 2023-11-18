@@ -12,8 +12,12 @@
     <Label text="Lobby"/>
     <HBox spacing="300" alignment="CENTER">
         <VBox spacing="30">
-            <Label fx:id="p1" text="Player 1"/>
-            <Button fx:id="p1Button" onAction="#toggleReady" text="Ready"/>
+            <Label fx:id="p1" text="Toggle Ready"/>
+            <Button fx:id="p1Button" onAction="#toggleReady" text="Not Ready"/>
+        </VBox>
+        <VBox spacing="30">
+            <Label fx:id="p2" text="Change character"/>
+            <Button fx:id="classButton" onAction="#toggleClass" text="Blizzard"/>
         </VBox>
     </HBox>
     <Button fx:id="leaveButton" text="Leave" onAction="#onLeaveClick"/>
