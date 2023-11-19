@@ -7,7 +7,7 @@ import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.*;
 
-public abstract class Weapon implements Serializable, Cloneable {
+public abstract class Weapon implements Serializable, IWeapon {
     double damage;
     double fireRate;
     double fireTimer = 0;
@@ -21,10 +21,17 @@ public abstract class Weapon implements Serializable, Cloneable {
         this.shotProjectile = shotProjectile;
         this.hudIcon = hudIcon;
     }
+    @Override
     public ImageSprite getHudIcon() {
         return hudIcon.clone();
     }
-    public abstract List<IProjectile> Shoot(Vector2 direction, Vector2 position);
+    @Override
+    public double getDamage(){ return damage; }
+    @Override
+    public double getFireRate() { return fireRate; }
+    @Override
+    public void setFireRate(double fireRate) { this.fireRate = fireRate;}
+    @Override
     public List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position)
     {
         fireTimer += delta;
@@ -37,21 +44,14 @@ public abstract class Weapon implements Serializable, Cloneable {
         return null;
     }
 
-    public void AddTimeWithoutShoot(double delta)
+    @Override
+    public List<IProjectile> AddTimeWithoutShoot(double delta)
     {
         if (fireTimer != 1.0/fireRate){
             fireTimer += delta;
             if (fireTimer > 1.0/fireRate) { fireTimer = 1.0/fireRate; }
         }
-    }
-
-    public void DecorateProjectile(ProjectileDecorators projectileDecorator) {
-        switch (projectileDecorator) {
-            case Spectral -> shotProjectile = new ItmSpectral(shotProjectile);
-            case Aggrevator -> shotProjectile = new ItmAggravator(shotProjectile);
-            case TimeBullets -> shotProjectile = new ItmTimeBullets(shotProjectile);
-            case DoubleCaliber -> shotProjectile = new ItmDoubleCaliber(shotProjectile);
-        }
+        return null;
     }
 
     @Override
