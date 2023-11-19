@@ -43,6 +43,10 @@ public abstract class Weapon implements Serializable, IWeapon {
     @Override
     public void setShotSpeed(double shotSpeed) { this.shotSpeed = shotSpeed;}
     @Override
+    public double getShotDuration() { return shotDuration;}
+    @Override
+    public void setShotDuration(double duration) { shotDuration = duration;}
+    @Override
     public List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position)
     {
         fireTimer += delta;

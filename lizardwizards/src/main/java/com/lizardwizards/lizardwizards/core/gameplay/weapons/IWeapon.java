@@ -14,6 +14,8 @@ public interface IWeapon extends Cloneable, Serializable {
     void setShotSpeed(double shotSpeed);
     double getFireRate();
     void setFireRate(double fireRate);
+    double getShotDuration();
+    void setShotDuration(double duration);
     ImageSprite getHudIcon();
     List<IProjectile> Shoot(Vector2 direction, Vector2 position);
     List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position);

@@ -29,6 +29,10 @@ public abstract class WeaponDecorator implements IWeapon {
     }
     @Override
     public void setFireRate(double fireRate) {wrappedWeapon.setFireRate(fireRate);}
+    @Override
+    public double getShotDuration() { return wrappedWeapon.getShotDuration();}
+    @Override
+    public void setShotDuration(double duration) { wrappedWeapon.setShotDuration(duration);}
 
     @Override
     public ImageSprite getHudIcon() {
