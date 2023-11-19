@@ -22,6 +22,8 @@ public abstract class IProjectile extends Entity implements Serializable, Clonea
     abstract double getSpeed();
     abstract void setDuration(double duration);
     abstract void setSpeed(double speed);
+    public abstract void setDirection(Vector2 direction);
+    public abstract Vector2 getDirection();
 
     public abstract IProjectile clone();
 
