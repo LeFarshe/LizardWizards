@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import java.util.Dictionary;
+import java.util.UUID;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
@@ -39,6 +40,10 @@ public class Projectile extends IProjectile {
     }
 
     public Projectile(Projectile projectile) {
+        if (projectile.position != null) {
+            this.position = projectile.position.Copy();
+        }
+        this.uuid = UUID.randomUUID();
         this.direction = projectile.direction;
         this.speed = projectile.speed;
         this.duration = projectile.duration;
@@ -115,19 +120,27 @@ public class Projectile extends IProjectile {
     }
 
     @Override
+    public void setDirection(Vector2 direction) {
+        this.direction = direction.Copy();
+    }
+
+    @Override
+    public Vector2 getDirection() {
+        return direction.Copy();
+    }
+
+    @Override
     public void setDuration(double duration) {
         this.duration = duration;
     }
 
     @Override
     public Projectile clone() {
+
         Projectile clone = new Projectile(this);
         if (direction != null) {
             clone.direction = direction.Copy();
         }
-        clone.speed = speed;
-        clone.duration = duration;
-        clone.erase = erase;
         if (spriteSize != null) {
             clone.spriteSize = spriteSize.Copy();
             clone.spriteColor = new SpriteColor(spriteColor.red, spriteColor.green, spriteColor.blue, spriteColor.opacity);
