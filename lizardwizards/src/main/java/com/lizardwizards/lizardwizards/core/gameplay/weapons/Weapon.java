@@ -47,6 +47,11 @@ public abstract class Weapon implements Serializable, IWeapon {
     @Override
     public void setShotDuration(double duration) { shotDuration = duration;}
     @Override
+    public Vector2 getProjectileSize() { return projectileSize.Copy(); }
+    @Override
+    public void setProjectileSize(Vector2 projectileSize) { this.projectileSize = projectileSize.Copy();}
+
+    @Override
     public List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position)
     {
         fireTimer += delta;
