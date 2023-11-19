@@ -7,10 +7,10 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoubleShot extends WeaponDecorator {
+public class DoubleShots extends WeaponDecorator {
     final double spread = 0.1;
     final double fireRateMultiplier = 2.0/3.0;
-    public DoubleShot(IWeapon weapon){
+    public DoubleShots(IWeapon weapon){
         super(weapon);
         wrappedWeapon.setFireRate(wrappedWeapon.getFireRate() * fireRateMultiplier);
     }
@@ -36,7 +36,7 @@ public class DoubleShot extends WeaponDecorator {
         }
     }
 
-    public DoubleShot clone() {
-        return (DoubleShot) super.clone();
+    public DoubleShots clone() {
+        return (DoubleShots) super.clone();
     }
 }
