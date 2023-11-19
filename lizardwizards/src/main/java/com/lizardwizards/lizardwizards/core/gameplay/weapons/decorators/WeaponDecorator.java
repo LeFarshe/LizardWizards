@@ -16,6 +16,12 @@ public abstract class WeaponDecorator implements IWeapon {
     public double getDamage() {
         return wrappedWeapon.getDamage();
     }
+    @Override
+    public void setDamage(double damage) { wrappedWeapon.setDamage(damage);}
+    @Override
+    public double getShotSpeed() { return wrappedWeapon.getShotSpeed();}
+    @Override
+    public void setShotSpeed(double shotSpeed) { wrappedWeapon.setShotSpeed(shotSpeed);}
 
     @Override
     public double getFireRate() {

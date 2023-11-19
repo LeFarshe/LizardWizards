@@ -14,7 +14,7 @@ public class WardWand extends Weapon{
     int projectiles = 9;
     Random random = new Random();
     public WardWand() {
-        super(1, new Projectile(100,2, 2, new Vector2(4,4)),
+        super(2, 100,2, 1, new Vector2(4,4),
                 new ImageSprite(ClientUtils.loadResource("images/weapons/WardWand.png")));
     }
 
@@ -23,7 +23,7 @@ public class WardWand extends Weapon{
         List<IProjectile> projectileList = new ArrayList<>();
         var rotation = Math.PI*2 / projectiles;
         for (int i = 0; i < projectiles; i++) {
-            projectileList.add(shotProjectile.shoot(direction.Copy(), position.Copy()));
+            projectileList.add(new Projectile(damage, shotSpeed, shotDuration, position, direction, projectileSize));
             direction.Rotate(rotation);
         }
         return projectileList;

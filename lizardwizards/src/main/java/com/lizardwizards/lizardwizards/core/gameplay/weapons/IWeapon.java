@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface IWeapon extends Cloneable, Serializable {
     double getDamage();
+    void setDamage(double damage);
+    double getShotSpeed();
+    void setShotSpeed(double shotSpeed);
     double getFireRate();
     void setFireRate(double fireRate);
     ImageSprite getHudIcon();

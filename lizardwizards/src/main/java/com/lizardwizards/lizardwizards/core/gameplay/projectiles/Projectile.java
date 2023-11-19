@@ -21,22 +21,15 @@ public class Projectile extends IProjectile {
     protected SpriteColor spriteColor;
 
 
-    public Projectile(double speed, double duration, double damage, Vector2 spriteSize)
+    public Projectile(double damage, double speed, double duration, Vector2 position, Vector2 direction, Vector2 spriteSize)
     {
         this.speed = speed;
         this.duration = duration;
         this.damage = damage;
-        this.spriteSize = spriteSize;
+        this.spriteSize = spriteSize.Copy();
+        this.position = position.Copy();
+        this.direction = direction.Copy();
         spriteColor = new SpriteColor(0, 0, 0);
-    }
-
-    public Projectile(double speed, double duration, double damage, Vector2 spriteSize, SpriteColor color)
-    {
-        this.speed = speed;
-        this.duration = duration;
-        this.damage = damage;
-        this.spriteSize = spriteSize;
-        spriteColor = color;
     }
 
     public Projectile(Projectile projectile) {

@@ -9,16 +9,21 @@ import com.lizardwizards.lizardwizards.core.gameplay.projectiles.*;
 
 public abstract class Weapon implements Serializable, IWeapon {
     double damage;
+    double shotSpeed;
+    double shotDuration;
     double fireRate;
     double fireTimer = 0;
-    IProjectile shotProjectile;
+    Vector2 projectileSize;
 
     final ImageSprite hudIcon;
 
-    Weapon(double fireRate, IProjectile shotProjectile, ImageSprite hudIcon)
+    Weapon(double damage, double shotSpeed, double shotDuration, double fireRate, Vector2 projectileSize, ImageSprite hudIcon)
     {
+        this.damage = damage;
+        this.shotSpeed = shotSpeed;
+        this.shotDuration = shotDuration;
         this.fireRate = fireRate;
-        this.shotProjectile = shotProjectile;
+        this.projectileSize = projectileSize.Copy();
         this.hudIcon = hudIcon;
     }
     @Override
@@ -28,9 +33,15 @@ public abstract class Weapon implements Serializable, IWeapon {
     @Override
     public double getDamage(){ return damage; }
     @Override
+    public void setDamage(double damage) { this.damage = damage;}
+    @Override
     public double getFireRate() { return fireRate; }
     @Override
     public void setFireRate(double fireRate) { this.fireRate = fireRate;}
+    @Override
+    public double getShotSpeed() { return shotSpeed;}
+    @Override
+    public void setShotSpeed(double shotSpeed) { this.shotSpeed = shotSpeed;}
     @Override
     public List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position)
     {
