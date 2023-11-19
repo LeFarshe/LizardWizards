@@ -14,13 +14,6 @@ public class ItmSpectral extends ProjectileDecorator {
     }
 
     @Override
-    public IProjectile shoot(Vector2 direction, Vector2 position) {
-        var projectile = wrappedProjectile.shoot(direction, position);
-        projectile.setColor(spriteColor);
-        return new ItmSpectral(projectile);
-    }
-
-    @Override
     public void Collide(Entity collider, CollisionLayer layer) {
         if (layer != CollisionLayer.Obstacle) {
             wrappedProjectile.Collide(collider, layer);

@@ -12,7 +12,7 @@ public class Shotgun extends Weapon{
     int projectiles = 8;
     double spread = 0.5;
     public Shotgun() {
-        super(1.5, new Projectile(500,0.5, 1, new Vector2(3,3)),
+        super(1, 500,0.5, 1.5, new Vector2(3,3),
                 new ImageSprite(ClientUtils.loadResource("images/weapons/Shotgun.png")));
     }
 
@@ -23,7 +23,7 @@ public class Shotgun extends Weapon{
         double spreadPerIteration = spread / (projectiles - 1);
         direction.Rotate(-startSpread);
         for (int i = 0; i < projectiles; i++){
-            projectileList.add(shotProjectile.shoot(direction, position.Copy()));
+            projectileList.add(new Projectile(damage, shotSpeed, shotDuration, position, direction, projectileSize));
             direction.Rotate(spreadPerIteration);
         }
         return projectileList;

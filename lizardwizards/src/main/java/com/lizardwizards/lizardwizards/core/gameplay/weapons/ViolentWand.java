@@ -14,7 +14,7 @@ public class ViolentWand extends Weapon{
     double spread = 1.5;
     Random random = new Random();
     public ViolentWand() {
-        super(10, new Projectile(500,0.5, 1, new Vector2(5,5)),
+        super(1, 500,0.5, 10, new Vector2(5,5),
                 new ImageSprite(ClientUtils.loadResource("images/weapons/ViolentWand.png")));
     }
 
@@ -25,7 +25,7 @@ public class ViolentWand extends Weapon{
         var dir = direction.Copy().Rotate(rotation);
         var otherDirection = dir.Copy().Multiply(-200);
         var pos = position.Copy().AddVector(otherDirection).AddVector(direction.Multiply(200));
-        projectileList.add(shotProjectile.shoot(dir, pos));
+        projectileList.add(new Projectile(damage, shotSpeed, shotDuration, pos, dir, projectileSize));
         return projectileList;
     }
 

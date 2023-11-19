@@ -7,15 +7,12 @@ import java.util.List;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.ItmTimeBullets;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.ProjectileDecorator;
-import com.lizardwizards.lizardwizards.core.gameplay.weapons.Weapon;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 
 public class Player extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
-    public List<Weapon> weapons = new ArrayList<>();
+    public List<IWeapon> weapons = new ArrayList<>();
     int currentWeapon = 0;
     int health = 4;
     double speed;
@@ -96,7 +93,7 @@ public class Player extends Entity {
         isMoving = false;
     }
 
-    public Weapon getCurrentWeapon() {
+    public IWeapon getCurrentWeapon() {
         if (currentWeapon < 0) {
             return weapons.get(weapons.size()-1);
         }
@@ -113,8 +110,7 @@ public class Player extends Entity {
             newProjectiles = getCurrentWeapon().ContinueShooting(delta, shootDirection, position);
             return newProjectiles;
         }
-        else { weapons.get(currentWeapon).AddTimeWithoutShoot(delta); };
-        return null;
+        else { return getCurrentWeapon().AddTimeWithoutShoot(delta); }
     }
 
     public void StartShooting(Vector2 direction)
@@ -146,7 +142,7 @@ public class Player extends Entity {
         if (shootDirection != null) { clone.shootDirection = shootDirection.Copy(); }
 
         clone.weapons = new ArrayList<>();
-        for (Weapon weapon: weapons){
+        for (IWeapon weapon: weapons){
             clone.weapons.add(weapon.clone());
         }
 
