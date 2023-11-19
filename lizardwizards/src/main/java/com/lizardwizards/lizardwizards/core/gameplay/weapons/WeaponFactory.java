@@ -1,13 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.ProjectileDecorators;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
 public class WeaponFactory {
-    public Weapon getWeapon(WeaponTypes weapon) {
+    public IWeapon getWeapon(WeaponTypes weapon) {
         switch (weapon) {
             case Pistol -> {
                 return new Gun();

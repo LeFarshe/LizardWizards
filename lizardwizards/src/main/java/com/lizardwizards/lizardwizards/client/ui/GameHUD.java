@@ -3,14 +3,12 @@ package com.lizardwizards.lizardwizards.client.ui;
 import java.util.Observable;
 
 import com.lizardwizards.lizardwizards.client.ClientUtils;
-import com.lizardwizards.lizardwizards.core.gameplay.weapons.Weapon;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +63,7 @@ public class GameHUD implements Observer {
         return score;
     }
 
-    public void switchWeapon(Weapon weapon) {
+    public void switchWeapon(IWeapon weapon) {
         currentWeapon.setImage(weapon.getHudIcon().getImage());
     }
 
