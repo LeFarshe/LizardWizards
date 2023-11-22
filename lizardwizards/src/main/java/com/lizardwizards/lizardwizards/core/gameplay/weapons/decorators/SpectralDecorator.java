@@ -8,8 +8,8 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Spectral extends WeaponDecorator{
-    public Spectral(IWeapon weapon) {
+public class SpectralDecorator extends WeaponDecorator{
+    public SpectralDecorator(IWeapon weapon) {
         super(weapon);
     }
 
