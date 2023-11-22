@@ -5,7 +5,6 @@ import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.weapons.UpgradedWeaponFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.WeaponTypes;
 
@@ -13,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PlayerFactory {
-    private static final WeaponFactory weaponFactory = new UpgradedWeaponFactory(1);
+    private static final WeaponFactory weaponFactory = new WeaponFactory();
     private static final LinkedList<SpriteColor> playerColors = new LinkedList<>(List.of(
             new SpriteColor(0.3, 1, 0.3),
             new SpriteColor(1, 0.3, 1),

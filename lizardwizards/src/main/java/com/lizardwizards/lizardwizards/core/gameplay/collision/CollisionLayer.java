@@ -5,5 +5,6 @@ public enum CollisionLayer {
     Enemy,
     PlayerProjectile,
     EnemyProjectile,
-    Obstacle
+    Obstacle,
+    Item
 }

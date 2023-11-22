@@ -16,7 +16,7 @@ import java.util.*;
 public class ServerTimer extends TimerTask {
 
     private long time;
-    private final Level currentLevel;
+    public static Level currentLevel;
     private final LevelFacade levelFacade;
     private final HashMap<UUID, EntityWrapper> entities;
     private final List<PlayerHandler> players;
