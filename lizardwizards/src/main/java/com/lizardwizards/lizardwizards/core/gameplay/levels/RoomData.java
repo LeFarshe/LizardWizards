@@ -19,7 +19,14 @@ public class RoomData implements Cloneable{
         itemList.add(new ExistingItem(item, position));
     }
 
-
+    public void removeItem(Item item){
+        for (int i = 0; i < itemList.size(); i++){
+            if (itemList.get(i).item == item){
+                itemList.remove(i);
+                break;
+            }
+        }
+    }
 
     @Override
     public RoomData clone() {

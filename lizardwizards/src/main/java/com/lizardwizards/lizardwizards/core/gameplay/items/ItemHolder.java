@@ -4,6 +4,7 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.server.ServerTimer;
 
 import java.util.Dictionary;
 
@@ -26,6 +27,7 @@ public class ItemHolder extends Entity {
         if (!isDestroyed && layer == CollisionLayer.Player){
             isDestroyed = true;
             item.collect((Player) collider);
+            ServerTimer.currentLevel.getCurrentRoom().removeItem(item);
         }
     }
 
