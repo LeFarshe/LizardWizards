@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class WeaponUpgradeFactory {
     static Random random = new Random();
-    public WeaponUpgradeFactory(){};
+    public WeaponUpgradeFactory(){}
     public WeaponUpgrade getUpgrade(WeaponUpgrades upgrade){
         WeaponUpgrade ans = null;
         switch(upgrade){

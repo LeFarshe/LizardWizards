@@ -27,7 +27,9 @@ public class ItemHolder extends Entity {
         if (!isDestroyed && layer == CollisionLayer.Player){
             isDestroyed = true;
             item.collect((Player) collider);
-            ServerTimer.currentLevel.getCurrentRoom().removeItem(item);
+            if (ServerTimer.currentLevel != null){
+                ServerTimer.currentLevel.getCurrentRoom().removeItem(item);
+            }
         }
     }
 
