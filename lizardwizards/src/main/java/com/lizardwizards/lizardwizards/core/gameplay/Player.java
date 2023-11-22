@@ -13,7 +13,7 @@ public class Player extends Entity {
     Vector2 moveDirection = new Vector2(0,0);
     Vector2 shootDirection = new Vector2(0,0);
     public List<IWeapon> weapons = new ArrayList<>();
-    int currentWeapon = 0;
+    public int currentWeapon = 0;
     int health = 4;
     double speed;
     boolean isMoving = false;
