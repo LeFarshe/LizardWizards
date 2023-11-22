@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 
 public class LevelFacade {
     private LevelDirector levelDirector;
@@ -9,6 +10,7 @@ public class LevelFacade {
 
     private LevelBuilder levelBuilder;
     private DefaultEnemyFactory enemyFactory;
+    private WeaponUpgradeFactory weaponUpgradeFactory;
 
 
     public LevelFacade() {
@@ -17,11 +19,12 @@ public class LevelFacade {
 
         enemyFactory = new DefaultEnemyFactory();
         roomFactory = new RoomFactory();
+        weaponUpgradeFactory = new WeaponUpgradeFactory();
     }
 
     public Level getLevel(String levelName){
         if (levelName.equalsIgnoreCase("Level1")){
-            return levelDirector.testLevel(levelBuilder);
+            return levelDirector.testLevel(levelBuilder, weaponUpgradeFactory);
         }
         return null;
     }

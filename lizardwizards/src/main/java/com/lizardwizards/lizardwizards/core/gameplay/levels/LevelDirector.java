@@ -1,5 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +24,14 @@ public class LevelDirector {
         GenerationRoomData basicRoom2 = new GenerationRoomData(basicRoomData2, 1, new boolean[] {true, true, true, true});
         basicRooms.add(basicRoom2);
     }
-    public Level testLevel(LevelBuilder builder){
+    public Level testLevel(LevelBuilder builder, WeaponUpgradeFactory weaponUpgradeFactory){
         builder.reset();
         builder.createLevelStructure(10, 3, 0.5);
         builder.setStartRoom(startRooms);
         builder.setNonSpecialRooms(basicRooms);
+        builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
+        builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
+        builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
         builder.setDeadEnds(basicRooms);
         return builder.build();
     }
