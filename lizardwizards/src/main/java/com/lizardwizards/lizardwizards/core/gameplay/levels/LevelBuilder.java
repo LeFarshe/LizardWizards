@@ -1,6 +1,8 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 
 import java.util.*;
 
@@ -47,6 +49,20 @@ public class LevelBuilder {
                 }
             }
         }
+    }
+
+    public void setRandomTreasureRoom(List<GenerationRoomData> roomList, WeaponUpgradeFactory weaponUpgradeFactory){
+        Vector2 deadEnd = setRandomDeadEnd(roomList);
+        RoomData room = getRoomData(deadEnd);
+        room.addItem(new WeaponUpgradeItem(weaponUpgradeFactory.getRandomUpgrade()), new Vector2(500,500));
+    }
+
+    private Vector2 setRandomDeadEnd(List<GenerationRoomData> roomList){
+        int randomDeadEnd = random.nextInt(deadEnds.size());
+        Vector2 deadEnd = deadEnds.get(randomDeadEnd);
+        setRoomRandom(deadEnd, roomList);
+        deadEnds.remove(randomDeadEnd);
+        return deadEnd;
     }
 
     public void setDeadEnds(List<GenerationRoomData> roomList) {
@@ -185,6 +201,8 @@ public class LevelBuilder {
     private void setRoomValue(Vector2 position, int value) {
         levelStructure[(int)position.x][(int)position.y] = value;
     }
+
+    private RoomData getRoomData(Vector2 position) { return rooms[(int)position.x][(int)position.y]; }
 
 
 }
