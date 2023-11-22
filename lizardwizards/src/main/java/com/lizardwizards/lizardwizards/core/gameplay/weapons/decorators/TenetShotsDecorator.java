@@ -7,8 +7,8 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TenetShots extends WeaponDecorator{
-    public TenetShots(IWeapon weapon) {
+public class TenetShotsDecorator extends WeaponDecorator{
+    public TenetShotsDecorator(IWeapon weapon) {
         super(weapon);
     }
     @Override

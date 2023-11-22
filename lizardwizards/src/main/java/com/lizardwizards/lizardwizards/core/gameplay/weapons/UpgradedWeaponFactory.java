@@ -29,7 +29,7 @@ public class UpgradedWeaponFactory extends WeaponFactory {
                 case DoubleCaliber -> weapon = new DoubleCaliber(weapon);
                 case DoubleShots -> weapon = new DoubleShotsDecorator(weapon);
                 case Spectral -> weapon = new SpectralDecorator(weapon);
-                case TenetShots -> weapon = new TenetShots(weapon);
+                case TenetShots -> weapon = new TenetShotsDecorator(weapon);
             }
         }
         return weapon;

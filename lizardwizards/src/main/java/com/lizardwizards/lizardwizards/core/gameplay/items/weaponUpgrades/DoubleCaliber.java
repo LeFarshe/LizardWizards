@@ -1,6 +1,5 @@
 package com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades;
 
-import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
