@@ -9,7 +9,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 public class DefaultEnemyFactory implements IEnemyFactory {
 
     public EntityWrapper createEnemy(Vector2 position) {
-        Enemy enemy = new StandardEnemy(position);
+        Enemy enemy = new BigBugEnemy(position);
         EntitySprite sprite = enemy.getSprite();
         var w = sprite.getWidth();
         var h = sprite.getHeight();

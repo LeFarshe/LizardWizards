@@ -21,7 +21,7 @@ public class PlayerFactory {
     private static int playersCreated = 0;
 
     public static EntityWrapper getPlayer(PlayerClass playerClass) {
-        Player player = new Player(new Vector2(0,0), 250);
+        Player player = new Player(new Vector2(0,0), 400);
         Collider collider = Collider.NewRectangle(new Vector2(0, 0), 20, 20, CollisionLayer.Player);
         var playerColor = playerColors.get(playersCreated % playerColors.size());
         RectangleSprite playerSprite = new RectangleSprite(new Vector2(0,0), new Vector2(20,20), playerColor);
