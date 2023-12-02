@@ -72,11 +72,6 @@ public class Player extends Entity {
         return false;
     }
 
-    @Override
-    public Dictionary<String, Integer> GetSpriteSettings(){
-        return null;
-    }
-
     public void StartMoving(Vector2 direction)
     {
         if (direction.x == 0 && direction.y == 0)

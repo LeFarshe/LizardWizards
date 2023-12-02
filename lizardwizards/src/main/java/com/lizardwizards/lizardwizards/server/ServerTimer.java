@@ -6,7 +6,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.*;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemy;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.Level;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.LevelFacade;
 import javafx.util.Pair;
@@ -58,7 +58,7 @@ public class ServerTimer extends TimerTask {
         entities.forEach((entityUUID, entity) -> {
             entity.MoveByDelta(elapsedTime, entities);
             if (entity.entity.IsDestroyed()) {
-                if (entity.entity instanceof IEnemy){
+                if (entity.entity instanceof Enemy){
                     enemyCount --;
                     if (enemyCount == 0){
                         currentLevel.getCurrentRoom().setCleared();

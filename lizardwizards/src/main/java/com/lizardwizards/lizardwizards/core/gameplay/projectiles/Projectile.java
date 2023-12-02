@@ -69,11 +69,6 @@ public class Projectile extends IProjectile {
     }
 
     @Override
-    public Dictionary<String, Integer> GetSpriteSettings() {
-        return null;
-    }
-
-    @Override
     public boolean IsDestroyed() {
         return duration <= 0 || erase;
     }

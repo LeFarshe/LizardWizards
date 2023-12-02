@@ -28,7 +28,6 @@ public abstract class Entity implements Serializable, Cloneable {
 
     public abstract void Collide(Entity collider, CollisionLayer layer);
 
-    public abstract Dictionary<String, Integer> GetSpriteSettings();
     public abstract boolean IsDestroyed();
 
     public Entity clone() {

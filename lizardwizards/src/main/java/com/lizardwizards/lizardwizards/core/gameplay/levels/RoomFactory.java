@@ -5,13 +5,11 @@ import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
-import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.Obstacle;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.items.Item;
 import com.lizardwizards.lizardwizards.core.gameplay.items.ItemHolder;
 
@@ -56,10 +54,10 @@ public class RoomFactory {
 
     private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
         enemyCount++;
-        IEnemy enemy = enemyFactory.createEnemy(position, 5);
+        var enemy = enemyFactory.createEnemy(position);
         RectangleSprite sprite = new RectangleSprite(position, new Vector2(15, 15));
         Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
-        EntityWrapper newEntity = new EntityWrapper((Entity)enemy, sprite, collider);
+        EntityWrapper newEntity = new EntityWrapper(enemy, sprite, collider);
         newEntity.SetColor(new SpriteColor(1, 0, 0));
         return newEntity;
     }

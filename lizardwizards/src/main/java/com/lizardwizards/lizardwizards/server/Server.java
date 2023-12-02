@@ -20,10 +20,10 @@ public class Server implements Runnable{
     @Override
     public void run() {
         try {
+            // This is to avoid halting, since accept() would otherwise hold up the thread for no reason
             serverSocket.setSoTimeout(200);
             while (!serverSocket.isClosed() && !session.startGame()) {
                 Socket socket;
-                // This is to avoid halting, since accept() would otherwise hold up the thread for no reason
                 try {
                     socket = serverSocket.accept();
                 }
