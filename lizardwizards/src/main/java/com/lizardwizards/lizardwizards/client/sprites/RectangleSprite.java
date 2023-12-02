@@ -12,13 +12,11 @@ public class RectangleSprite extends EntitySprite {
     private double width;
     private double height;
 
-    public RectangleSprite(Vector2 position, Vector2 size)
+    public RectangleSprite(Vector2 size)
     {
         this.size = size;
         this.setHeight(this.size.y);
         this.setWidth(this.size.x);
-        setTranslateX(position.x - this.getWidth() / 2);
-        setTranslateY(position.y - this.getHeight() / 2);
         setPaint(new SpriteColor(0, 0, 0));
     }
 
@@ -44,6 +42,7 @@ public class RectangleSprite extends EntitySprite {
         size.Multiply(sizeMultiplier);
     }
 
+    @Override
     public double getHeight() {
         return height;
     }
@@ -52,6 +51,7 @@ public class RectangleSprite extends EntitySprite {
         this.height = height;
     }
 
+    @Override
     public double getWidth() {
         return width;
     }

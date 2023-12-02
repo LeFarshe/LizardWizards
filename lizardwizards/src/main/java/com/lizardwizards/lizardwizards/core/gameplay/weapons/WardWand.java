@@ -15,7 +15,7 @@ public class WardWand extends Weapon{
     Random random = new Random();
     public WardWand() {
         super(2, 100,2, 1, new Vector2(4,4),
-                new ImageSprite(ClientUtils.loadResource("images/weapons/WardWand.png")));
+                new ImageSprite("images/weapons/WardWand.png"));
     }
 
     @Override

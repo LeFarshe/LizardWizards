@@ -7,7 +7,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.decorators.Spectral
 
 public class Spectral extends WeaponUpgrade{
     public Spectral() {
-        super(new RectangleSprite(new Vector2(0,0), new Vector2(50,50)));
+        super(new RectangleSprite(new Vector2(50,50)));
     }
 
     @Override

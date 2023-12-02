@@ -13,7 +13,7 @@ public class Shotgun extends Weapon{
     double spread = 0.5;
     public Shotgun() {
         super(1, 500,0.5, 1.5, new Vector2(3,3),
-                new ImageSprite(ClientUtils.loadResource("images/weapons/Shotgun.png")));
+                new ImageSprite("images/weapons/Shotgun.png"));
     }
 
     @Override

@@ -15,7 +15,7 @@ public class Gun extends Weapon{
     public Gun()
     {
         super(2, 300, 2, 4, new Vector2(6,6),
-        new ImageSprite(ClientUtils.loadResource("images/weapons/Gun.png")));
+        new ImageSprite("images/weapons/Gun.png"));
     }
 
     @Override

@@ -54,17 +54,12 @@ public class RoomFactory {
 
     private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
         enemyCount++;
-        var enemy = enemyFactory.createEnemy(position);
-        RectangleSprite sprite = new RectangleSprite(position, new Vector2(15, 15));
-        Collider collider = Collider.NewRectangle(position, 15, 15, CollisionLayer.Enemy);
-        EntityWrapper newEntity = new EntityWrapper(enemy, sprite, collider);
-        newEntity.SetColor(new SpriteColor(1, 0, 0));
-        return newEntity;
+        return enemyFactory.createEnemy(position);
     }
 
     private EntityWrapper CreateObstacle(Vector2 position, Vector2 size){
         Obstacle obstacle  = new Obstacle(position);
-        RectangleSprite sprite = new RectangleSprite(position, new Vector2(size.x, size.y));
+        RectangleSprite sprite = new RectangleSprite(new Vector2(size.x, size.y));
         Collider collider = Collider.NewRectangle(position, size.x, size.y, CollisionLayer.Obstacle);
         return new EntityWrapper(obstacle, sprite, collider);
     }

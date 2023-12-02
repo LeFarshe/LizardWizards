@@ -7,7 +7,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.decorators.DoubleSh
 
 public class DoubleShots extends WeaponUpgrade {
     public DoubleShots() {
-        super(new RectangleSprite(new Vector2(0,0), new Vector2(50,50)));
+        super(new RectangleSprite(new Vector2(50,50)));
     }
 
     @Override

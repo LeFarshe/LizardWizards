@@ -35,7 +35,7 @@ public class GameController {
         gc.setFont(new Font("Sans", 100));
         gc.setFill(Color.GOLDENROD);
         gc.fillText("Loading...", 500, 500);
-        var image = new ImageSprite(ClientUtils.loadResource("images/loading.png"));
+        var image = new ImageSprite("images/loading.png");
         image.setPosition(new Vector2(1100, 450));
         image.drawSprite(gc);
     }

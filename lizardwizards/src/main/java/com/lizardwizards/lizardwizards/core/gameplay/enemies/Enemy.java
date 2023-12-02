@@ -1,7 +1,8 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
-import java.util.Dictionary;
-
+import com.lizardwizards.lizardwizards.client.SpriteColor;
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
@@ -21,6 +22,8 @@ public abstract class Enemy extends Entity {
         this.position = position;
         isDestroyed = false;
     }
+
+    abstract public EntitySprite getSprite();
 
     @Override
     public void Collide(Entity collider, CollisionLayer layer) {
