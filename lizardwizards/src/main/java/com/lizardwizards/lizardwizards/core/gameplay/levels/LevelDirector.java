@@ -8,6 +8,7 @@ import java.util.List;
 public class LevelDirector {
     List<GenerationRoomData> startRooms = new ArrayList<>();
     List<GenerationRoomData> basicRooms = new ArrayList<>();
+    List<GenerationRoomData> bossRooms = new ArrayList<>();
 
     public LevelDirector() {
         //START ROOMS
@@ -23,13 +24,18 @@ public class LevelDirector {
         RoomData basicRoomData2 = new RoomData(RoomEnumerator.BasicRoom2);
         GenerationRoomData basicRoom2 = new GenerationRoomData(basicRoomData2, 1, new boolean[] {true, true, true, true});
         basicRooms.add(basicRoom2);
+
+        // BOSS ROOMS
+        RoomData bossRoomData = new RoomData(RoomEnumerator.BossRoom);
+        GenerationRoomData bossRoom = new GenerationRoomData(bossRoomData, 1, new boolean[] {true, true, true, true});
+        bossRooms.add(bossRoom);
     }
     public Level testLevel(LevelBuilder builder, WeaponUpgradeFactory weaponUpgradeFactory){
         builder.reset();
         builder.createLevelStructure(10, 3, 0.5);
         builder.setStartRoom(startRooms);
         builder.setNonSpecialRooms(basicRooms);
-        builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
+        builder.setBossRoom(bossRooms);
         builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
         builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
         builder.setDeadEnds(basicRooms);

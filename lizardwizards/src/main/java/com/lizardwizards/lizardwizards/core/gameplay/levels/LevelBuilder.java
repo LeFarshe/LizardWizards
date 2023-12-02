@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 
@@ -55,6 +56,11 @@ public class LevelBuilder {
         Vector2 deadEnd = setRandomDeadEnd(roomList);
         RoomData room = getRoomData(deadEnd);
         room.addItem(new WeaponUpgradeItem(weaponUpgradeFactory.getRandomUpgrade()), new Vector2(500,500));
+    }
+
+    public void setBossRoom(List<GenerationRoomData> roomList) {
+        setRoomRandom(deadEnds.get(deadEnds.size() - 1), roomList);
+        deadEnds.remove(deadEnds.size() - 1);
     }
 
     private Vector2 setRandomDeadEnd(List<GenerationRoomData> roomList){

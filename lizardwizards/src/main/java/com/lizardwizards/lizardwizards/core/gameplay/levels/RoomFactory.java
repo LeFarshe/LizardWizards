@@ -9,7 +9,9 @@ import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.Obstacle;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.BossEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.DefaultEnemyFactory;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.items.Item;
 import com.lizardwizards.lizardwizards.core.gameplay.items.ItemHolder;
 
@@ -17,6 +19,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RoomFactory {
+    static IEnemyFactory bossFactory = new BossEnemyFactory();
     int enemyCount = 0;
     public RoomInformation getRoom(Level currentLevel, DefaultEnemyFactory enemyFactory){
         RoomData currentRoom = currentLevel.getCurrentRoom();
@@ -24,25 +27,30 @@ public class RoomFactory {
         HashMap<UUID, EntityWrapper> entities = new HashMap<>();
         CreateWalls(entities);
         CreateDoors(entities, currentLevel.getDoors());
-        if (currentRoom.id == RoomEnumerator.BasicRoom) {
-            if (!currentRoom.cleared) {
-                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
-                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
-                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
-                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+        switch (currentRoom.id) {
+            case BasicRoom -> {
+                if (!currentRoom.cleared) {
+                    AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                    AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                    AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                    AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                }
+                AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50, 50)), entities);
+                AddEntity(CreateObstacle(new Vector2(600, 300), new Vector2(50, 50)), entities);
             }
-            AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50,50)), entities);
-            AddEntity(CreateObstacle(new Vector2(600, 300), new Vector2(50,50)), entities);
-
-        }
-        else if (currentRoom.id == RoomEnumerator.BasicRoom2){
-            if (!currentRoom.cleared) {
-                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
-                AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+            case BasicRoom2 -> {
+                if (!currentRoom.cleared) {
+                    AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                    AddEntity(CreateEnemy(new Vector2(400, 400), enemyFactory), entities);
+                }
+                AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50, 50)), entities);
+                AddEntity(CreateObstacle(new Vector2(1000, 300), new Vector2(50, 50)), entities);
             }
-
-            AddEntity(CreateObstacle(new Vector2(200, 300), new Vector2(50,50)), entities);
-            AddEntity(CreateObstacle(new Vector2(1000, 300), new Vector2(50,50)), entities);
+            case BossRoom -> {
+                if (!currentRoom.cleared) {
+                    AddEntity(CreateEnemy(new Vector2(900, 500), bossFactory), entities);
+                }
+            }
         }
         for (ExistingItem item: currentRoom.itemList){
             AddEntity(CreateItem(item.position, item.item), entities);
@@ -52,7 +60,7 @@ public class RoomFactory {
 
 
 
-    private EntityWrapper CreateEnemy(Vector2 position, DefaultEnemyFactory enemyFactory){
+    private EntityWrapper CreateEnemy(Vector2 position, IEnemyFactory enemyFactory){
         enemyCount++;
         return enemyFactory.createEnemy(position);
     }

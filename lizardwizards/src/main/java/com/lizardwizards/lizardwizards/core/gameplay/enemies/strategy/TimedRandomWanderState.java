@@ -22,7 +22,7 @@ public class TimedRandomWanderState extends EnemyStrategyState {
         if (directionTimer <= 0){
 
             Random random = new Random();
-            moveDirection = new Vector2(random.nextDouble()-0.5, random.nextDouble()-0.5);
+            moveDirection = new Vector2(2*(random.nextDouble()-0.5), random.nextDouble()-0.5);
 
             directionTimer = directionDelay;
         }
