@@ -15,7 +15,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 
 public class Server implements Runnable{
     private final ServerSocket serverSocket;
-    private final Session session;
+    public static Session session;
 
     @Override
     public void run() {
@@ -50,7 +50,7 @@ public class Server implements Runnable{
             // It is possible to fix this by running separate threads for accepting connections and the main game, I will look into that and decide if it is better than the spaghetti this is going to become
             // I didn't look into it yet
             // Put the gameplay state here somewhere
-            ServerTimer serverTimer = new ServerTimer(session);
+            ServerTimer serverTimer = new ServerTimer();
             Timer timer = new Timer("ServerGameTimerThread");
             timer.schedule(serverTimer, 0, 1);
             while (!serverSocket.isClosed()) { // TODO not this
@@ -78,8 +78,10 @@ public class Server implements Runnable{
         }
     }
 
+
+    // TODO: turn server into an singleton
     public Server(ServerSocket serverSocket){
-        this.session = new Session();
+        Server.session = new Session();
         this.serverSocket = serverSocket;
     }
 

@@ -17,6 +17,7 @@ public abstract class Enemy extends Entity {
     protected boolean isDestroyed;
 
     protected Vector2 position;
+    int scoreReward = 5;
 
     EnemyStrategyState state;
     public Enemy(double health, double speed, Vector2 position) {
@@ -59,9 +60,9 @@ public abstract class Enemy extends Entity {
         return health <= 0;
     }
 
-    private void HandleDeath() {
+    protected void HandleDeath() {
         isDestroyed = true;
-        Scoreboard.getInstance().addScore(5);
+        Scoreboard.getInstance().addScore(scoreReward);
     }
 
     @Override

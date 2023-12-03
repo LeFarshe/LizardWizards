@@ -28,7 +28,7 @@ public class ServerTimer extends TimerTask {
     private boolean[] existingDoors;
     private int enemyCount;
 
-    public ServerTimer(Session session) {
+    public ServerTimer() {
         levelFacade = new LevelFacade();
         currentLevel = levelFacade.getLevel("Level1");
 
@@ -38,9 +38,9 @@ public class ServerTimer extends TimerTask {
         doors.add(Collider.NewRectangle(new Vector2(0, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
 
         this.entities = new HashMap<>();
-        currentSession = session;
-        session.players.forEach(player -> this.entities.put(player.getPlayerUUID(), player.getPlayer()));
-        this.players = session.players;
+        currentSession = Server.session;
+        currentSession.players.forEach(player -> this.entities.put(player.getPlayerUUID(), player.getPlayer()));
+        this.players = currentSession.players;
         this.createdEntities = new LinkedList<>();
         this.destroyedEntities = new LinkedList<>();
         time = 0;

@@ -21,8 +21,8 @@ public class ScoreboardSyncPacket extends SentServerData {
         Platform.runLater(() -> {
             var hud = GameHUD.getInstance();
             hud.setScore(currentScore);
-            hud.setBossHealth(bossHealth);
             hud.setMaxBossHealth(bossMaxHealth);
+            hud.setBossHealth(bossHealth);
         });
     }
 }
