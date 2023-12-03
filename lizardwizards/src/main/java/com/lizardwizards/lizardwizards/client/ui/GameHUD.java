@@ -6,6 +6,7 @@ import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 import com.lizardwizards.lizardwizards.server.Server;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
@@ -48,6 +49,7 @@ public class GameHUD implements Observer {
         bossBar = new Canvas(ClientUtils.gameWidth*0.8, ClientUtils.gameHeight*0.05);
         var bottomPane = new BorderPane();
         bottomPane.setBottom(currentWeapon);
+        borderPane.setPadding(new Insets(0, 0, 20, 20));
         borderPane.setBottom(bossBar);
         borderPane.setRight(bottomPane);
         borderPane.setMinWidth(ClientUtils.gameWidth);

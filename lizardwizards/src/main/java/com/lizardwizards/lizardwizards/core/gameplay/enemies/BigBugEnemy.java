@@ -8,7 +8,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.TimedRando
 
 public class BigBugEnemy extends BossEnemy {
     public BigBugEnemy(Vector2 position) {
-        super(50, 200, position);
+        super(100, 300, position);
         var returnState = new MoveTowardsState(this, position);
         var wanderState = new TimedRandomWanderState(this);
         wanderState.nextState.add(returnState);
