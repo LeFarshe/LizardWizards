@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades;
 
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
@@ -7,7 +8,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.decorators.Spectral
 
 public class Spectral extends WeaponUpgrade{
     public Spectral() {
-        super(new RectangleSprite(new Vector2(50,50)));
+        super(new ImageSprite("images/items/Spectral.png"));
     }
 
     @Override
