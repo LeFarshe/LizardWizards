@@ -11,7 +11,7 @@ public class DoubleCaliber extends WeaponUpgrade{
     double fireRateMultiplier = 2.0/3.0;
 
     public DoubleCaliber() {
-        super(new ImageSprite("images/weapons/DoubleCaliber.png"));
+        super(new ImageSprite("images/items/DoubleCaliber.png"));
     }
 
     @Override

@@ -95,6 +95,7 @@ public class GameController {
 
         @Override
         public synchronized void handle(long now){
+            GameHUD.getInstance().setHealth(((Player)(currentPlayer.entity)).health);
             double timeElapsed;
             if (prevTime >= 0)
             {
@@ -138,7 +139,6 @@ public class GameController {
     public void SetPlayer(EntityWrapper player)
     {
         currentPlayer = player;
-        currentPlayer.addObserver(GameHUD.getInstance());
         entities.put(player.entity.uuid, currentPlayer);
 
         var playerEntity = (Player)currentPlayer.entity;

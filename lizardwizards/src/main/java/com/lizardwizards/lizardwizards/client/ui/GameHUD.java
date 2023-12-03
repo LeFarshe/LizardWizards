@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-public class GameHUD implements Observer {
+public class GameHUD {
     static GameHUD hud;
     Label scoreLabel;
     Label hitPoints;
@@ -65,6 +65,11 @@ public class GameHUD implements Observer {
         scoreLabel.setText("Score: " + score);
     }
 
+    public void setHealth(int health){
+        this.health = health;
+        hitPoints.setText("Health: " + health);
+    }
+
     public List<Node> getHudElements() { return hudElements;}
 
     public int getScore() {
@@ -101,11 +106,5 @@ public class GameHUD implements Observer {
 
     public void switchWeapon(IWeapon weapon) {
         currentWeapon.setImage(weapon.getHudIcon().getImage());
-    }
-
-    @Override
-    public void update(Observable o, Object hp){
-        this.health = (int) hp;
-        hitPoints.setText("Health: " + health);
     }
 }

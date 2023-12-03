@@ -111,7 +111,7 @@ public class ServerTimer extends TimerTask {
 
     public synchronized SyncPacket getChanges(){
         HashMap<UUID, EntityWrapper> entitiesCpy = new HashMap<>(entities);
-        entitiesCpy.forEach(((uuid, entityWrapper) -> entitiesCpy.put(uuid, entityWrapper.cloneAndReplacePosition())));
+        entitiesCpy.forEach(((uuid, entityWrapper) -> entitiesCpy.put(uuid, entityWrapper.clone())));
         new LinkedList<>();
         SyncPacket syncPacket = new SyncPacket(time,
                 entitiesCpy,
