@@ -3,6 +3,7 @@ package com.lizardwizards.lizardwizards.core.gameplay;
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.collision.Chain.CollisionHandler;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
@@ -46,46 +47,19 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
         entity.MoveByDelta(delta);
         if (collider != null) {
             collider.position = entity.GetPosition();
-            CollisionLayer layer = collider.layer;
             for(EntityWrapper currentEntity: entities.values()){
-                if (layer == CollisionLayer.Player){
-                    if (currentEntity.collider.layer == CollisionLayer.Obstacle){
-                        if(collider.Collide(currentEntity.collider)){
-                            entity.SetPosition(currentPos);
-                            collider.position = currentPos.Copy();
-                            break;
-                        }
-                    }
-                    if (currentEntity.collider.layer == CollisionLayer.Enemy) {
-                        if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(currentEntity.entity, CollisionLayer.Enemy);
-                        }
-                    }
-                }
-                if (layer == CollisionLayer.PlayerProjectile || layer == CollisionLayer.EnemyProjectile){
-                    if (currentEntity.collider.layer == CollisionLayer.Obstacle){
-                        if(collider.Collide(currentEntity.collider)){
-                            entity.Collide(currentEntity.entity, CollisionLayer.Obstacle);
-                            break;
-                        }
-                    }
-                    if (layer == CollisionLayer.PlayerProjectile && currentEntity.collider.layer == CollisionLayer.Enemy){
-                        if (collider.Collide(currentEntity.collider)){
-                            entity.Collide(currentEntity.entity, CollisionLayer.Enemy);
-                            currentEntity.entity.Collide(entity, CollisionLayer.PlayerProjectile);
-                        }
-                    }
-                }
-                if (layer == CollisionLayer.Item && currentEntity.collider.layer == CollisionLayer.Player){
-                    if (collider.Collide(currentEntity.collider)){
-                        entity.Collide(currentEntity.entity, CollisionLayer.Player);
+                if (currentEntity.collider != null){
+                    boolean collided = CollisionHandler.collide(this, currentEntity);
+                    if (collided && collider.layer == CollisionLayer.Player && currentEntity.collider.layer == CollisionLayer.Obstacle){
+                        entity.SetPosition(currentPos);
+                        collider.position = currentPos.Copy();
                     }
                 }
             }
         }
 
-            sprite.setPosition(entity.GetPosition());
-            position = entity.GetPosition();
+        sprite.setPosition(entity.GetPosition());
+        position = entity.GetPosition();
         
         
     }
