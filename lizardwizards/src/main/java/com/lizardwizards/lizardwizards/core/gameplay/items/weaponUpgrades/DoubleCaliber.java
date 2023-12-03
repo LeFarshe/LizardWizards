@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades;
 
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
@@ -10,7 +11,7 @@ public class DoubleCaliber extends WeaponUpgrade{
     double fireRateMultiplier = 2.0/3.0;
 
     public DoubleCaliber() {
-        super(new RectangleSprite(new Vector2(50,50)));
+        super(new ImageSprite("images/weapons/DoubleCaliber.png"));
     }
 
     @Override
