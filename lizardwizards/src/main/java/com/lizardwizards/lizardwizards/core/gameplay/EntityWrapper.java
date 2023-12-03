@@ -9,10 +9,9 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Observable;
 import java.util.UUID;
 
-public class EntityWrapper extends Observable implements Serializable, Cloneable {
+public class EntityWrapper implements Serializable, Cloneable {
     public Entity entity;
     public EntitySprite sprite;
     public Collider collider;
@@ -79,14 +78,12 @@ public class EntityWrapper extends Observable implements Serializable, Cloneable
 
     public synchronized void update(EntityWrapper entityWrapper) {
        var pos = entityWrapper.position;
-       entity.SetPosition(pos);
+       var uuid = entity.uuid;
+       entity = entityWrapper.entity;
+       entity.uuid = uuid;
        sprite.setPosition(pos);
        collider.position = entityWrapper.collider.position.Copy();
        position = entity.GetPosition();
-       if (entity instanceof Player){
-           setChanged();
-           notifyObservers(((Player)entity).health);
-       }
     }
 
     public EntityWrapper cloneAndReplacePosition() { // This is for a deep enough copy of positions

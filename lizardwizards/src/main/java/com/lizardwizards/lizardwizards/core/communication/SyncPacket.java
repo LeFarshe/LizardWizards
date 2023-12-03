@@ -1,7 +1,6 @@
 package com.lizardwizards.lizardwizards.core.communication;
 
 import com.lizardwizards.lizardwizards.client.ClientUtils;
-import com.lizardwizards.lizardwizards.client.ui.GameHUD;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import javafx.application.Platform;
 import javafx.util.Pair;
