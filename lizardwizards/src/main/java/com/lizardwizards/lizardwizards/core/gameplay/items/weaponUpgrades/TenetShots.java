@@ -8,7 +8,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.decorators.TenetSho
 
 public class TenetShots extends WeaponUpgrade{
     public TenetShots() {
-        super(new RectangleSprite(new Vector2(0,0), new Vector2(50,50)));
+        super(new RectangleSprite(new Vector2(50,50)));
     }
 
     @Override

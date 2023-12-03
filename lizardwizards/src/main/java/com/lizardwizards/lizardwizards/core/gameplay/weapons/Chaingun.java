@@ -15,7 +15,7 @@ public class Chaingun extends Weapon{
     int projectilesShot  = 0;
     Chaingun() {
         super(1,300, 2, 10, new Vector2(4,4),
-        new ImageSprite(ClientUtils.loadResource("images/weapons/Chaingun.png")));
+        new ImageSprite("images/weapons/Chaingun.png"));
     }
 
     @Override

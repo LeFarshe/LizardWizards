@@ -2,8 +2,9 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
 
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 
 public interface IEnemyFactory {
-    IEnemy createEnemy(Vector2 position, int health);
+    EntityWrapper createEnemy(Vector2 position);
 }
 

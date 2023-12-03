@@ -1,5 +1,6 @@
 package com.lizardwizards.lizardwizards.client.sprites;
 
+import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.server.LizardWizardsServer;
 import com.lizardwizards.lizardwizards.server.Session;
@@ -24,17 +25,14 @@ public class ImageSprite extends EntitySprite {
             height = spriteImage.getHeight();
         }
         else {
-            width = 0;
-            height = 0;
+            var imageSize = ImageLookup.getImageSize(imageFilename);
+            width = imageSize.x;
+            height = imageSize.y;
         }
     }
 
-    public ImageSprite(URL imageURL) {
-        this(imageURL.toExternalForm());
-    }
-
    private void loadImage() {
-        spriteImage = new Image(imageFilename);
+        spriteImage = ImageLookup.loadImage(imageFilename);
    }
 
    public Image getImage() {
@@ -47,6 +45,18 @@ public class ImageSprite extends EntitySprite {
     @Override
     public void scale(double sizeMultiplier) {
         imageScale = sizeMultiplier;
+        width *= sizeMultiplier;
+        height *= sizeMultiplier;
+    }
+
+    @Override
+    public double getWidth() {
+        return width;
+    }
+
+    @Override
+    public double getHeight() {
+        return height;
     }
 
     @Override
@@ -62,7 +72,7 @@ public class ImageSprite extends EntitySprite {
             loadImage();
         }
 
-        gc.drawImage(spriteImage, position.x, position.y, width*imageScale, height*imageScale);
+        gc.drawImage(spriteImage, position.x, position.y, width, height);
     }
 
     @Override

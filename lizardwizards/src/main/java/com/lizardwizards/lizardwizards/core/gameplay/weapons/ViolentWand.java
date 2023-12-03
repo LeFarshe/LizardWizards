@@ -15,7 +15,7 @@ public class ViolentWand extends Weapon{
     Random random = new Random();
     public ViolentWand() {
         super(1, 500,0.5, 10, new Vector2(5,5),
-                new ImageSprite(ClientUtils.loadResource("images/weapons/ViolentWand.png")));
+                new ImageSprite("images/weapons/ViolentWand.png"));
     }
 
     @Override

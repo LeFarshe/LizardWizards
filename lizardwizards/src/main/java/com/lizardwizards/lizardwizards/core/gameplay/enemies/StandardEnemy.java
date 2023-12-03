@@ -1,43 +1,27 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.RandomWanderState;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
+import java.util.Random;
+
 public class StandardEnemy extends Enemy {
 
-    public StandardEnemy(IEnemyImplementor implementor, double health, Vector2 position) {
-        super(implementor, health, position);
+    public StandardEnemy(Vector2 position) {
+        super(5, 100, position);
         this.position = position;
-    }
-
-
-    @Override
-    public void Collide(Entity collidingEntity, CollisionLayer layer) {
-        if (layer == CollisionLayer.PlayerProjectile) {
-            health -= ((IProjectile)collidingEntity).getDamage();
-            if (health <= 0 && !isDestroyed) {
-                HandleDeath();
-            }
-        }
-    }
-
-    public void HandleDeath() {
-        isDestroyed = true;
-        System.out.println("Standard Enemy has died!");
-        Scoreboard.getInstance().addScore(5);
+        SetPosition(position);
+        setState(new RandomWanderState(this));
     }
 
     @Override
-    public Vector2 GetPosition(){
-            return this.implementor.getPosition().Copy();
+    public EntitySprite getSprite() {
+        return new ImageSprite("images/enemies/Fly.png");
     }
-
-    @Override
-    public boolean IsDestroyed() {
-        return isDestroyed;
-    }
-
 }

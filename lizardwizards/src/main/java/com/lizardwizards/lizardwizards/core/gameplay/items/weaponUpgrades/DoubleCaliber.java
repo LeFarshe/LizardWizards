@@ -10,7 +10,7 @@ public class DoubleCaliber extends WeaponUpgrade{
     double fireRateMultiplier = 2.0/3.0;
 
     public DoubleCaliber() {
-        super(new RectangleSprite(new Vector2(0,0), new Vector2(50,50)));
+        super(new RectangleSprite(new Vector2(50,50)));
     }
 
     @Override

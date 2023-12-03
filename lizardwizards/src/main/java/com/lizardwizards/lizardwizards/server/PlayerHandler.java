@@ -140,7 +140,6 @@ public class PlayerHandler {
     }
 
     private void lobbyListener(){
-        System.out.println(player.entity.uuid);
         while (session.getGameState() == GameState.InLobby) {
             try {
                 var lobbyInfo = (PlayerLobbyInformation) objectInput.readObject();

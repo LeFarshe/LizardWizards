@@ -22,11 +22,6 @@ public abstract class ProjectileDecorator extends IProjectile {
     }
 
     @Override
-    public Dictionary<String, Integer> GetSpriteSettings() {
-        return wrappedProjectile.GetSpriteSettings();
-    }
-
-    @Override
     public boolean IsDestroyed() {
         return wrappedProjectile.IsDestroyed();
     }

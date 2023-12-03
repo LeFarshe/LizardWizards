@@ -14,8 +14,8 @@ import java.net.URL;
 
 public class ClientUtils {
     public static GameController gameController = null;
-    public static final int gameWidth = 1600;
-    public static final int gameHeight = 900;
+    public static final int gameWidth = 1920;
+    public static final int gameHeight = 1080;
 
     public static void closeProgram(Stage window){
         boolean answer = ConfirmBox.display("Are you sure you want to exit?");
@@ -76,7 +76,7 @@ public class ClientUtils {
             if (stageNum == 3)
             {
                 var root = new Pane();
-                var canvas = new Canvas(gameWidth*2, gameHeight*2);
+                var canvas = new Canvas(gameWidth*1.1, gameHeight*1.1);
                 root.getChildren().add(canvas);
                 newScene = new Scene(root, gameWidth,gameHeight);
                 newScene.getStylesheets().add(loadResource("css/fontstyle.css").toExternalForm());

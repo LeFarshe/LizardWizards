@@ -40,6 +40,10 @@ public abstract class EntitySprite implements Serializable, Cloneable {
         return position.y;
     }
 
+    public abstract double getWidth();
+
+    public abstract double getHeight();
+
     public void setPosition(Vector2 position)
     {
         setTranslateX(position.x);

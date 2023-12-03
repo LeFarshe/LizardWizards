@@ -18,11 +18,6 @@ public class Obstacle extends Entity{
     }
 
     @Override
-    public Dictionary<String, Integer> GetSpriteSettings() {
-        return null;
-    }
-
-    @Override
     public boolean IsDestroyed() {
         return false;
     }
