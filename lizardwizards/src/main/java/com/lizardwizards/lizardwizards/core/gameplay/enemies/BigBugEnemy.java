@@ -6,7 +6,7 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.MoveTowardsState;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.TimedRandomWanderState;
 
-public class BigBugEnemy extends Enemy {
+public class BigBugEnemy extends BossEnemy {
     public BigBugEnemy(Vector2 position) {
         super(50, 200, position);
         var returnState = new MoveTowardsState(this, position);

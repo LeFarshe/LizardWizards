@@ -26,6 +26,8 @@ public class GameHUD implements Observer {
     List<Node> hudElements;
     int score;
     int health;
+    double maxBossHealth;
+    double bossHealth;
     public GameHUD(){
         if (hud == null){
             hud = this;
@@ -61,6 +63,22 @@ public class GameHUD implements Observer {
 
     public int getScore() {
         return score;
+    }
+
+    public double getMaxBossHealth() {
+        return maxBossHealth;
+    }
+
+    public void setMaxBossHealth(double maxBossHealth) {
+        this.maxBossHealth = maxBossHealth;
+    }
+
+    public double getBossHealth() {
+        return bossHealth;
+    }
+
+    public void setBossHealth(double bossHealth) {
+        this.bossHealth = bossHealth;
     }
 
     public void switchWeapon(IWeapon weapon) {

@@ -18,23 +18,18 @@ public class SyncPacket extends SentServerData{
     public final HashMap<UUID, EntityWrapper> entities;
     public final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     public final List<EntityWrapper> destroyedEntities;
-    public final int currentScore;
-    public int oldScore;
 
-    public SyncPacket(long serverTime, HashMap<UUID, EntityWrapper> entities, LinkedList<Pair<Long, EntityWrapper>> createdEntities, List<EntityWrapper> destroyedEntities, int currentScore) {
+    public SyncPacket(long serverTime, HashMap<UUID, EntityWrapper> entities, LinkedList<Pair<Long, EntityWrapper>> createdEntities, List<EntityWrapper> destroyedEntities) {
         super(SentDataType.SyncPacket);
         this.serverTime = serverTime;
         this.entities = entities;
         this.createdEntities = createdEntities;
         this.destroyedEntities = destroyedEntities;
-        this.currentScore = currentScore;
     }
 
     @Override
     public void execute() {
         Platform.runLater(() -> {
-            oldScore = GameHUD.getInstance().getScore();
-            GameHUD.getInstance().setScore(currentScore);
             ClientUtils.gameController.updateEntityList(this);
         });
     }

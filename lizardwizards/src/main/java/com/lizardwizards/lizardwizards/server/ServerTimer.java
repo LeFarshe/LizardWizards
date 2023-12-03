@@ -116,8 +116,7 @@ public class ServerTimer extends TimerTask {
         SyncPacket syncPacket = new SyncPacket(time,
                 entitiesCpy,
                 new LinkedList<>(createdEntities),
-                new LinkedList<>(destroyedEntities),
-                Scoreboard.getInstance().getScore());
+                new LinkedList<>(destroyedEntities));
         createdEntities.clear();
         destroyedEntities.clear();
         return syncPacket;

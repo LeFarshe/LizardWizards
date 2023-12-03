@@ -148,7 +148,7 @@ public class ClientConnectionHandler implements Runnable {
         while (gameState == GameState.InGame) {
             var data = listen();
             switch (data.dataType) {
-                case SyncPacket, ConnectionInformation, Room -> data.execute();
+                case SyncPacket, ScoreboardSyncPacket, ConnectionInformation, Room -> data.execute();
                 default ->
                         throw new RuntimeException("Unexpected datatype received from server while in game");
             }

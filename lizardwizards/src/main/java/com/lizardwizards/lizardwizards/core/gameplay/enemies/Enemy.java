@@ -47,14 +47,19 @@ public abstract class Enemy extends Entity {
     public void Collide(Entity collider, CollisionLayer layer) {
         final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
         if(layer == PLAYER_PROJECTILE_LAYER) {
-            health -= ((IProjectile)collider).getDamage();
-            if (health <= 0 && !isDestroyed) {
+            boolean isDead = takeDamage(((IProjectile)collider).getDamage());
+            if (isDead && !isDestroyed) {
                 HandleDeath();
             }
         }
     }
 
-    public void HandleDeath() {
+    protected boolean takeDamage(double damage) {
+        health -= damage;
+        return health <= 0;
+    }
+
+    private void HandleDeath() {
         isDestroyed = true;
         Scoreboard.getInstance().addScore(5);
     }
