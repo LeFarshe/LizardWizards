@@ -42,5 +42,14 @@ public class LevelDirector {
         return builder.build();
     }
 
+    public Level createLevel(LevelBuilder builder, int rooms, int deadEnds, double randomFail){
+        builder.reset();
+        builder.createLevelStructure(rooms, deadEnds, randomFail);
+        builder.setStartRoom(startRooms);
+        builder.setNonSpecialRooms(basicRooms);
+        builder.setDeadEnds(basicRooms);
+        return builder.build();
+    }
+
 
 }

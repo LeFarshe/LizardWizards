@@ -29,6 +29,10 @@ public class LevelFacade {
         return null;
     }
 
+    public Level getCustomLevel(int rooms, int deadEnds, double randomFail){
+        return levelDirector.createLevel(levelBuilder, rooms, deadEnds, randomFail);
+    }
+
     public RoomInformation getRoom(Level level){
         return roomFactory.getRoom(level, enemyFactory);
     }

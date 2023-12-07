@@ -4,7 +4,7 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 
 public class Level {
     RoomData[][] rooms;
-    int size;
+    public int size;
     Vector2 currentPos;
     // 0 is center, 1 is up, continues clockwise until 4 which means left.
     public int enteredDirection = 0;
