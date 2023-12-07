@@ -1,3 +1,5 @@
+package UnitTests;
+
 import com.lizardwizards.lizardwizards.core.gameplay.Player;
 import org.junit.jupiter.api.Test;
 

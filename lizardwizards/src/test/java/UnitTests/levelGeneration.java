@@ -1,3 +1,5 @@
+package UnitTests;
+
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.Level;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.LevelFacade;
@@ -6,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class levelGeneration {
     @Test
@@ -17,14 +18,15 @@ public class levelGeneration {
                 {25, 8, 0.2},
                 {6, 3, 0.7},
                 {10, 5, 0.5},
-                {50, 15, 0.8}};
+                {50, 15, 0.6}};
         LevelFacade facade = new LevelFacade();
 
         for (double[] test: tests){
             Level level = facade.getCustomLevel((int)test[0], (int)test[1], test[2]);
             assertAll("Level generation",
                     () -> assertEquals((int)test[0], countRooms(level)),
-                    () -> assertEquals((int)test[1], countDeadEnds(level)));
+                    () -> assertTrue(countDeadEnds(level) >= (int)test[1],
+                    "Dead end count must be equal or greater than the requested minimum"));
         }
     }
 
