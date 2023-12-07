@@ -12,7 +12,7 @@ public abstract class Weapon implements Serializable, IWeapon {
     double shotSpeed;
     double shotDuration;
     double fireRate;
-    double fireTimer = 0;
+    public double fireTimer = 0;
     Vector2 projectileSize;
 
     final ImageSprite hudIcon;
