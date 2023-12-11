@@ -2,7 +2,13 @@ package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 
-public class Level {
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class Level implements Iterable<Vector2> {
     RoomData[][] rooms;
     int size;
     Vector2 currentPos;
@@ -64,5 +70,28 @@ public class Level {
             newPos.y += (direction - 3) * (-1);
         }
         return newPos;
+    }
+
+    @Override
+    public Iterator<Vector2> iterator() {
+        List<Vector2> possible = new ArrayList<>();
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                Vector2 newPos = new Vector2(x,y);
+                if (canMove(newPos)) { possible.add(newPos);}
+            }
+        }
+        
+        return possible.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Vector2> action) {
+        Iterable.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<Vector2> spliterator() {
+        return Iterable.super.spliterator();
     }
 }
