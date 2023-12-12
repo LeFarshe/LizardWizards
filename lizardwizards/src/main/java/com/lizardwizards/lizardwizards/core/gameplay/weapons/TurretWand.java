@@ -16,7 +16,7 @@ public class TurretWand extends TurretWeapon{
 
     TurretWand() {
         super(0, 500, 10, 0.5, new Vector2(16,16)
-                , new ImageSprite("images/weapons/Gun.png"), new TurretWandGun());
+                , new ImageSprite("images/weapons/TurretWand.png"), new TurretWandGun());
     }
 
     @Override
