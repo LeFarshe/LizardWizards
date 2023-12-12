@@ -13,5 +13,6 @@ public abstract class TurretWeapon extends Weapon{
     public IWeapon getWeapon(){
         return turretWeapon;
     }
+    public void setWeapon(IWeapon weapon) { turretWeapon = weapon;}
 
 }

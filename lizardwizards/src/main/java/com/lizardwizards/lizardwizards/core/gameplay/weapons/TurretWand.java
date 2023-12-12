@@ -4,17 +4,19 @@ import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.TurretProjectile;
+import com.lizardwizards.lizardwizards.server.ServerTimer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TurretWand extends TurretWeapon{
     int projectiles = 4;
-    double spread = 0.5;
+    double spread = Math.PI;
 
     TurretWand() {
-        super(1, 50, 5, 0.5, new Vector2(16,16)
-                , new ImageSprite("images/weapons/Gun.png"), new Gun());
+        super(0, 500, 10, 0.5, new Vector2(16,16)
+                , new ImageSprite("images/weapons/Gun.png"), new TurretWandGun());
     }
 
     @Override
@@ -23,10 +25,20 @@ public class TurretWand extends TurretWeapon{
         double startSpread = spread / 2;
         double spreadPerIteration = spread / (projectiles - 1);
         direction.Rotate(-startSpread);
+        TurretProjectile current = null;
+        IWeapon chainGun = turretWeapon.clone();
         for (int i = 0; i < projectiles; i++){
-            projectileList.add(new Projectile(damage, shotSpeed, shotDuration, position, direction, projectileSize));
+            TurretProjectile newProjectile = new TurretProjectile(new Projectile(damage, shotSpeed, shotDuration, position, direction, projectileSize), 1000, chainGun);
+            projectileList.add(newProjectile);
             direction.Rotate(spreadPerIteration);
+            newProjectile.setNext(current);
+            current = newProjectile;
         }
+        if (current != null){
+            current.setFirst();
+        }
+        ServerTimer.addChain(current);
         return projectileList;
     }
+
 }

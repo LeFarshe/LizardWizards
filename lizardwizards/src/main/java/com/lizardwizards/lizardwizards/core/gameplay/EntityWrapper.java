@@ -59,8 +59,6 @@ public class EntityWrapper implements Serializable, Cloneable {
 
         sprite.setPosition(entity.GetPosition());
         position = entity.GetPosition();
-        
-        
     }
 
     public synchronized void SetPosition(Vector2 position){
@@ -82,7 +80,9 @@ public class EntityWrapper implements Serializable, Cloneable {
        entity = entityWrapper.entity;
        entity.uuid = uuid;
        sprite.setPosition(pos);
-       collider.position = entityWrapper.collider.position.Copy();
+       if (collider != null){
+           collider.position = entityWrapper.collider.position.Copy();
+       }
        position = entity.GetPosition();
     }
 
