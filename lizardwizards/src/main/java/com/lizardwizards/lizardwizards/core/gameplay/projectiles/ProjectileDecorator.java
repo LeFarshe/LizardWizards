@@ -67,11 +67,6 @@ public abstract class ProjectileDecorator extends IProjectile {
     }
 
     @Override
-    public void setColor(SpriteColor color) {
-        wrappedProjectile.setColor(color);
-    }
-
-    @Override
     public IProjectile shoot(Vector2 direction, Vector2 position){
         return wrappedProjectile.shoot(direction, position);
     }

@@ -18,6 +18,9 @@ public class WeaponFactory {
             case WardWand -> {
                 return new WardWand();
             }
+            case TurretWand -> {
+                return new TurretWand();
+            }
             default -> {
                 return null;
             }

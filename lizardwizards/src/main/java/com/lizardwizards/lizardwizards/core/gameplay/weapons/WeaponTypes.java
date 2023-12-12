@@ -8,5 +8,6 @@ public enum WeaponTypes {
 
     // Wands
     ViolentWand,
-    WardWand
+    WardWand,
+    TurretWand
 }

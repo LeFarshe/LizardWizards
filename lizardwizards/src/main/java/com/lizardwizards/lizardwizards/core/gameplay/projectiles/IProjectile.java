@@ -16,7 +16,6 @@ public abstract class IProjectile extends Entity implements Serializable, Clonea
 
     public abstract Collider GetCollider(CollisionLayer layer);
 
-    abstract void setColor(SpriteColor spriteColor);
     public abstract double getDamage();
     public abstract double getDuration();
     public abstract double getSpeed();

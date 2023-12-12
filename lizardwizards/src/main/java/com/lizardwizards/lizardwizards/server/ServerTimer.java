@@ -9,6 +9,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemy;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.Level;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.LevelFacade;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.chain.Handler;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -18,11 +19,13 @@ public class ServerTimer extends TimerTask {
     private long time;
     public static Level currentLevel;
     private final LevelFacade levelFacade;
-    private final HashMap<UUID, EntityWrapper> entities;
+    public final HashMap<UUID, EntityWrapper> entities = new HashMap<>();
     private final List<PlayerHandler> players;
     private final Session currentSession;
     private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
+    private static final HashMap<UUID, EntityWrapper> newEntities = new HashMap<>();
+    private static final List<Handler> chains = new ArrayList<>();
 
     private final List<Collider> doors = new ArrayList<>();
     private boolean[] existingDoors;
@@ -37,9 +40,8 @@ public class ServerTimer extends TimerTask {
         doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax), 55,20, CollisionLayer.Player));
         doors.add(Collider.NewRectangle(new Vector2(0, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
 
-        this.entities = new HashMap<>();
         currentSession = Server.session;
-        currentSession.players.forEach(player -> this.entities.put(player.getPlayerUUID(), player.getPlayer()));
+        currentSession.players.forEach(player -> entities.put(player.getPlayerUUID(), player.getPlayer()));
         this.players = currentSession.players;
         this.createdEntities = new LinkedList<>();
         this.destroyedEntities = new LinkedList<>();
@@ -55,6 +57,7 @@ public class ServerTimer extends TimerTask {
         double elapsedTime = (now-time) / 1000.0;
 
         List<UUID> toBeRemoved = new LinkedList<>();
+        newEntities.clear();
         entities.forEach((entityUUID, entity) -> {
             entity.MoveByDelta(elapsedTime, entities);
             if (entity.entity.IsDestroyed()) {
@@ -69,6 +72,23 @@ public class ServerTimer extends TimerTask {
             }
         });
         toBeRemoved.forEach(entities::remove);
+
+        int chainLoop = 0;
+        while (chainLoop < chains.size()){
+            Handler handler = chains.get(chainLoop);
+            handler.handle();
+            if (handler.toBeRemoved()){
+                chains.remove(chainLoop);
+            }
+            else{
+                chainLoop++;
+            }
+        }
+
+        newEntities.forEach((entityUUID, entity) ->{
+            entities.put(entityUUID, entity);
+            createdEntities.add(new Pair<>(now, entity));
+        });
 
         players.forEach(player -> {
             var newProjectiles = player.processShooting(elapsedTime);
@@ -100,6 +120,8 @@ public class ServerTimer extends TimerTask {
         enemyCount = room.enemyCount;
         existingDoors = currentLevel.getDoors();
         entities.clear();
+        newEntities.clear();
+        chains.clear();
         for (PlayerHandler player: players){
             entities.put(player.getPlayerUUID(),player.getPlayer());
             player.getPlayer().SetPosition(room.getPlayerPosition());
@@ -120,5 +142,13 @@ public class ServerTimer extends TimerTask {
         createdEntities.clear();
         destroyedEntities.clear();
         return syncPacket;
+    }
+
+    public synchronized static void addChain(Handler handler){
+        chains.add(handler);
+    }
+
+    public synchronized static void addNewEntity(EntityWrapper entity, UUID uuid){
+        newEntities.put(uuid, entity);
     }
 }

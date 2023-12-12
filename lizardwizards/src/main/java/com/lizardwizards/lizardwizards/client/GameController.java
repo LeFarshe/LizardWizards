@@ -8,6 +8,7 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
+import com.lizardwizards.lizardwizards.core.gameplay.projectiles.TurretProjectile;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 public class GameController {
-    HashMap<UUID, EntityWrapper> entities = new HashMap<>();
+    public HashMap<UUID, EntityWrapper> entities = new HashMap<>();
     EntityWrapper currentPlayer;
     PlayerControls playerControls = new PlayerControls();
     Canvas root;
@@ -29,6 +30,7 @@ public class GameController {
         new GameHUD();
         this.root = root;
         gc = root.getGraphicsContext2D();
+        gc.setImageSmoothing(false);
         // TODO: not this preferably
         ((Pane)root.getParent()).getChildren().addAll(GameHUD.getInstance().getHudElements());
 
