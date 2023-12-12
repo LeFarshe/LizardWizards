@@ -28,7 +28,7 @@ public class TurretWand extends TurretWeapon{
         TurretProjectile current = null;
         IWeapon chainGun = turretWeapon.clone();
         for (int i = 0; i < projectiles; i++){
-            TurretProjectile newProjectile = new TurretProjectile(new Projectile(damage, shotSpeed, shotDuration, position, direction, projectileSize), 1000, chainGun);
+            TurretProjectile newProjectile = new TurretProjectile(damage, shotSpeed, shotDuration, position, direction, chainGun);
             projectileList.add(newProjectile);
             direction.Rotate(spreadPerIteration);
             newProjectile.setNext(current);

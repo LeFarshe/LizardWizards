@@ -19,12 +19,12 @@ public class ServerTimer extends TimerTask {
     private long time;
     public static Level currentLevel;
     private final LevelFacade levelFacade;
-    public static final HashMap<UUID, EntityWrapper> entities = new HashMap<>();
+    public final HashMap<UUID, EntityWrapper> entities = new HashMap<>();
     private final List<PlayerHandler> players;
     private final Session currentSession;
     private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
-    private static HashMap<UUID, EntityWrapper> newEntities = new HashMap<>();
+    private static final HashMap<UUID, EntityWrapper> newEntities = new HashMap<>();
     private static final List<Handler> chains = new ArrayList<>();
 
     private final List<Collider> doors = new ArrayList<>();
