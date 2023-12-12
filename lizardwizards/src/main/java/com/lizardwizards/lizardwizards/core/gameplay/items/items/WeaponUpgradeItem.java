@@ -18,7 +18,8 @@ public class WeaponUpgradeItem extends Item {
     @Override
     public void collect(Player player) {
         if (player.getCurrentWeapon() instanceof TurretWeapon){
-            upgrade.upgrade(((TurretWeapon) player.getCurrentWeapon()).getWeapon());
+            TurretWeapon turretWeapon = (TurretWeapon) player.getCurrentWeapon();
+            turretWeapon.setWeapon(upgrade.upgrade(turretWeapon.getWeapon()));
         }
         else {
             int currentWeapon = player.currentWeapon;
