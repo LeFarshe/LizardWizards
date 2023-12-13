@@ -57,7 +57,6 @@ public class ServerTimer extends TimerTask {
         double elapsedTime = (now-time) / 1000.0;
 
         List<UUID> toBeRemoved = new LinkedList<>();
-        newEntities.clear();
         entities.forEach((entityUUID, entity) -> {
             entity.MoveByDelta(elapsedTime, entities);
             if (entity.entity.IsDestroyed()) {
@@ -89,6 +88,7 @@ public class ServerTimer extends TimerTask {
             entities.put(entityUUID, entity);
             createdEntities.add(new Pair<>(now, entity));
         });
+        newEntities.clear();
 
         players.forEach(player -> {
             var newProjectiles = player.processShooting(elapsedTime);
@@ -105,7 +105,7 @@ public class ServerTimer extends TimerTask {
         time = now;
         for(PlayerHandler player: players) {
             for (int i = 0; i < 4; i++){
-                if (enemyCount == 0 && doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
+                if (enemyCount <= 0 && doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
                     currentLevel.moveDirectionally(i + 1);
                     loadRoom();
                     break;

@@ -41,7 +41,7 @@ public class Session {
         return gameState;
     }
 
-    public void sendToPlayers(SentServerData sentServerData) {
+    public synchronized void sendToPlayers(SentServerData sentServerData) {
         try {
             for (PlayerHandler x : players) {
                 x.sendToPlayer(sentServerData);
