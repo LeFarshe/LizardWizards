@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Timer;
 
@@ -18,6 +19,11 @@ public class Server implements Runnable{
     public static Session session;
     public static ServerTimer serverTimer;
 
+    // TODO: turn server into an singleton
+    public Server(ServerSocket serverSocket){
+        Server.session = new Session();
+        this.serverSocket = serverSocket;
+    }
     @Override
     public void run() {
         try {
@@ -67,8 +73,9 @@ public class Server implements Runnable{
                 outputStream.close();
                 socket.close();
             }
-        }
-        catch (IOException e) {
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             try {
                 e.printStackTrace();
                 stopServer();
@@ -77,13 +84,6 @@ public class Server implements Runnable{
                 ex.printStackTrace();
             }
         }
-    }
-
-
-    // TODO: turn server into an singleton
-    public Server(ServerSocket serverSocket){
-        Server.session = new Session();
-        this.serverSocket = serverSocket;
     }
 
     public void stopServer() throws IOException {

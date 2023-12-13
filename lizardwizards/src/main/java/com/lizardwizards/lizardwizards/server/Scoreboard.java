@@ -17,6 +17,7 @@ public class Scoreboard {
     }
 
     // TODO: this should ideally not be here, but i currently don't want to bother
+    // TODO: fuck, now i have to bother
     private void sendScoreboardUpdate() {
         if (Server.session != null)
             Server.session.sendToPlayers(new ScoreboardSyncPacket(score, maxBossHealth, bossHealth));
