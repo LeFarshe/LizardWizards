@@ -50,7 +50,7 @@ public enum ServerCommands {
             for (var enemy : Enemies.values()) {
                 if (enemy.name().compareToIgnoreCase(args[0]) == 0) {
                     EntityWrapper ew = enemy.getEntityWrapper(pos);
-                    ServerTimer.addNewEntity(ew, ew.entity.uuid);
+                    Server.serverTimer.addNewEntity(ew, ew.entity.uuid);
                     return;
                 }
             }
@@ -74,7 +74,7 @@ public enum ServerCommands {
                     EntitySprite sprite = item.getSprite();
                     Collider collider = Collider.NewRectangle(pos, item.getSize().x, item.getSize().y, CollisionLayer.Item);
                     EntityWrapper ew = new EntityWrapper(itemHolder, sprite, collider);
-                    ServerTimer.addNewEntity(ew, ew.entity.uuid);
+                    Server.serverTimer.addNewEntity(ew, ew.entity.uuid);
                     return;
                 }
             }

@@ -4,15 +4,18 @@ import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultStateChanger;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.RandomWanderState;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.ShootRandomPlayerState;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.Shotgun;
 
-public class StandardEnemy extends Enemy {
+import java.util.Random;
 
-    public StandardEnemy(Vector2 position) {
-        super(5, 100, position);
+public class FlyWithAGun extends Enemy {
+
+    public FlyWithAGun(Vector2 position) {
+        super(5, 50, position);
         this.position = position;
         SetPosition(position);
-         stateChanger = new DefaultStateChanger(new RandomWanderState(this));
+        stateChanger = new DefaultStateChanger(new ShootRandomPlayerState(this, new Shotgun(), 2));
     }
 
     @Override

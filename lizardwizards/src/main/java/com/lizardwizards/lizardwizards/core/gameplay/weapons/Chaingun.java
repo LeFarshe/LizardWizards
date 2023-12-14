@@ -13,7 +13,7 @@ public class Chaingun extends Weapon{
     int projectiles = 10;
     double spread = 0.5;
     int projectilesShot  = 0;
-    Chaingun() {
+    public Chaingun() {
         super(1,300, 2, 10, new Vector2(4,4),
         new ImageSprite("images/weapons/Chaingun.png"));
     }

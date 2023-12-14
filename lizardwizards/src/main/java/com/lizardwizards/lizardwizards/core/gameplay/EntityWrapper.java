@@ -86,12 +86,6 @@ public class EntityWrapper implements Serializable, Cloneable {
        position = entity.GetPosition();
     }
 
-    public EntityWrapper cloneAndReplacePosition() { // This is for a deep enough copy of positions
-        var ew = new EntityWrapper(this.entity, this.sprite, this.collider);
-        ew.position = position.Copy();
-        return ew;
-    }
-
     @Override
     public EntityWrapper clone() {
         try {

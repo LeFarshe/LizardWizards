@@ -20,11 +20,11 @@ public class ServerTimer extends TimerTask {
     public static Level currentLevel;
     private final LevelFacade levelFacade;
     public final HashMap<UUID, EntityWrapper> entities = new HashMap<>();
-    private final List<PlayerHandler> players;
+    public final List<PlayerHandler> players;
     private final Session currentSession;
     private final LinkedList<Pair<Long, EntityWrapper>> createdEntities;
     private final List<EntityWrapper> destroyedEntities;
-    private static final HashMap<UUID, EntityWrapper> newEntities = new HashMap<>();
+    private final HashMap<UUID, EntityWrapper> newEntities = new HashMap<>();
     private static final List<Handler> chains = new ArrayList<>();
 
     private final List<Collider> doors = new ArrayList<>();
@@ -148,7 +148,7 @@ public class ServerTimer extends TimerTask {
         chains.add(handler);
     }
 
-    public synchronized static void addNewEntity(EntityWrapper entity, UUID uuid){
+    public synchronized void addNewEntity(EntityWrapper entity, UUID uuid){
         newEntities.put(uuid, entity);
     }
 }
