@@ -11,8 +11,13 @@ import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemies;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.StandardEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.items.ItemHolder;
 import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrade;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrades;
+import com.lizardwizards.lizardwizards.core.gameplay.levels.RoomEnumerator;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 public enum ServerCommands {
     HELP ("help", "Prints information about server commands") {
@@ -37,8 +42,8 @@ public enum ServerCommands {
 
         @Override
         public void execute(String... args) {
-            if (args.length < 1) {
-                System.out.println(description);
+            if (args.length != 1) {
+                System.out.println("Available options: " + Arrays.toString(Enemies.values()));
                 return;
             }
             Vector2 pos = new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax / 2);
@@ -55,8 +60,8 @@ public enum ServerCommands {
     SPAWN_ITEM ("item", "(item <item name>) Spawns the selected item") {
         @Override
         public void execute(String... args) {
-            if (args.length < 1) {
-                System.out.println(description);
+            if (args.length != 1) {
+                System.out.println("Available options: " + Arrays.toString(WeaponUpgrades.values()));
                 return;
             }
             Vector2 pos = new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax / 2);
@@ -76,7 +81,45 @@ public enum ServerCommands {
             System.out.println("Could not find item " + args[0]);
         }
     },
-    // Teleporting to specific rooms could be nice, but don't want to fuck with Level right now
+    TELEPORT_TO_ROOM ("goto", "(goto <room type> Teleports the players to the specified room type if it can be found") {
+        @Override
+        public void execute(String... args) {
+            if (args.length != 1) {
+                System.out.println("Available options: " + Arrays.toString(RoomEnumerator.values()));
+                return;
+            }
+
+            for (var roomType : RoomEnumerator.values()) {
+                if (roomType.name().compareToIgnoreCase(args[0]) == 0) {
+
+                    var level = ServerTimer.currentLevel;
+                    Vector2 lastAlmostMatch = null;
+                    for (Vector2 room : level) {
+                        var roomData = level.getRoom(room);
+                        if (roomData.getRoomID() == roomType) {
+                            if (!roomData.isCleared()) {
+                                level.teleport(room,0);
+                                Server.serverTimer.loadRoom();
+                                System.out.println("Teleporting");
+                                return;
+                            }
+                            lastAlmostMatch = room;
+                        }
+                    }
+                    if (lastAlmostMatch != null){
+                        level.teleport(lastAlmostMatch,0);
+                        Server.serverTimer.loadRoom();
+                        System.out.println("Teleporting");
+                        return;
+                    }
+                    System.out.println("Could not find room " + args[0] + " in current level");
+                    return;
+                }
+            }
+            System.out.println("Could not find room type " + args[0]);
+
+        }
+    },
     NOT_FOUND ("", null) { // Has to be last defined enumerator
         @Override
         public boolean checkMatch(String command) {
