@@ -1,7 +1,5 @@
 package com.lizardwizards.lizardwizards.server;
 
-import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
-import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;

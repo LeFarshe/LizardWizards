@@ -6,18 +6,14 @@ import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.BigBugEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemies;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.StandardEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.items.ItemHolder;
 import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
-import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrade;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrades;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.RoomEnumerator;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 public enum ServerCommands {
     HELP ("help", "Prints information about server commands") {

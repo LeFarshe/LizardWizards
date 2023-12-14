@@ -1,6 +1,5 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
-import com.lizardwizards.lizardwizards.core.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,6 @@ public class LaggyProjectileCaretaker extends ProjectileDecorator{
 
     @Override
     public IProjectile clone() {
-        LaggyProjectileCaretaker clone = new LaggyProjectileCaretaker(wrappedProjectile.clone());
-        return clone;
+        return new LaggyProjectileCaretaker(wrappedProjectile.clone());
     }
 }

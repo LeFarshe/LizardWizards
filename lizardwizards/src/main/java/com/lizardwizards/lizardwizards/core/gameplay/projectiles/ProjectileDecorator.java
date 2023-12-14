@@ -1,13 +1,10 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
-import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-
-import java.util.Dictionary;
 
 public abstract class ProjectileDecorator extends IProjectile {
     protected final IProjectile wrappedProjectile;
