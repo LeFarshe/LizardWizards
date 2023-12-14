@@ -7,13 +7,12 @@ import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultSta
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.ShootRandomPlayerState;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.Shotgun;
 
-import java.util.Random;
-
 public class FlyWithAGun extends Enemy {
 
     public FlyWithAGun(Vector2 position) {
         super(5, 50, position);
         this.position = position;
+        scoreReward = 15;
         SetPosition(position);
         stateChanger = new DefaultStateChanger(new ShootRandomPlayerState(this, new Shotgun(), 2));
     }

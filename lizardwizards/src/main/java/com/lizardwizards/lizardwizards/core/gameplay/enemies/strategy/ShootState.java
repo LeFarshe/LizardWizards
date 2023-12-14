@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
+import com.lizardwizards.lizardwizards.core.gameplay.Utils;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemy;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
@@ -22,7 +23,7 @@ public class ShootState extends EnemyStrategyState {
     @Override
     public Vector2 getMovementDirection(double delta) {
         var projectiles = weapon.ContinueShooting(delta, getTargetDirection(), parent.GetPosition());
-        if (projectiles != null) {
+        if (projectiles != null && Utils.isServer()) {
             projectiles.forEach(p -> {
                 var entity = new EntityWrapper(p, p.GetSprite(), p.GetCollider(CollisionLayer.EnemyProjectile));
                 Server.serverTimer.addNewEntity(entity, p.uuid);

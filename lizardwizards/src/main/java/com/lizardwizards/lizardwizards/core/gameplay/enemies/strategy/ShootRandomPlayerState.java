@@ -6,6 +6,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemy;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
 
 import static com.lizardwizards.lizardwizards.core.gameplay.Utils.getRandomPlayer;
+import static com.lizardwizards.lizardwizards.core.gameplay.Utils.isServer;
 
 public class ShootRandomPlayerState extends ShootState {
     final double aggroDelay;
@@ -22,7 +23,7 @@ public class ShootRandomPlayerState extends ShootState {
     @Override
     public Vector2 getMovementDirection(double delta) {
         aggroTimer -= delta;
-        if (aggroTimer < 0) {
+        if (aggroTimer < 0 && isServer()) {
             currentTarget = getRandomPlayer();
             aggroTimer = aggroDelay;
         }

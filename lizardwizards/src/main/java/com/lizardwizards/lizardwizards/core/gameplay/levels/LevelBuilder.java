@@ -1,7 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.levels;
 
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.IEnemyFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 
