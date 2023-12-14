@@ -1,19 +1,11 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
-import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
-import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
-import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 public class DefaultEnemyFactory implements IEnemyFactory {
 
     @Override
     public EntityWrapper createEnemy(Vector2 position) {
-        Enemy enemy = new StandardEnemy(position);
-        EntitySprite sprite = enemy.getSprite();
-        var w = sprite.getWidth();
-        var h = sprite.getHeight();
-        Collider collider = Collider.NewRectangle(position, w, h, CollisionLayer.Enemy);
-        return new EntityWrapper(enemy, sprite, collider);
+        return Enemies.Fly.getEntityWrapper(position);
     }
 }

@@ -3,14 +3,13 @@ package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.sprites.SpriteSheet;
-import com.lizardwizards.lizardwizards.core.Utils;
+import com.lizardwizards.lizardwizards.core.gameplay.Utils;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.chain.Handler;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
-import com.lizardwizards.lizardwizards.server.Server;
 import com.lizardwizards.lizardwizards.server.ServerTimer;
 
 import java.io.Serializable;

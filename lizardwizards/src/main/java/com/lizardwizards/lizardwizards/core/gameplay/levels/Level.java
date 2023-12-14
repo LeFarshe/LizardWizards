@@ -28,7 +28,6 @@ public class Level implements Iterable<Vector2> {
 
     public boolean[] getDoors(){
         boolean[] enterableDirections = new boolean[4];
-        Vector2 newPos;
 
         for (int i = 0; i < 4; i++){
             enterableDirections[i] = canMove(directionalPosition(i + 1));
@@ -54,11 +53,13 @@ public class Level implements Iterable<Vector2> {
     }
 
     public boolean canMove(Vector2 position){
-        if (position.x >= size || position.x < 0 || position.y >= size || position.y < 0 || rooms[(int)position.x][(int)position.y] == null)
-        {
-            return false;
-        }
-        return true;
+        return !(position.x >= size) && !(position.x < 0) && !(position.y >= size) && !(position.y < 0) && rooms[(int) position.x][(int) position.y] != null;
+    }
+
+    public RoomData getRoom(Vector2 position) {
+        if (!canMove(position))
+            return null;
+        return rooms[(int)position.x][(int)position.y];
     }
 
     private Vector2 directionalPosition(int direction){

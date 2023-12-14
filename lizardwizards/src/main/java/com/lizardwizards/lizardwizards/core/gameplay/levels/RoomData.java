@@ -14,6 +14,12 @@ public class RoomData implements Cloneable{
     public RoomData(RoomEnumerator id){
         this.id = id;
     }
+    public RoomEnumerator getRoomID() {
+        return id;
+    }
+    public boolean isCleared() {
+        return cleared;
+    }
     public void setCleared() { cleared = true;}
     public void addItem(Item item, Vector2 position){
         itemList.add(new ExistingItem(item, position));
