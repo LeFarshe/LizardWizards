@@ -1,5 +1,7 @@
 package com.lizardwizards.lizardwizards.server;
 
+import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
 import com.lizardwizards.lizardwizards.core.gameplay.*;
@@ -28,13 +30,15 @@ public class ServerTimer extends TimerTask {
     private static final List<Handler> chains = new ArrayList<>();
 
     private final List<Collider> doors = new ArrayList<>();
+    private final Collider trapDoor;
     private boolean[] existingDoors;
     private int enemyCount;
 
     public ServerTimer() {
         levelFacade = new LevelFacade();
-        currentLevel = levelFacade.getLevel("Level1");
+        currentLevel = levelFacade.getLevel(1);
 
+        trapDoor = Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2,RoomInformation.yMax / 5), 32,32, CollisionLayer.Player);
         doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, 0), 55,20, CollisionLayer.Player));
         doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax, RoomInformation.yMax / 2), 20,55, CollisionLayer.Player));
         doors.add(Collider.NewRectangle(new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax), 55,20, CollisionLayer.Player));
@@ -105,6 +109,9 @@ public class ServerTimer extends TimerTask {
         time = now;
         for(PlayerHandler player: players) {
             for (int i = 0; i < 4; i++){
+                if (currentLevel.getCurrentRoom().isBossRoom() && currentLevel.getCurrentRoom().isCleared() && trapDoor.Collide(player.getPlayer().collider)){
+                    newLevel(currentLevel.level + 1, 100 * currentLevel.level);
+                }
                 if (enemyCount <= 0 && doors.get(i).Collide(player.getPlayer().collider) && existingDoors[i]) {
                     currentLevel.moveDirectionally(i + 1);
                     loadRoom();
@@ -150,5 +157,10 @@ public class ServerTimer extends TimerTask {
 
     public synchronized static void addNewEntity(EntityWrapper entity, UUID uuid){
         newEntities.put(uuid, entity);
+    }
+    public synchronized void newLevel(int nextLevel, int score){
+        currentLevel = levelFacade.getLevel(nextLevel);
+        Scoreboard.getInstance().addScore(score);
+        loadRoom();
     }
 }
