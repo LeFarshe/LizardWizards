@@ -133,7 +133,6 @@ public class Projectile extends IProjectile {
     public Projectile clone() {
 
         Projectile clone = new Projectile(this);
-        clone.uuid = uuid;
         if (direction != null) {
             clone.direction = direction.Copy();
         }
