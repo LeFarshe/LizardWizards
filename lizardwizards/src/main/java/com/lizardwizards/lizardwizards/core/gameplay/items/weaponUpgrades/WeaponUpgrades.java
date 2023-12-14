@@ -5,5 +5,6 @@ public enum WeaponUpgrades {
     DoubleCaliber,
     DoubleShots,
     Spectral,
-    TenetShots
+    TenetShots,
+    LaggyShots
 }

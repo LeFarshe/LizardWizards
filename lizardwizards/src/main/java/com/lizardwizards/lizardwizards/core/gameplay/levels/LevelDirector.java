@@ -30,16 +30,22 @@ public class LevelDirector {
         GenerationRoomData bossRoom = new GenerationRoomData(bossRoomData, 1, new boolean[] {true, true, true, true});
         bossRooms.add(bossRoom);
     }
-    public Level testLevel(LevelBuilder builder, WeaponUpgradeFactory weaponUpgradeFactory){
+    public Level getLevel(LevelBuilder builder, WeaponUpgradeFactory weaponUpgradeFactory, int level){
         builder.reset();
-        builder.createLevelStructure(10, 3, 0.5);
+        int roomCount = 7 + 3 * level;
+        if (roomCount > 50){
+            roomCount = 50;
+        }
+        builder.createLevelStructure(roomCount, 3, 0.5);
         builder.setStartRoom(startRooms);
         builder.setNonSpecialRooms(basicRooms);
         builder.setBossRoom(bossRooms);
         builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
         builder.setRandomTreasureRoom(startRooms, weaponUpgradeFactory);
         builder.setDeadEnds(basicRooms);
-        return builder.build();
+        Level builtLevel = builder.build();
+        builtLevel.setLevel(level);
+        return builtLevel;
     }
 
 
