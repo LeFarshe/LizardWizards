@@ -81,7 +81,7 @@ public enum ServerCommands {
             System.out.println("Could not find item " + args[0]);
         }
     },
-    TELEPORT_TO_ROOM ("goto", "(goto <room type> Teleports the players to the specified room type if it can be found") {
+    TELEPORT_TO_ROOM ("goto", "(goto <room type>) Teleports the players to the specified room type if it can be found") {
         @Override
         public void execute(String... args) {
             if (args.length != 1) {
@@ -118,6 +118,22 @@ public enum ServerCommands {
             }
             System.out.println("Could not find room type " + args[0]);
 
+        }
+    },
+    NEXT_LEVEL("nextlevel", "Teleports the players to the next level"){
+        @Override
+        public void execute(String... args){
+            Server.serverTimer.newLevel(ServerTimer.currentLevel.level, 0);
+        }
+    },
+    LEVEL("level", "(level <level number>) Teleports the players to the specified level."){
+        @Override
+        public void execute(String... args){
+            if (args.length != 1){
+                System.out.println("There must be one number");
+                return;
+            }
+            Server.serverTimer.newLevel(Integer.parseInt(args[0]), 0);
         }
     },
     NOT_FOUND ("", null) { // Has to be last defined enumerator
