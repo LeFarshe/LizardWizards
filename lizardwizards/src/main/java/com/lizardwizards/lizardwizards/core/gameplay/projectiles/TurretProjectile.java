@@ -10,7 +10,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.chain.Handler;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
-import com.lizardwizards.lizardwizards.server.ServerTimer;
+import com.lizardwizards.lizardwizards.server.Server;
 
 import java.io.Serializable;
 import java.util.List;
@@ -66,7 +66,7 @@ public class TurretProjectile extends Projectile implements Handler {
 
         for (IProjectile projectile: projectiles){
             EntityWrapper entity = new EntityWrapper(projectile, projectile.GetSprite(), projectile.GetCollider(CollisionLayer.PlayerProjectile));
-            ServerTimer.addNewEntity(entity, projectile.uuid);
+            Server.serverTimer.addNewEntity(entity, projectile.uuid);
         }
 
     }

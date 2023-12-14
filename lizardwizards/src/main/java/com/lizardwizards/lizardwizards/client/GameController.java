@@ -147,6 +147,10 @@ public class GameController {
         GameHUD.getInstance().switchWeapon(playerEntity.getCurrentWeapon());
     }
 
+    public EntityWrapper getCurrentPlayer() {
+        return currentPlayer.clone();
+    }
+
     private void redraw() {
         gc.clearRect(0, 0, root.getWidth(), root.getHeight());
         entities.forEach((uuid, entity) -> {

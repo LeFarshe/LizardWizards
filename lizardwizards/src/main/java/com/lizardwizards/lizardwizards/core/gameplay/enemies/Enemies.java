@@ -14,6 +14,12 @@ public enum Enemies {
             return new StandardEnemy(position);
         }
     },
+    FlyWithGun {
+        @Override
+        public Enemy spawn(Vector2 position) {
+            return new FlyWithAGun(position);
+        }
+    },
 
     // Bosses
     BigBug {
