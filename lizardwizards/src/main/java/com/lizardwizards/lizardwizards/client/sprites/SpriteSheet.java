@@ -2,42 +2,56 @@ package com.lizardwizards.lizardwizards.client.sprites;
 
 import javafx.scene.canvas.GraphicsContext;
 
-import java.io.Serializable;
-import java.util.function.Supplier;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
-public class SpriteSheet extends EntitySprite {
-    Supplier<EntitySprite> spriteSupplier;
-    EntitySprite currentSprite;
+public class SpriteSheet extends EntitySprite implements Iterable<EntitySprite> {
 
-    public SpriteSheet(Supplier<EntitySprite> spriteSupplier) {
-        this.spriteSupplier = spriteSupplier;
-        currentSprite = spriteSupplier.get();
+    private final List<EntitySprite> sprites ;
+    private Iterator<EntitySprite> spriteIterator;
+    private EntitySprite current;
+
+    public SpriteSheet(List<EntitySprite> sprites){
+        this.sprites = sprites;
+        this.spriteIterator = iterator();
+        current = sprites.get(0);
     }
 
     @Override
     public double getWidth() {
-        return currentSprite.getWidth();
+        return current.getWidth();
     }
 
     @Override
     public double getHeight() {
-        return currentSprite.getHeight();
+        return current.getHeight();
     }
 
     @Override
     public void scale(double sizeMultiplier) {
-        currentSprite.scale(sizeMultiplier);
+        this.forEach(sprite -> {
+            sprite.scale(sizeMultiplier);
+        });
     }
 
-    //TODO: this is a dirty little hack
-    public void updateSupplier(Supplier<EntitySprite> supplier) {
-        spriteSupplier = supplier;
-    }
 
     @Override
     public void drawSprite(GraphicsContext gc) {
-        currentSprite = spriteSupplier.get();
-        currentSprite.setPosition(position);
-        currentSprite.drawSprite(gc);
+        if (!spriteIterator.hasNext()){
+            this.spriteIterator = sprites.listIterator();
+        }
+        var sprite = spriteIterator.next();
+        sprite.drawSprite(gc);
+        current = sprite;
+    }
+
+    public void add (EntitySprite entitySprite){
+        sprites.add(entitySprite);
+    }
+
+    @Override
+    public Iterator<EntitySprite> iterator() {
+        return sprites.iterator();
     }
 }
