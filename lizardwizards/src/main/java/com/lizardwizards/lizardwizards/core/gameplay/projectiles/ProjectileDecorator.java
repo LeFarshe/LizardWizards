@@ -89,4 +89,10 @@ public abstract class ProjectileDecorator extends IProjectile {
     public Vector2 getDirection() { return wrappedProjectile.getDirection(); }
     @Override
     public void setDirection(Vector2 direction) { wrappedProjectile.setDirection(direction);}
+    @Override
+    public void setErase(boolean erase) { wrappedProjectile.setErase(erase);}
+    @Override
+    public LaggyProjectileSnapshot createSnapshot(){
+        return wrappedProjectile.createSnapshot();
+    }
 }

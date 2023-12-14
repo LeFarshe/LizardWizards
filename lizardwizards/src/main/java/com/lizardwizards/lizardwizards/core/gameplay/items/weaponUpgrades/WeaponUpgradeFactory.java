@@ -14,6 +14,7 @@ public class WeaponUpgradeFactory {
             case DoubleShots -> ans =  new DoubleShots();
             case Spectral -> ans =  new Spectral();
             case TenetShots-> ans = new TenetShots();
+            case LaggyShots -> ans = new LaggyShots();
         }
         return ans;
     }
