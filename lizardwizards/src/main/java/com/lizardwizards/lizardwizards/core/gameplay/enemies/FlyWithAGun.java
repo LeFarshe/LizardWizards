@@ -19,6 +19,6 @@ public class FlyWithAGun extends Enemy {
 
     @Override
     public EntitySprite getSprite() {
-        return new ImageSprite("images/enemies/Fly.png");
+        return new ImageSprite("images/enemies/FlyWithGun.png");
     }
 }
