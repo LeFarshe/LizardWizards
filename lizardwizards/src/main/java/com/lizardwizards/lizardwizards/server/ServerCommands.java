@@ -15,43 +15,30 @@ import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.Weapon
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrades;
 
 public enum ServerCommands {
-    HELP ("help") {
-        @Override
-        public String description() {
-            return "Prints information about server commands";
-        }
-
+    HELP ("help", "Prints information about server commands") {
         @Override
         public void execute(String... args) {
             for (var command : ServerCommands.values()) {
-                var desc = command.description();
+                var desc = command.description;
                 if (desc != null) {
                     System.out.printf("%s - %s\n", command.command, desc);
                 }
             }
         }
     },
-    START_SERVER ("startServer"){
-        @Override
-        public String description() {
-            return "Starts a new server with the next available port";
-        }
+    START_SERVER ("startServer", "Starts a new server with the next available port"){
 
         @Override
         public void execute(String... args){
             LizardWizardsServer.startServer();
         }
     },
-    SPAWN_MOB ("mob") {
-        @Override
-        public String description() {
-            return "(mob <mob id>) Spawns the selected monster";
-        }
+    SPAWN_MOB ("mob", "(mob <mob id>) Spawns the selected monster") {
 
         @Override
         public void execute(String... args) {
             if (args.length < 1) {
-                System.out.println(description());
+                System.out.println(description);
                 return;
             }
             Vector2 pos = new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax / 2);
@@ -65,16 +52,11 @@ public enum ServerCommands {
             System.out.println("Could not find enemy " + args[0]);
         }
     },
-    SPAWN_ITEM ("item") {
-        @Override
-        public String description() {
-            return "(item <item name>) Spawns the selected item";
-        }
-
+    SPAWN_ITEM ("item", "(item <item name>) Spawns the selected item") {
         @Override
         public void execute(String... args) {
             if (args.length < 1) {
-                System.out.println(description());
+                System.out.println(description);
                 return;
             }
             Vector2 pos = new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax / 2);
@@ -95,7 +77,7 @@ public enum ServerCommands {
         }
     },
     // Teleporting to specific rooms could be nice, but don't want to fuck with Level right now
-    NOT_FOUND ("") { // Has to be last defined enumerator
+    NOT_FOUND ("", null) { // Has to be last defined enumerator
         @Override
         public boolean checkMatch(String command) {
             this.command = command;
@@ -105,8 +87,10 @@ public enum ServerCommands {
     ;
 
     String command;
-    ServerCommands(String command) {
+    final String description;
+    ServerCommands(String command, String description) {
         this.command = command;
+        this.description = description;
     }
 
     public boolean checkMatch(String command) {
@@ -115,8 +99,5 @@ public enum ServerCommands {
 
     public void execute(String... args) {
         System.out.println("Could not find command " + this.command);
-    }
-    public String description() {
-        return null;
     }
 }
