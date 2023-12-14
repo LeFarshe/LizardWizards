@@ -7,6 +7,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.BigBugEnemy;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemies;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.StandardEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.items.ItemHolder;
 import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
@@ -53,27 +54,15 @@ public enum ServerCommands {
                 System.out.println(description());
                 return;
             }
-            EntityWrapper ew;
             Vector2 pos = new Vector2(RoomInformation.xMax / 2, RoomInformation.yMax / 2);
-            switch (args[0]) {
-                case "1" -> { //TODO: there NEEDS to be a better way of doing this
-                    var enemy = new BigBugEnemy(pos);
-                    var sprite = enemy.getSprite();
-                    var w = sprite.getWidth();
-                    var h = sprite.getHeight();
-                    Collider collider = Collider.NewRectangle(pos, w, h, CollisionLayer.Enemy);
-                    ew = new EntityWrapper(enemy, enemy.getSprite(), collider);
-                }
-                default -> {
-                    var enemy = new StandardEnemy(pos);
-                    var sprite = enemy.getSprite();
-                    var w = sprite.getWidth();
-                    var h = sprite.getHeight();
-                    Collider collider = Collider.NewRectangle(pos, w, h, CollisionLayer.Enemy);
-                    ew = new EntityWrapper(enemy, enemy.getSprite(), collider);
+            for (var enemy : Enemies.values()) {
+                if (enemy.name().compareToIgnoreCase(args[0]) == 0) {
+                    EntityWrapper ew = enemy.getEntityWrapper(pos);
+                    ServerTimer.addNewEntity(ew, ew.entity.uuid);
+                    return;
                 }
             }
-            ServerTimer.addNewEntity(ew, ew.entity.uuid);
+            System.out.println("Could not find enemy " + args[0]);
         }
     },
     SPAWN_ITEM ("item") {

@@ -1,4 +1,4 @@
-package com.lizardwizards.lizardwizards.core;
+package com.lizardwizards.lizardwizards.core.gameplay;
 
 import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.GameController;
