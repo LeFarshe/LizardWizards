@@ -6,7 +6,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.weapons.decorators.LaggySho
 
 public class LaggyShots extends WeaponUpgrade{
     public LaggyShots() {
-        super(new ImageSprite("images/items/Tenet.png"));
+        super(new ImageSprite("images/items/LaggyShots.png"));
     }
 
     @Override
