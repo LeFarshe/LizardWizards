@@ -3,9 +3,9 @@ package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.BoltEnergizerVisitor;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
@@ -29,5 +29,10 @@ public class Gun extends Weapon{
     @Override
     public Gun clone(){
         return (Gun)super.clone();
+    }
+
+    @Override
+    public Weapon accept(BoltEnergizerVisitor visitor){
+        return visitor.visit(this);
     }
 }
