@@ -49,7 +49,7 @@ public class RoomFactory {
             }
             case BossRoom -> {
                 if (!currentRoom.cleared) {
-                    AddEntity(CreateEnemy(new Vector2(900, 500), Enemies.BigBug), entities);
+                    AddEntity(CreateEnemy(new Vector2(900, 500), Enemies.Cicada), entities);
                 }
             }
         }
