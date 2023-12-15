@@ -5,8 +5,8 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultEnemyState;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultStateChanger;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.IStateChanger;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.DefaultStateChanger;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.IStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
@@ -31,7 +31,7 @@ public abstract class Enemy extends Entity {
 
     @Override
     public void MoveByDelta(double delta) {
-        Move(stateChanger.processDelta(delta).getMovementDirection(delta));
+        Move(stateChanger.processDelta(delta).getMovementDirection(delta).Multiply(speed*delta));
     }
 
     public void nextState() {

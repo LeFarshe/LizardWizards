@@ -1,4 +1,6 @@
-package com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy;
+package com.lizardwizards.lizardwizards.core.gameplay.enemies.state;
+
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.EnemyStrategyState;
 
 import java.util.List;
 
