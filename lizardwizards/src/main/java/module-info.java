@@ -32,6 +32,8 @@ module com.lizardwizards.lizardwizards {
     opens com.lizardwizards.lizardwizards.client.sprites to javafx.fxml;
     exports com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy;
     opens com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy to javafx.fxml;
+    exports com.lizardwizards.lizardwizards.core.gameplay.enemies.mediator;
+    opens com.lizardwizards.lizardwizards.core.gameplay.enemies.mediator to javafx.fxml;
     exports com.lizardwizards.lizardwizards.core.gameplay.enemies.state;
     opens com.lizardwizards.lizardwizards.core.gameplay.enemies.state to javafx.fxml;
 }
