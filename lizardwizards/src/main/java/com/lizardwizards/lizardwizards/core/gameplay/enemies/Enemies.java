@@ -27,7 +27,14 @@ public enum Enemies {
         public Enemy spawn(Vector2 position) {
             return new BigBugEnemy(position);
         }
-    };
+    },
+    Cicada {
+        @Override
+        public Enemy spawn(Vector2 position) {
+            return new CicadaWizardEnemy(position);
+        }
+    },
+    ;
 
     public Enemy spawn(Vector2 position) {
         return null;

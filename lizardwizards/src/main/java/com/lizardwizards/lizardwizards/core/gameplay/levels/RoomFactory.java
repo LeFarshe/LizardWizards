@@ -5,6 +5,7 @@ import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
+import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.Obstacle;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
@@ -24,6 +25,9 @@ public class RoomFactory {
         HashMap<UUID, EntityWrapper> entities = new HashMap<>();
         CreateWalls(entities);
         CreateDoors(entities, currentLevel.getDoors());
+        if (currentRoom.isBossRoom()){
+            CreateTrapDoor(entities);
+        }
         switch (currentRoom.id) {
             case BasicRoom -> {
                 if (!currentRoom.cleared) {
@@ -45,7 +49,7 @@ public class RoomFactory {
             }
             case BossRoom -> {
                 if (!currentRoom.cleared) {
-                    AddEntity(CreateEnemy(new Vector2(900, 500), Enemies.BigBug), entities);
+                    AddEntity(CreateEnemy(new Vector2(900, 500), Enemies.Cicada), entities);
                 }
             }
         }
@@ -116,5 +120,11 @@ public class RoomFactory {
         wallHorizontal = wallHorizontal.clone();
         wallHorizontal.SetPosition(new Vector2(-10, RoomInformation.yMax / 2));
         AddEntity(wallHorizontal, entities);
+    }
+
+    private void CreateTrapDoor(HashMap<UUID, EntityWrapper> entities){
+        Entity trapDoor = new Obstacle(new Vector2(RoomInformation.xMax / 2,RoomInformation.yMax / 5));
+        RectangleSprite trapDoorSprite = new RectangleSprite(new Vector2(0,0), new Vector2(32,32), new SpriteColor(2.0/3, 1.0/6, 1.0/6));
+        AddEntity(new EntityWrapper(trapDoor, trapDoorSprite, null), entities);
     }
 }

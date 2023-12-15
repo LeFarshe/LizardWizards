@@ -3,7 +3,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultStateChanger;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.DefaultStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.ShootRandomPlayerState;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.Shotgun;
 

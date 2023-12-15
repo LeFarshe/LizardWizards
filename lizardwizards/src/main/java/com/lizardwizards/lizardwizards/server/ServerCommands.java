@@ -6,18 +6,14 @@ import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.BigBugEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemies;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.StandardEnemy;
 import com.lizardwizards.lizardwizards.core.gameplay.items.ItemHolder;
 import com.lizardwizards.lizardwizards.core.gameplay.items.items.WeaponUpgradeItem;
-import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrade;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgradeFactory;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.WeaponUpgrades;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.RoomEnumerator;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 public enum ServerCommands {
     HELP ("help", "Prints information about server commands") {
@@ -81,7 +77,7 @@ public enum ServerCommands {
             System.out.println("Could not find item " + args[0]);
         }
     },
-    TELEPORT_TO_ROOM ("goto", "(goto <room type> Teleports the players to the specified room type if it can be found") {
+    TELEPORT_TO_ROOM ("goto", "(goto <room type>) Teleports the players to the specified room type if it can be found") {
         @Override
         public void execute(String... args) {
             if (args.length != 1) {
@@ -118,6 +114,22 @@ public enum ServerCommands {
             }
             System.out.println("Could not find room type " + args[0]);
 
+        }
+    },
+    NEXT_LEVEL("nextlevel", "Teleports the players to the next level"){
+        @Override
+        public void execute(String... args){
+            Server.serverTimer.newLevel(ServerTimer.currentLevel.level, 0);
+        }
+    },
+    LEVEL("level", "(level <level number>) Teleports the players to the specified level."){
+        @Override
+        public void execute(String... args){
+            if (args.length != 1){
+                System.out.println("There must be one number");
+                return;
+            }
+            Server.serverTimer.newLevel(Integer.parseInt(args[0]), 0);
         }
     },
     NOT_FOUND ("", null) { // Has to be last defined enumerator

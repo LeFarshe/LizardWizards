@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 public class Level implements Iterable<Vector2> {
     RoomData[][] rooms;
     int size;
+    public int level = 1;
     Vector2 currentPos;
     // 0 is center, 1 is up, continues clockwise until 4 which means left.
     public int enteredDirection = 0;
@@ -71,6 +72,10 @@ public class Level implements Iterable<Vector2> {
             newPos.y += (direction - 3) * (-1);
         }
         return newPos;
+    }
+
+    public void setLevel(int level){
+        this.level = level;
     }
 
     @Override

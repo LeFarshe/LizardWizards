@@ -128,6 +128,13 @@ public class Projectile extends IProjectile {
     public void setDuration(double duration) {
         this.duration = duration;
     }
+    @Override
+    public void setErase(boolean erase){ this.erase = erase;}
+
+    @Override
+    public LaggyProjectileSnapshot createSnapshot() {
+        return new LaggyProjectileSnapshot(this, direction, position, speed, duration, erase);
+    }
 
     @Override
     public Projectile clone() {

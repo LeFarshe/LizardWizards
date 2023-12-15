@@ -18,11 +18,8 @@ public class LevelFacade {
         weaponUpgradeFactory = new WeaponUpgradeFactory();
     }
 
-    public Level getLevel(String levelName){
-        if (levelName.equalsIgnoreCase("Level1")){
-            return levelDirector.testLevel(levelBuilder, weaponUpgradeFactory);
-        }
-        return null;
+    public Level getLevel(int level){
+        return levelDirector.getLevel(levelBuilder, weaponUpgradeFactory, level);
     }
 
     public RoomInformation getRoom(Level level){

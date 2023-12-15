@@ -58,8 +58,11 @@ public class LevelBuilder {
     }
 
     public void setBossRoom(List<GenerationRoomData> roomList) {
+        Vector2 bossRoom = deadEnds.get(deadEnds.size() - 1);
         setRoomRandom(deadEnds.get(deadEnds.size() - 1), roomList);
+        getRoomData(bossRoom).setBossRoom();
         deadEnds.remove(deadEnds.size() - 1);
+
     }
 
     private Vector2 setRandomDeadEnd(List<GenerationRoomData> roomList){

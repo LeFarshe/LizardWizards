@@ -5,7 +5,7 @@ import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.sprites.Sheet;
 import com.lizardwizards.lizardwizards.client.sprites.SpriteSheet;
 import com.lizardwizards.lizardwizards.core.Vector2;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultStateChanger;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.DefaultStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.RandomWanderState;
 
 import java.util.ArrayList;
