@@ -12,7 +12,7 @@ public class Spectral extends WeaponUpgrade{
         super(new ImageSprite("images/items/Spectral.png"));
     }
 
-    protected void applyUpgrade(IWeapon weapon) {
-        weapon = new SpectralDecorator(weapon);
+    protected IWeapon applyUpgrade(IWeapon weapon) {
+        return new SpectralDecorator(weapon);
     }
 }

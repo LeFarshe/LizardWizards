@@ -9,7 +9,7 @@ public class LaggyShots extends WeaponUpgrade{
         super(new ImageSprite("images/items/LaggyShots.png"));
     }
 
-    protected void applyUpgrade(IWeapon weapon) {
-        weapon = new LaggyShotsDecorator(weapon);
+    protected IWeapon applyUpgrade(IWeapon weapon) {
+        return new LaggyShotsDecorator(weapon);
     }
 }

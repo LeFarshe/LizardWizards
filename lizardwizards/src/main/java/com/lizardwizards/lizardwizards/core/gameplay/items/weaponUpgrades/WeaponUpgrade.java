@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.decorators.WeaponDecorator;
 
 import java.io.Serializable;
 
@@ -14,13 +15,12 @@ public abstract class WeaponUpgrade implements Serializable {
 
     // Template Method
     public final IWeapon upgrade(IWeapon weapon) {
-        applyUpgrade(weapon);
-        postUpgradeActions(weapon);
-        return weapon;
+        var upgradedWeapon = applyUpgrade(weapon);
+        postUpgradeActions(upgradedWeapon);
+        return upgradedWeapon;
     }
 
-
-    protected abstract void applyUpgrade(IWeapon weapon);
+    protected abstract IWeapon applyUpgrade(IWeapon weapon);
 
     protected void postUpgradeActions(IWeapon weapon) {
         playUpgradeAnimation(weapon);

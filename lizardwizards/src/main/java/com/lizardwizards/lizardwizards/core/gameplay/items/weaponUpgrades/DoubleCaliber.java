@@ -15,9 +15,10 @@ public class DoubleCaliber extends WeaponUpgrade{
     }
 
     @Override
-    protected void applyUpgrade(IWeapon weapon) {
+    protected IWeapon applyUpgrade(IWeapon weapon) {
         weapon.setDamage(weapon.getDamage() * damageMultiplier);
         weapon.setProjectileSize(weapon.getProjectileSize().Multiply(sizeMultiplier));
         weapon.setFireRate(weapon.getFireRate() * fireRateMultiplier);
+        return weapon;
     }
 }
