@@ -1,21 +1,25 @@
 package com.lizardwizards.lizardwizards.client.sprites;
 
+import com.lizardwizards.lizardwizards.core.Vector2;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.io.Serializable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
-public class SpriteSheet extends EntitySprite implements Iterable<EntitySprite> {
+public class SpriteSheet extends EntitySprite implements Serializable{
 
-    private final List<EntitySprite> sprites ;
-    private Iterator<EntitySprite> spriteIterator;
+    private final Sheet sprites;
     private EntitySprite current;
 
-    public SpriteSheet(List<EntitySprite> sprites){
+
+    public SpriteSheet(Sheet sprites){
         this.sprites = sprites;
-        this.spriteIterator = iterator();
-        current = sprites.get(0);
+        current = sprites.next();
+    }
+
+    public SpriteSheet(){
+        this.sprites = new Sheet();
     }
 
     @Override
@@ -30,28 +34,34 @@ public class SpriteSheet extends EntitySprite implements Iterable<EntitySprite> 
 
     @Override
     public void scale(double sizeMultiplier) {
-        this.forEach(sprite -> {
-            sprite.scale(sizeMultiplier);
-        });
+        for(int i = 0; i < sprites.size; i++){
+            sprites.next().scale(sizeMultiplier);
+        }
     }
 
+    @Override
+    public void setPosition(Vector2 position) {
+        for(int i = 0; i < sprites.size; i++){
+            sprites.next().setPosition(position);
+        }
+    }
 
     @Override
     public void drawSprite(GraphicsContext gc) {
-        if (!spriteIterator.hasNext()){
-            this.spriteIterator = sprites.listIterator();
-        }
-        var sprite = spriteIterator.next();
+        var sprite = sprites.next();
         sprite.drawSprite(gc);
         current = sprite;
     }
 
-    public void add (EntitySprite entitySprite){
-        sprites.add(entitySprite);
+    public boolean add (EntitySprite entitySprite){
+        return sprites.add(entitySprite);
     }
 
-    @Override
-    public Iterator<EntitySprite> iterator() {
-        return sprites.iterator();
+    public boolean remove (EntitySprite entitySprite){
+        return sprites.remove(entitySprite);
+    }
+
+    public List<EntitySprite> getChildren(){
+        return sprites.getList();
     }
 }
