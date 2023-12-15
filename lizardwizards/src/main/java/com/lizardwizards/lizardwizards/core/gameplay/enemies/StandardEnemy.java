@@ -3,13 +3,14 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.mediator.EnemyMediator;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.RandomWanderState;
 
 public class StandardEnemy extends Enemy {
 
     public StandardEnemy(Vector2 position) {
-        super(5, 100, position);
+        super(5, 100, position, new EnemyMediator());
         this.position = position;
         SetPosition(position);
          stateChanger = new DefaultStateChanger(new RandomWanderState(this));

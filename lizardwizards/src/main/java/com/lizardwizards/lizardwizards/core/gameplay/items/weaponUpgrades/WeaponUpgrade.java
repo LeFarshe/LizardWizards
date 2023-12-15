@@ -11,6 +11,23 @@ public abstract class WeaponUpgrade implements Serializable {
     public WeaponUpgrade(EntitySprite sprite){
         this.sprite = sprite;
     }
-    public abstract IWeapon upgrade(IWeapon weapon);
+
+    // Template Method
+    public final IWeapon upgrade(IWeapon weapon) {
+        applyUpgrade(weapon);
+        postUpgradeActions(weapon);
+        return weapon;
+    }
+
+
+    protected abstract void applyUpgrade(IWeapon weapon);
+
+    protected void postUpgradeActions(IWeapon weapon) {
+        playUpgradeAnimation(weapon);
+    }
+
+    protected void playUpgradeAnimation(IWeapon weapon) {
+        // Cia galima gal kokia animacija ideti, bet dbr no clue
+    }
     public EntitySprite getSprite() { return sprite; }
 }

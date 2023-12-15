@@ -11,8 +11,7 @@ public class DoubleShots extends WeaponUpgrade {
         super(new ImageSprite("images/items/DoubleShot.png"));
     }
 
-    @Override
-    public IWeapon upgrade(IWeapon weapon) {
-        return new DoubleShotsDecorator(weapon);
+    protected void applyUpgrade(IWeapon weapon) {
+        weapon = new DoubleShotsDecorator(weapon);
     }
 }
