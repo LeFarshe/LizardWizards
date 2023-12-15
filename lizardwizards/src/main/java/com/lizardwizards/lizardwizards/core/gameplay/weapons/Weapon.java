@@ -89,4 +89,9 @@ public abstract class Weapon implements Serializable, IWeapon {
     }
 
     public abstract Weapon accept(BoltEnergizerVisitor visitor);
+
+    @Override
+    public Weapon getBaseWeapon(){
+        return this;
+    }
 }

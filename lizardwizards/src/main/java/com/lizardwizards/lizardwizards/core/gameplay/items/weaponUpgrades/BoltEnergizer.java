@@ -13,8 +13,7 @@ public class BoltEnergizer extends WeaponUpgrade{
 
     @Override
     public IWeapon upgrade(IWeapon weapon) {
-        Weapon weapon1 = (Weapon) weapon;
-        weapon1.accept(visitor);
-        return weapon1;
+        weapon.getBaseWeapon().accept(visitor);
+        return weapon;
     }
 }

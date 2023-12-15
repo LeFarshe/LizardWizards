@@ -23,4 +23,5 @@ public interface IWeapon extends Cloneable, Serializable {
     List<IProjectile> ContinueShooting(double delta, Vector2 direction, Vector2 position);
     List<IProjectile> AddTimeWithoutShoot(double delta);
     IWeapon clone();
+    Weapon getBaseWeapon();
 }
