@@ -2,7 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
-import com.lizardwizards.lizardwizards.client.sprites.SpriteSheet;
+import com.lizardwizards.lizardwizards.client.sprites.SpriteFunction;
 import com.lizardwizards.lizardwizards.core.gameplay.Utils;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.EntityWrapper;
@@ -36,9 +36,9 @@ public class TurretProjectile extends Projectile implements Handler {
         spriteDefault = new ImageSprite("images/projectiles/TurretClosed.png");
         spriteShooting = new ImageSprite("images/projectiles/TurretShooting.png");
         spriteNotShooting = new ImageSprite("images/projectiles/TurretNotShooting.png");
-        entitySprite = new SpriteSheet((Supplier<EntitySprite> & Serializable)this::getTurretSprite);
+        entitySprite = new SpriteFunction((Supplier<EntitySprite> & Serializable)this::getTurretSprite);
         spriteSize = new Vector2(entitySprite.getWidth(), entitySprite.getHeight());
-        ((SpriteSheet)entitySprite).updateSupplier((Supplier<EntitySprite> & Serializable)() ->
+        ((SpriteFunction)entitySprite).updateSupplier((Supplier<EntitySprite> & Serializable)() ->
                 ((TurretProjectile)Utils.getEntityList().get(uuid).entity).getTurretSprite());
         turretWeapon = weapon;
     }

@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
+import com.lizardwizards.lizardwizards.client.sprites.SpriteFunction;
 import com.lizardwizards.lizardwizards.client.sprites.SpriteSheet;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
@@ -33,8 +34,8 @@ public class CicadaWizardEnemy extends BossEnemy {
         stage3Sprite.scale(2);
         stage4Sprite = new ImageSprite("images/enemies/Cicada4.png");
         stage4Sprite.scale(2);
-        sprite = new SpriteSheet(()-> stage1Sprite);
-        ((SpriteSheet)sprite).updateSupplier((Supplier<EntitySprite> & Serializable)() -> {
+        sprite = new SpriteFunction(()-> stage1Sprite);
+        ((SpriteFunction)sprite).updateSupplier((Supplier<EntitySprite> & Serializable)() -> {
             var hp = ((Enemy)Utils.getEntityList().get(uuid).entity).getHealth();
             if (hp < 50) {
                 return stage4Sprite;
