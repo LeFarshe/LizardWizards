@@ -10,6 +10,7 @@ public class WeaponUpgradeFactory {
         WeaponUpgrade ans = null;
         switch(upgrade){
             case Aggravator -> ans =  new Aggravator();
+            case BoltEnergizer -> ans = new BoltEnergizer();
             case DoubleCaliber -> ans =  new DoubleCaliber();
             case DoubleShots -> ans =  new DoubleShots();
             case Spectral -> ans =  new Spectral();

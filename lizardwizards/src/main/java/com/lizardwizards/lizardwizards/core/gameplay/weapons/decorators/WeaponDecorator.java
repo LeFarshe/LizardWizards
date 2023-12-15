@@ -4,6 +4,7 @@ import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.weapons.IWeapon;
+import com.lizardwizards.lizardwizards.core.gameplay.weapons.Weapon;
 
 import java.util.List;
 
@@ -65,5 +66,10 @@ public abstract class WeaponDecorator implements IWeapon {
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Weapon getBaseWeapon(){
+        return  wrappedWeapon.getBaseWeapon();
     }
 }

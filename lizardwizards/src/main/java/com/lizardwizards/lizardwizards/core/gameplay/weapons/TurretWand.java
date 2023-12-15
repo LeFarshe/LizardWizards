@@ -2,8 +2,8 @@ package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.BoltEnergizerVisitor;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
-import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.TurretProjectile;
 import com.lizardwizards.lizardwizards.server.ServerTimer;
 
@@ -41,4 +41,8 @@ public class TurretWand extends TurretWeapon{
         return projectileList;
     }
 
+    @Override
+    public Weapon accept(BoltEnergizerVisitor visitor){
+        return visitor.visit(this);
+    }
 }
