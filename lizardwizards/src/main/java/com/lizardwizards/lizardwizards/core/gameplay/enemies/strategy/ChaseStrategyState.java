@@ -20,7 +20,7 @@ public class ChaseStrategyState extends EnemyStrategyState {
 
     @Override
     public Vector2 getMovementDirection(double delta) {
-        if (target.IsDestroyed()) {
+        if (target.IsDestroyed() && Utils.isServer()) {
             target = Utils.getRandomPlayer();
             return new Vector2(0, 0);
         }

@@ -12,10 +12,10 @@ import java.util.Arrays;
 public class BigBugEnemy extends BossEnemy {
     public BigBugEnemy(Vector2 position) {
         super(100, 300, position);
-        stateChanger = new TimedStateChanger(5, Arrays.asList(
+        stateChanger = new TimedStateChanger(5,
                 new MoveTowardsState(this, position),
                 new RandomWanderState(this)
-        ));
+        );
     }
 
     @Override

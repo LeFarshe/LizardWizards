@@ -2,26 +2,24 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies.state;
 
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.EnemyStrategyState;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class TimedStateChanger implements IStateChanger {
+public class TimedStateChanger extends IStateChanger {
     double switchDelay;
     double switchTimer = switchDelay;
     int currentState = 0;
     List<EnemyStrategyState> enemyStates;
 
-    public TimedStateChanger(double switchDelay, List<EnemyStrategyState> strategyStates) {
+    public TimedStateChanger(double switchDelay, EnemyStrategyState... strategyStates) {
         this.switchDelay = switchDelay;
-        enemyStates = strategyStates;
+        enemyStates = Arrays.stream(strategyStates).toList();
     }
 
     @Override
     public EnemyStrategyState processDelta(double timeDelta) {
         switchTimer -= timeDelta;
-        if (shouldSwitch()) {
-            return switchState();
-        }
-        return getState();
+        return super.processDelta(timeDelta);
     }
 
     @Override

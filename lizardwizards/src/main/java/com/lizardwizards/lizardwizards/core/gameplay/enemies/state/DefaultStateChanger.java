@@ -2,7 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.enemies.state;
 
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.EnemyStrategyState;
 
-public class DefaultStateChanger implements IStateChanger {
+public class DefaultStateChanger extends IStateChanger {
     EnemyStrategyState state;
 
     public DefaultStateChanger(EnemyStrategyState enemyStrategyState) {

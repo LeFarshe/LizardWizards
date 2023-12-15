@@ -4,12 +4,30 @@ import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.EnemyStrat
 
 import java.io.Serializable;
 
-public interface IStateChanger extends Serializable {
-    public EnemyStrategyState processDelta(double timeDelta);
+public abstract class IStateChanger implements Serializable {
+    IStateChanger extraChanger;
 
-    public boolean shouldSwitch();
+    public EnemyStrategyState processDelta(double timeDelta){
+        if (extraChanger != null) {
+            extraChanger.processDelta(timeDelta);
+            if (extraChanger.shouldSwitch()){
+                return extraChanger.switchState();
+            }
+        }
+        if (shouldSwitch()) {
+            return switchState();
+        }
+        return getState();
+    }
 
-    public EnemyStrategyState getState();
+    public IStateChanger extraClause(IStateChanger extraChanger) {
+        this.extraChanger = extraChanger;
+        return this;
+    }
 
-    public EnemyStrategyState switchState();
+    public abstract boolean shouldSwitch();
+
+    public abstract EnemyStrategyState getState();
+
+    public abstract EnemyStrategyState switchState();
 }

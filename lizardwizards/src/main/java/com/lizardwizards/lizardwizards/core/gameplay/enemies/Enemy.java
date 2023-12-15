@@ -12,7 +12,7 @@ import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 public abstract class Enemy extends Entity {
     protected double health;
-    public final double speed;
+    public double speed;
     protected boolean isDestroyed;
 
     protected Vector2 position;
@@ -29,6 +29,10 @@ public abstract class Enemy extends Entity {
 
     abstract public EntitySprite getSprite();
 
+    public double getHealth() {
+        return health;
+    }
+
     @Override
     public void MoveByDelta(double delta) {
         Move(stateChanger.processDelta(delta).getMovementDirection(delta).Multiply(speed*delta));
@@ -36,6 +40,10 @@ public abstract class Enemy extends Entity {
 
     public void nextState() {
         stateChanger.switchState();
+    }
+
+    public void switchStateSwitcher(IStateChanger stateChanger) {
+        this.stateChanger = stateChanger;
     }
 
     @Override
