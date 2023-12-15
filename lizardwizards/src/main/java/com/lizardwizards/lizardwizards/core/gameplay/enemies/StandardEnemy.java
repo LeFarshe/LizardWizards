@@ -8,9 +8,6 @@ import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.DefaultStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.RandomWanderState;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class StandardEnemy extends Enemy {
 
     public StandardEnemy(Vector2 position) {
