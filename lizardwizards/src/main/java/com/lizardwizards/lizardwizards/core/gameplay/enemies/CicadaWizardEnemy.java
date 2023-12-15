@@ -5,6 +5,7 @@ import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.DefaultStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.HealthStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.TimedStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.*;
@@ -23,12 +24,12 @@ public class CicadaWizardEnemy extends BossEnemy {
         var chaseState = new ChaseStrategyState(this, 0.007, 1.5);
 
         stateChanger = new HealthStateChanger(this, 180,
-                new KeepDistanceStrategyState(this, 200),
+                new KeepDistanceStrategyState(this, 400),
                 new CompoundStateStrategy(this, new HealthStateChanger( this, 150,
                     shootState,
             new CompoundStateStrategy(this, new TimedStateChanger(0.5,
-                    chaseState,
                     shootState,
+                    chaseState,
                     new RandomWanderState(this)
         ).extraClause(new HealthStateChanger(this, 50, null, chaseState))))));
     }

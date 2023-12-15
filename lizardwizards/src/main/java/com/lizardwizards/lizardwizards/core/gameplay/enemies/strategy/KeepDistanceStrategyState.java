@@ -25,7 +25,7 @@ public class KeepDistanceStrategyState extends EnemyStrategyState {
 
     private Vector2 getClosestPlayer() {
         if (!Utils.isServer()) {
-            return new Vector2(0, 0);
+            return parent.GetPosition();
         }
         Vector2 closestTarget = new Vector2(9999, 9999);
         Vector2 parentPosition = parent.GetPosition();
