@@ -11,4 +11,5 @@ public interface BoltVisitor {
     Weapon visit(WardWand wardWand);
 
     Weapon visit(TurretWeapon turretWeapon);
+    Weapon visit(TestWeapon testWeapon);
 }

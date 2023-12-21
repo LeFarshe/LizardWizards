@@ -2,6 +2,7 @@ package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.BoltEnergizerVisitor;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
@@ -27,5 +28,10 @@ public class TestWeapon extends Weapon{
     @Override
     public TestWeapon clone(){
         return (TestWeapon) super.clone();
+    }
+
+    @Override
+    public Weapon accept(BoltEnergizerVisitor visitor) {
+        return visitor.visit(this);
     }
 }

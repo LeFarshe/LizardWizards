@@ -42,4 +42,10 @@ public class BoltEnergizerVisitor implements BoltVisitor, Serializable {
         turretWeapon.setShotDuration(turretWeapon.getShotDuration() * multiplier);
         return turretWeapon;
     }
+
+    @Override
+    public Weapon visit(TestWeapon testWeapon) {
+        testWeapon.setShotDuration(testWeapon.getShotDuration() * multiplier);
+        return testWeapon;
+    }
 }
