@@ -78,12 +78,14 @@ public class EntityWrapper implements Serializable, Cloneable {
        var pos = entityWrapper.position;
        var uuid = entity.uuid;
        entity = entityWrapper.entity;
-       entity.uuid = uuid;
+       if (entity != null)
+           entity.uuid = uuid;
        sprite.setPosition(pos);
        if (collider != null){
            collider.position = entityWrapper.collider.position.Copy();
        }
-       position = entity.GetPosition();
+       if (entity != null)
+           position = entity.GetPosition();
     }
 
     @Override

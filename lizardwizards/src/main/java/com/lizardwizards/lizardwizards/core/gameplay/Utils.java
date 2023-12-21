@@ -25,6 +25,9 @@ public class Utils {
 
     public static Player getRandomPlayer() {
         var players = Server.serverTimer.players;
+        if (players.isEmpty()) {
+            return null;
+        }
         return (Player)players.get(new Random().nextInt(players.size())).getPlayer().entity;
     }
 }
