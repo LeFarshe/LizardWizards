@@ -134,6 +134,7 @@ public class PlayerHandler {
                 }
             } catch (SocketTimeoutException ignored) {
             } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }

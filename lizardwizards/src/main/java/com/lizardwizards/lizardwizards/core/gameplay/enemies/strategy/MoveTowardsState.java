@@ -6,7 +6,7 @@ import com.lizardwizards.lizardwizards.core.gameplay.enemies.Enemy;
 public class MoveTowardsState extends EnemyStrategyState {
     double returnDelay = 5;
     double returnTimer = returnDelay;
-    final Vector2 target;
+    Vector2 target;
 
     public MoveTowardsState(Enemy enemy, Vector2 position) {
         super(enemy);

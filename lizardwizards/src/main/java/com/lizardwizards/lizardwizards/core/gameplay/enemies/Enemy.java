@@ -1,66 +1,65 @@
 package com.lizardwizards.lizardwizards.core.gameplay.enemies;
 
-import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
-import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.mediator.GameplayMediator;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.DefaultEnemyState;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.EnemyStrategyState;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.DefaultStateChanger;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.IStateChanger;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.server.Scoreboard;
 
 public abstract class Enemy extends Entity {
     protected double health;
-    public final double speed;
-    protected boolean isDestroyed;
+    public double speed;
+    public boolean isDestroyed;
 
     protected Vector2 position;
     int scoreReward = 5;
-
-    EnemyStrategyState state;
-    public Enemy(double health, double speed, Vector2 position) {
+    IStateChanger stateChanger;
+    protected GameplayMediator mediator;
+    public Enemy(double health, double speed, Vector2 position, GameplayMediator mediator) {
         this.SetPosition(position);
         this.health = health;
         this.speed = speed;
         this.position = position;
+        this.mediator = mediator;
         isDestroyed = false;
-        state = new DefaultEnemyState(this);
+        stateChanger = new DefaultStateChanger(new DefaultEnemyState(this));
     }
 
     abstract public EntitySprite getSprite();
 
+    public double getHealth() {
+        return health;
+    }
+
     @Override
     public void MoveByDelta(double delta) {
-        Move(state.getMovementDirection(delta));
+        Move(stateChanger.processDelta(delta).getMovementDirection(delta).Multiply(speed*delta));
     }
 
     public void nextState() {
-        state = state.nextState();
+        stateChanger.switchState();
     }
 
-    protected void setState(EnemyStrategyState state) {
-        this.state = state;
+    public void switchStateSwitcher(IStateChanger stateChanger) {
+        this.stateChanger = stateChanger;
     }
 
     @Override
     public void Collide(Entity collider, CollisionLayer layer) {
-        final CollisionLayer PLAYER_PROJECTILE_LAYER = CollisionLayer.PlayerProjectile;
-        if(layer == PLAYER_PROJECTILE_LAYER) {
-            boolean isDead = takeDamage(((IProjectile)collider).getDamage());
-            if (isDead && !isDestroyed) {
-                HandleDeath();
-            }
-        }
+        mediator.handleCollision(this, collider, layer);
     }
 
-    protected boolean takeDamage(double damage) {
+    public boolean takeDamage(double damage) {
         health -= damage;
         return health <= 0;
     }
 
-    protected void HandleDeath() {
+    public void HandleDeath() {
         isDestroyed = true;
         Scoreboard.getInstance().addScore(scoreReward);
     }

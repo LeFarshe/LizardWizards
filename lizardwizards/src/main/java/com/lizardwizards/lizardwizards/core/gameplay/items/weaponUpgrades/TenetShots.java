@@ -13,7 +13,7 @@ public class TenetShots extends WeaponUpgrade{
     }
 
     @Override
-    public IWeapon upgrade(IWeapon weapon) {
+    protected IWeapon applyUpgrade(IWeapon weapon) {
         return new TenetShotsDecorator(weapon);
     }
 }

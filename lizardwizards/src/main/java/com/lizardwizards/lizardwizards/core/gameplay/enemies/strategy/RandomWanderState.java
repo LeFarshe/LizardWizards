@@ -23,6 +23,6 @@ public class RandomWanderState extends EnemyStrategyState {
 
             directionTimer = directionDelay;
         }
-        return moveDirection.Copy().Multiply(parent.speed * delta);
+        return moveDirection.Copy();
     }
 }

@@ -20,13 +20,20 @@ ext {
 sourceCompatibility = '20'
 targetCompatibility = '20'
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
 application {
     mainModule = 'com.lizardwizards.lizardwizards'
     mainClass = 'com.lizardwizards.lizardwizards.client.LizardWizardsApplication'
+}
+
+tasks.register('server', JavaExec) {
+    mainModule = 'com.lizardwizards.lizardwizards'
+    mainClass = 'com.lizardwizards.lizardwizards.server.LizardWizardsServer'
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.'in'
 }
 
 javafx {

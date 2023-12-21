@@ -31,6 +31,7 @@ public class PlayerFactory {
                 playersCreated ++;
                 player.weapons.add(weaponFactory.getWeapon(WeaponTypes.ViolentWand));
                 player.weapons.add(weaponFactory.getWeapon(WeaponTypes.WardWand));
+                player.weapons.add(weaponFactory.getWeapon(WeaponTypes.TurretWand));
                 return new EntityWrapper(player, playerSprite, collider);
             }
             case Richard -> {

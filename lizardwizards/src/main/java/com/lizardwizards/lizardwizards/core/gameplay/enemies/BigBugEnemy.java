@@ -4,16 +4,18 @@ import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.MoveTowardsState;
-import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.TimedRandomWanderState;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.strategy.RandomWanderState;
+import com.lizardwizards.lizardwizards.core.gameplay.enemies.state.TimedStateChanger;
+
+import java.util.Arrays;
 
 public class BigBugEnemy extends BossEnemy {
     public BigBugEnemy(Vector2 position) {
         super(100, 300, position);
-        var returnState = new MoveTowardsState(this, position);
-        var wanderState = new TimedRandomWanderState(this);
-        wanderState.nextState.add(returnState);
-        returnState.nextState.add(wanderState);
-        setState(wanderState);
+        stateChanger = new TimedStateChanger(5,
+                new MoveTowardsState(this, position),
+                new RandomWanderState(this)
+        );
     }
 
     @Override

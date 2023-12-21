@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Timer;
 
@@ -16,7 +17,13 @@ import com.lizardwizards.lizardwizards.core.gameplay.GameState;
 public class Server implements Runnable{
     private final ServerSocket serverSocket;
     public static Session session;
+    public static ServerTimer serverTimer;
 
+    // TODO: turn server into an singleton
+    public Server(ServerSocket serverSocket){
+        Server.session = new Session();
+        this.serverSocket = serverSocket;
+    }
     @Override
     public void run() {
         try {
@@ -50,7 +57,7 @@ public class Server implements Runnable{
             // It is possible to fix this by running separate threads for accepting connections and the main game, I will look into that and decide if it is better than the spaghetti this is going to become
             // I didn't look into it yet
             // Put the gameplay state here somewhere
-            ServerTimer serverTimer = new ServerTimer();
+            serverTimer = new ServerTimer();
             Timer timer = new Timer("ServerGameTimerThread");
             timer.schedule(serverTimer, 0, 1);
             while (!serverSocket.isClosed()) { // TODO not this
@@ -66,8 +73,9 @@ public class Server implements Runnable{
                 outputStream.close();
                 socket.close();
             }
-        }
-        catch (IOException e) {
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             try {
                 e.printStackTrace();
                 stopServer();
@@ -76,13 +84,6 @@ public class Server implements Runnable{
                 ex.printStackTrace();
             }
         }
-    }
-
-
-    // TODO: turn server into an singleton
-    public Server(ServerSocket serverSocket){
-        Server.session = new Session();
-        this.serverSocket = serverSocket;
     }
 
     public void stopServer() throws IOException {

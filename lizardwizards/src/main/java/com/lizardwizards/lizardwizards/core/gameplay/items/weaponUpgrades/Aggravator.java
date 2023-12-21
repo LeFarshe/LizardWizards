@@ -12,7 +12,7 @@ public class Aggravator extends WeaponUpgrade{
         super(new ImageSprite("images/items/Aggravator.png"));
     }
     @Override
-    public IWeapon upgrade(IWeapon weapon) {
+    protected IWeapon applyUpgrade(IWeapon weapon) {
         weapon.setShotSpeed(weapon.getShotSpeed() * speedMultiplier);
         weapon.setShotDuration(weapon.getShotDuration() * durationMultiplier);
         return weapon;

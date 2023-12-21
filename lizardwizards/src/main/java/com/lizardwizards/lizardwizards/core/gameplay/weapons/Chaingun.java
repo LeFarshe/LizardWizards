@@ -1,8 +1,8 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
-import com.lizardwizards.lizardwizards.client.ClientUtils;
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.BoltEnergizerVisitor;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.Projectile;
 
@@ -13,7 +13,7 @@ public class Chaingun extends Weapon{
     int projectiles = 10;
     double spread = 0.5;
     int projectilesShot  = 0;
-    Chaingun() {
+    public Chaingun() {
         super(1,300, 2, 10, new Vector2(4,4),
         new ImageSprite("images/weapons/Chaingun.png"));
     }
@@ -46,5 +46,10 @@ public class Chaingun extends Weapon{
         clone.spread = spread;
         clone.projectilesShot = projectilesShot;
         return clone;
+    }
+
+    @Override
+    public Weapon accept(BoltEnergizerVisitor visitor){
+        return visitor.visit(this);
     }
 }

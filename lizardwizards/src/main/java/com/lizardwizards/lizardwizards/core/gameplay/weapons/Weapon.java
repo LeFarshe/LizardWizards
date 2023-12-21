@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
+import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.BoltEnergizerVisitor;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.*;
 
 public abstract class Weapon implements Serializable, IWeapon {
@@ -85,5 +86,12 @@ public abstract class Weapon implements Serializable, IWeapon {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public abstract Weapon accept(BoltEnergizerVisitor visitor);
+
+    @Override
+    public Weapon getBaseWeapon(){
+        return this;
     }
 }

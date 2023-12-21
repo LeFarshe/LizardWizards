@@ -9,12 +9,21 @@ import java.util.List;
 public class RoomData implements Cloneable{
     RoomEnumerator id;
     boolean cleared;
+    boolean bossRoom = false;
     List<ExistingItem> itemList = new ArrayList<>();
 
     public RoomData(RoomEnumerator id){
         this.id = id;
     }
+    public RoomEnumerator getRoomID() {
+        return id;
+    }
+    public boolean isCleared() {
+        return cleared;
+    }
     public void setCleared() { cleared = true;}
+    public boolean isBossRoom() { return bossRoom;}
+    public void setBossRoom() { bossRoom = true;}
     public void addItem(Item item, Vector2 position){
         itemList.add(new ExistingItem(item, position));
     }

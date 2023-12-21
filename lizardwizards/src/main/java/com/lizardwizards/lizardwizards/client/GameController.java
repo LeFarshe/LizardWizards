@@ -2,8 +2,10 @@ package com.lizardwizards.lizardwizards.client;
 
 import java.util.*;
 
-import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
 import com.lizardwizards.lizardwizards.client.ui.GameHUD;
+import com.lizardwizards.lizardwizards.client.loading.ConcreteResourceLoader;
+import com.lizardwizards.lizardwizards.client.loading.ResourceLoader;
+import com.lizardwizards.lizardwizards.client.loading.ResourceLoaderProxy;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.communication.RoomInformation;
 import com.lizardwizards.lizardwizards.core.communication.SyncPacket;
@@ -12,16 +14,16 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 public class GameController {
-    HashMap<UUID, EntityWrapper> entities = new HashMap<>();
+    public HashMap<UUID, EntityWrapper> entities = new HashMap<>();
     EntityWrapper currentPlayer;
     PlayerControls playerControls = new PlayerControls();
     Canvas root;
     GraphicsContext gc;
+
+    ResourceLoader loader;
     GameTimer currentTimer;
 
     GameController(Canvas root)
@@ -29,15 +31,11 @@ public class GameController {
         new GameHUD();
         this.root = root;
         gc = root.getGraphicsContext2D();
-        // TODO: not this preferably
+        gc.setImageSmoothing(false);
         ((Pane)root.getParent()).getChildren().addAll(GameHUD.getInstance().getHudElements());
 
-        gc.setFont(new Font("Sans", 100));
-        gc.setFill(Color.GOLDENROD);
-        gc.fillText("Loading...", 500, 500);
-        var image = new ImageSprite("images/loading.png");
-        image.setPosition(new Vector2(1100, 450));
-        image.drawSprite(gc);
+        this.loader = new ResourceLoaderProxy(new ConcreteResourceLoader(), gc);
+        loader.loadResources();
     }
     public void start(SyncPacket syncPacket) {
         currentTimer = new GameTimer(syncPacket.serverTime);
@@ -143,6 +141,10 @@ public class GameController {
 
         var playerEntity = (Player)currentPlayer.entity;
         GameHUD.getInstance().switchWeapon(playerEntity.getCurrentWeapon());
+    }
+
+    public EntityWrapper getCurrentPlayer() {
+        return currentPlayer.clone();
     }
 
     private void redraw() {

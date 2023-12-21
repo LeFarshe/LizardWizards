@@ -1,7 +1,6 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
-import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
@@ -16,7 +15,6 @@ public abstract class IProjectile extends Entity implements Serializable, Clonea
 
     public abstract Collider GetCollider(CollisionLayer layer);
 
-    abstract void setColor(SpriteColor spriteColor);
     public abstract double getDamage();
     public abstract double getDuration();
     public abstract double getSpeed();
@@ -24,6 +22,8 @@ public abstract class IProjectile extends Entity implements Serializable, Clonea
     abstract void setSpeed(double speed);
     public abstract void setDirection(Vector2 direction);
     public abstract Vector2 getDirection();
+    public abstract void setErase(boolean erase);
+    public abstract LaggyProjectileSnapshot createSnapshot();
 
     public abstract IProjectile clone();
 

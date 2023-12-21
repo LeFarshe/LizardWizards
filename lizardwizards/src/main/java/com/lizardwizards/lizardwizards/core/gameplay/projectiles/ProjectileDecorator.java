@@ -1,13 +1,10 @@
 package com.lizardwizards.lizardwizards.core.gameplay.projectiles;
 
 import com.lizardwizards.lizardwizards.client.sprites.EntitySprite;
-import com.lizardwizards.lizardwizards.client.SpriteColor;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.Entity;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.Collider;
 import com.lizardwizards.lizardwizards.core.gameplay.collision.CollisionLayer;
-
-import java.util.Dictionary;
 
 public abstract class ProjectileDecorator extends IProjectile {
     protected final IProjectile wrappedProjectile;
@@ -67,11 +64,6 @@ public abstract class ProjectileDecorator extends IProjectile {
     }
 
     @Override
-    public void setColor(SpriteColor color) {
-        wrappedProjectile.setColor(color);
-    }
-
-    @Override
     public IProjectile shoot(Vector2 direction, Vector2 position){
         return wrappedProjectile.shoot(direction, position);
     }
@@ -94,4 +86,10 @@ public abstract class ProjectileDecorator extends IProjectile {
     public Vector2 getDirection() { return wrappedProjectile.getDirection(); }
     @Override
     public void setDirection(Vector2 direction) { wrappedProjectile.setDirection(direction);}
+    @Override
+    public void setErase(boolean erase) { wrappedProjectile.setErase(erase);}
+    @Override
+    public LaggyProjectileSnapshot createSnapshot(){
+        return wrappedProjectile.createSnapshot();
+    }
 }
