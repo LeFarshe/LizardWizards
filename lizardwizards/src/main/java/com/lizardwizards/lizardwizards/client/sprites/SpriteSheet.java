@@ -54,11 +54,18 @@ public class SpriteSheet extends EntitySprite implements Serializable{
     }
 
     public boolean add (EntitySprite entitySprite){
+        if (current == null) {
+            current = entitySprite;
+        }
         return sprites.add(entitySprite);
     }
 
     public boolean remove (EntitySprite entitySprite){
-        return sprites.remove(entitySprite);
+        boolean removed = sprites.remove(entitySprite);
+        if (current == entitySprite) {
+            current = sprites.next();
+        }
+        return removed;
     }
 
     public List<EntitySprite> getChildren(){

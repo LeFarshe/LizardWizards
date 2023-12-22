@@ -1,6 +1,7 @@
 package com.lizardwizards.lizardwizards.core.gameplay.weapons;
 
 import com.lizardwizards.lizardwizards.client.sprites.ImageSprite;
+import com.lizardwizards.lizardwizards.client.sprites.RectangleSprite;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.items.weaponUpgrades.BoltEnergizerVisitor;
 import com.lizardwizards.lizardwizards.core.gameplay.projectiles.IProjectile;
@@ -33,5 +34,10 @@ public class TestWeapon extends Weapon{
     @Override
     public Weapon accept(BoltEnergizerVisitor visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public ImageSprite getHudIcon() {
+        return new ImageSprite("images/weapons/Gun.png");
     }
 }

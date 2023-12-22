@@ -11,7 +11,11 @@ public class CommandInterpreter {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             while (active) {
-                var input = reader.readLine().split(" +", 2);
+                var lines = reader.readLine();
+                if (lines == null) {
+                    continue;
+                }
+                var input = lines.split(" +", 2);
                 for (var command : ServerCommands.values()) {
                     if (command.checkMatch(input[0])) {
                         if (input.length > 1)
