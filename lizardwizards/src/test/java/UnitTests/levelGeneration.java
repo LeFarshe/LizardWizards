@@ -3,7 +3,8 @@ package UnitTests;
 import com.lizardwizards.lizardwizards.core.Vector2;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.Level;
 import com.lizardwizards.lizardwizards.core.gameplay.levels.LevelFacade;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,23 +12,22 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class levelGeneration {
-    @Test
-    void levelGenerationTests(){
-        double[][] tests = {
-                {10, 3, 0.5},
-                {25, 8, 0.2},
-                {6, 3, 0.7},
-                {10, 5, 0.5},
-                {50, 15, 0.6}};
+    @ParameterizedTest(name = "{index} => rooms={0}, deadEnds={1}, randomFail={2}")
+    @CsvSource({
+            "10, 3, 0.5",
+            "25, 8, 0.2",
+            "6, 3, 0.7",
+            "10, 5, 0.5",
+            "50, 15, 0.6"
+    })
+    void levelGenerationTests(int rooms, int deadEnds, double randomFail){
         LevelFacade facade = new LevelFacade();
 
-        for (double[] test: tests){
-            Level level = facade.getCustomLevel((int)test[0], (int)test[1], test[2]);
-            assertAll("Level generation",
-                    () -> assertEquals((int)test[0], countRooms(level)),
-                    () -> assertTrue(countDeadEnds(level) >= (int)test[1],
-                    "Dead end count must be equal or greater than the requested minimum"));
-        }
+        Level level = facade.getCustomLevel(rooms, deadEnds, randomFail);
+        assertAll("Level generation",
+                () -> assertEquals(rooms, countRooms(level)),
+                () -> assertTrue(countDeadEnds(level) >= deadEnds,
+                        "Dead end count must be equal or greater than the requested minimum"));
     }
 
     int countRooms(Level level){

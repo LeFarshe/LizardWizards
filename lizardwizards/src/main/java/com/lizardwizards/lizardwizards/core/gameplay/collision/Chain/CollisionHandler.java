@@ -15,6 +15,9 @@ public class CollisionHandler {
                 collisionChain = CollisionChainBuilder.getClientChain();
             }
         }
+        if (entity1.collider == null || entity2.collider == null){
+            return false;
+        }
         if (collisionChain.collide(entity1.collider.layer, entity2.collider.layer)){
             if (entity1.collider.Collide(entity2.collider)) {
                 entity1.entity.Collide(entity2.entity, entity2.collider.layer);
