@@ -38,6 +38,9 @@ public class Collider implements Serializable, Cloneable {
     }
 
     public boolean Collide(Collider collider){
+        if (collider == null){
+            return false;
+        }
         if (shape == CollisionShape.Circle){
             if (collider.shape == CollisionShape.Circle) { return CollideCircles(collider); }
             else { return CollideCircleRectangle(this, collider); }
@@ -189,6 +192,7 @@ public class Collider implements Serializable, Cloneable {
     private List<Vector2> IntersectInCircle(Line line) {
         // https://mathworld.wolfram.com/Circle-LineIntersection.html
         List<Vector2> ans = new ArrayList<>();
+        if (line == null) { return ans; }
         double distanceSq = Math.pow(line.getLength(),2);
         double determinant = (line.start.x - position.x) * (line.end.y - position.y) - (line.end.x - position.x) * (line.start.y - position.y);
         double discriminant = Math.pow(shapeDetails.get(0), 2) * distanceSq - Math.pow(determinant, 2);
